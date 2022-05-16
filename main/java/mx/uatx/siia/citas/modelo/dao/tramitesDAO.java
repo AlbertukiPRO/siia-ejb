@@ -19,7 +19,7 @@ public class tramitesDAO implements Serializable {
 
     //@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
     public TramitesTO tramites() throws Exception {
-        TramitesTO tramitesTO = new TramitesTO(1,1,"Baja Temporal","el estudiante solicita una baja","texto requisitos");
+        TramitesTO tramitesTO = new TramitesTO("1",1,"Baja Temporal","el estudiante solicita una baja","texto requisitos");
 
         return tramitesTO;
     }
