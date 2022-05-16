@@ -2,13 +2,13 @@ package mx.uatx.siia.serviciosUniversitarios.dto;
 
 public class AreasTO {
 
-    private Integer intIdAreas;
+    private String intIdAreas;
     private String strNombreAreas;
     private Integer strIdCalendario;
     private Integer intIdTramites;
     private Integer intIdHorarios;
 
-    public AreasTO(Integer intIdAreas, String strNombreAreas, Integer strIdCalendario, Integer intIdTramites, Integer intIdHorarios) {
+    public AreasTO(String intIdAreas, String strNombreAreas, Integer strIdCalendario, Integer intIdTramites, Integer intIdHorarios) {
         this.intIdAreas = intIdAreas;
         this.strNombreAreas = strNombreAreas;
         this.strIdCalendario = strIdCalendario;
@@ -16,7 +16,7 @@ public class AreasTO {
         this.intIdHorarios = intIdHorarios;
     }
 
-    public AreasTO(int intIdAreas, String strNombreAreas) {
+    public AreasTO(String intIdAreas, String strNombreAreas) {
         this.intIdAreas = intIdAreas;
         this.strNombreAreas = strNombreAreas;
     }
@@ -24,11 +24,11 @@ public class AreasTO {
 
     }
 
-    public Integer getIntIdAreas() {
+    public String getIntIdAreas() {
         return intIdAreas;
     }
 
-    public void setIntIdAreas(Integer intIdAreas) {
+    public void setIntIdAreas(String intIdAreas) {
         this.intIdAreas = intIdAreas;
     }
 

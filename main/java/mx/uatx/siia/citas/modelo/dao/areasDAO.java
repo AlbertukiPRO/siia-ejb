@@ -17,7 +17,7 @@ public class areasDAO implements Serializable {
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
     public AreasTO obtenerAreas(){
-        AreasTO areasTO = new AreasTO(1,"Servicios Escolares",1,1,1);
+        AreasTO areasTO = new AreasTO("1","Servicios Escolares",1,1,1);
 
         //TODO ;
 
