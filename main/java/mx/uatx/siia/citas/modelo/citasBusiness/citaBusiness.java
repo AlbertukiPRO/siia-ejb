@@ -5,9 +5,7 @@ import mx.uatx.siia.citas.modelo.dao.citasDAO;
 import mx.uatx.siia.serviciosUniversitarios.dto.CitasTO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Configurable //para la inyección de dependencias no administradas por spring.
@@ -47,17 +47,6 @@ public class citaBusiness implements Serializable {
             throw new RuntimeException(e);
         }
         return res;
-    }
-
-    public void GenerarReporte(){
-        //TODO: RUTA DEL jrxml
-        InputStream reporteCita = getClass().getResourceAsStream("");
-
-        try {
-            JasperReport jasperReport = JasperCompileManager.compileReport(reporteCita);
-        } catch (JRException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void CambiarEstadoCita(int isActivo ){
