@@ -8,9 +8,10 @@ public class MisCitas {
     private String strFechaHoraReservada;
     private String strEstatus;
     private String strUser;
-
     private String area;
     private String tramite;
+
+    private String urlIMG;
 
 
     public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String strRepuesta, String strFechaHoraReservada, String strEstatus) {
@@ -31,7 +32,13 @@ public class MisCitas {
     public String getStrIdCita() {
         return "CI"+strIdCita;
     }
+    public String getUrlIMG() {
+        return urlIMG;
+    }
 
+    public void setUrlIMG(String urlIMG) {
+        this.urlIMG = urlIMG;
+    }
     public String getArea() {
         return area;
     }
@@ -70,12 +77,10 @@ public class MisCitas {
 
     public String getStrFechaHoraReservada() {
         String[] fechaHora = strFechaHoraReservada.split(",");
-        return fechaHora[0]+"\n"+fechaHora[1];
+        return fechaHora[0]+" - "+fechaHora[1];
     }
 
-    public void setStrFechaHoraReservada(String strFechaHoraReservada) {
-        this.strFechaHoraReservada = strFechaHoraReservada;
-    }
+    public void setStrFechaHoraReservada(String strFechaHoraReservada) { this.strFechaHoraReservada = strFechaHoraReservada;}
 
     public String getStrEstatus() {
         return strEstatus;
