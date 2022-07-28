@@ -8,7 +8,7 @@ public enum URLs {
     Areas("http://localhost/siiaServices/apis/getAreas.php"),
     Tramites("http://localhost/siiaServices/apis/getTramites.php"),
     FechasReservadas("http://localhost/siiaServices/apis/getFechasReservadas.php"),
-    HorariosReservados("");
+    HorariosReservados("http://localhost/siiaServices/apis/getFechasReservadas.php");
 
     private String valor;
     URLs(String valor) {
