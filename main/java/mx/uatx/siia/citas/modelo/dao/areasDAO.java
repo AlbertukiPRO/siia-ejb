@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.readUrl;
@@ -71,6 +72,7 @@ public class areasDAO implements Serializable {
         try {
             String resultado = readUrl(url+"?whereFecha="+area);
             if (!resultado.equals("0")){
+                System.out.println("----- Response from ["+url+"?whereFecha="+area+"] => resultado");
                 lista = Arrays.asList(resultado.split(","));
             }else{
                 lista = new ArrayList<>();
@@ -78,6 +80,34 @@ public class areasDAO implements Serializable {
         }catch (Exception e){
             System.out.println(e);
         }
+        System.out.println("Finish Horarios Reservados => [value] = "+lista.toString());
+        return lista;
+    }
+
+    /**
+     * @param link => url del servicio [String] => http:
+     * @param fecha => fecha [String] => 19/05/2022
+     * @param idArea => idArea [String] => 1
+     * @return List => [String] con los horarios => 08:00, 08:25
+     */
+    public List<String> getHorarioFromDB(String link, String fecha, String idArea){
+
+        System.out.println("--- GET HORARIOS => ["+link+"?fecha="+fecha+"&idarea="+idArea+"]");
+
+        List<String> lista;
+        try {
+            String resultado = readUrl(link+"?fecha="+fecha+"&idarea="+idArea);
+
+            if (!resultado.equals("0")){
+                lista = Arrays.asList(resultado.split(","));
+            }else{
+                lista = Collections.emptyList();
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         System.out.println("Finish Horarios Reservados => [value] = "+lista.toString());
         return lista;
     }

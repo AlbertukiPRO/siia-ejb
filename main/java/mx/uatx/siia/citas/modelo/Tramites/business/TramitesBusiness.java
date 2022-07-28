@@ -53,7 +53,7 @@ public class TramitesBusiness implements Serializable {
             resultado.setBlnValido(false);
         }
 
-        return  resultado;
+        return resultado;
     }
 
 

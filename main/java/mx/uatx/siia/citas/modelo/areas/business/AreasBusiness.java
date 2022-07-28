@@ -1,7 +1,6 @@
 package mx.uatx.siia.citas.modelo.areas.business;
 
 import mx.uatx.siia.citas.modelo.dao.areasDAO;
-import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
@@ -68,10 +67,10 @@ public class AreasBusiness implements Serializable {
      * @param url del api rest para los horarios reservados en la base de datos.
      * @return List de Strings de Horarios que no se mostrar.
      */
-    public ResultadoTO obtenerHorariosFromDB(String url, String idArea){
+    public ResultadoTO obtenerFechasFromDB(String url, String idArea){
 
         final ResultadoTO resultado = new ResultadoTO(true);
-        final String keyStringERROR = "";
+        final String keyStringERROR = "comun.msj.citas.fechas.loaderror";
 
         try {
             final List<String> horarios = areasDAO.getFechasDB(url, idArea);
@@ -87,6 +86,30 @@ public class AreasBusiness implements Serializable {
             resultado.setBlnValido(false);
         }
 
+        return resultado;
+    }
+
+    public ResultadoTO obtenerHorariosFromDB(String url, String fecha, String idArea){
+        ResultadoTO resultado = new ResultadoTO(true);
+        final String keyStringERROR = "";
+
+        try {
+            final List<String> horarios = areasDAO.getHorarioFromDB(url, fecha, idArea);
+            if (horarios == null){
+                resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringERROR);
+                resultado.setBlnValido(false);
+            }else{
+                StringBuilder cadena = new StringBuilder();
+                for (String item: horarios){
+                    cadena.append("'").append(item).append("',");
+                }
+                resultado.setObjeto(removeLastChar(String.valueOf(cadena)));
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringERROR);
+            resultado.setBlnValido(false);
+        }
         return resultado;
     }
 

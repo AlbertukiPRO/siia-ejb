@@ -6,8 +6,9 @@ package mx.uatx.siia.citas.modelo.enums;
  */
 public enum URLs {
     Areas("http://localhost/siiaServices/apis/getAreas.php"),
-    Tramites("http"),
-    FechasReservadas("http://localhost/siiaServices/apis/getFechasReservadas.php");
+    Tramites("http://localhost/siiaServices/apis/getTramites.php"),
+    FechasReservadas("http://localhost/siiaServices/apis/getFechasReservadas.php"),
+    HorariosReservados("");
 
     private String valor;
     URLs(String valor) {
