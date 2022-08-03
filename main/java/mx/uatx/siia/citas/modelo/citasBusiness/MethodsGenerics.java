@@ -1,15 +1,20 @@
 package mx.uatx.siia.citas.modelo.citasBusiness;
 
-import mx.uatx.siia.citas.modelo.enums.URLs;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MethodsGenerics {
 
@@ -101,5 +106,11 @@ public class MethodsGenerics {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
+    }
+
+    public static String formatDate(String fecha){
+        java.util.Date date = new Date(fecha);
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        return formatter.format(date);
     }
 }

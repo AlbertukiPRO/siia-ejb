@@ -70,9 +70,9 @@ public class areasDAO implements Serializable {
     public List<String> getFechasDB(String url,String area){
         List<String> lista = null;
         try {
-            String resultado = readUrl(url+"?whereFecha="+area);
+            String resultado = readUrl(url+"?idarea="+area);
             if (!resultado.equals("0")){
-                System.out.println("----- Response from ["+url+"?whereFecha="+area+"] => resultado");
+                System.out.println("----- Response from ["+url+"?idarea="+area+"] => resultado");
                 lista = Arrays.asList(resultado.split(","));
             }else{
                 lista = new ArrayList<>();
@@ -92,8 +92,6 @@ public class areasDAO implements Serializable {
      */
     public List<String> getHorarioFromDB(String link, String fecha, String idArea){
 
-        System.out.println("--- GET HORARIOS => ["+link+"?fecha="+fecha+"&idarea="+idArea+"]");
-
         List<String> lista;
         try {
             String resultado = readUrl(link+"?fecha="+fecha+"&idarea="+idArea);
@@ -108,7 +106,7 @@ public class areasDAO implements Serializable {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Finish Horarios Reservados => [value] = "+lista.toString());
+        System.out.println("|----- Finish Horarios Reservados => [value] = "+ lista);
         return lista;
     }
 

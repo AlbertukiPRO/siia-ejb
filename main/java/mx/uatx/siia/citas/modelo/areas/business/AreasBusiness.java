@@ -99,11 +99,7 @@ public class AreasBusiness implements Serializable {
                 resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringERROR);
                 resultado.setBlnValido(false);
             }else{
-                StringBuilder cadena = new StringBuilder();
-                for (String item: horarios){
-                    cadena.append("'").append(item).append("',");
-                }
-                resultado.setObjeto(removeLastChar(String.valueOf(cadena)));
+                resultado.setObjeto(horarios);
             }
         }catch (Exception e){
             logger.error(e.getMessage());
