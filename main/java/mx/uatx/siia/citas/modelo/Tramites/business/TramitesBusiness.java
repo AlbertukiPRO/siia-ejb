@@ -33,13 +33,11 @@ public class TramitesBusiness implements Serializable {
     public ResultadoTO obtenerTramites(String url, String idArea){
 
         final ResultadoTO resultado = new ResultadoTO(true);
-        final String keyStringError = "comun.msj.citas.tramites.error";
 
         try {
             final List<TramitesTO> tramites = tramitesDAO.getTramitesDAO(url, idArea);
             List<SelectItem> selectOneMenu = new ArrayList<>();
             if (tramites == null){
-                resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringError);
                 resultado.setBlnValido(false);
             }else{
                 for (TramitesTO item : tramites){
@@ -49,7 +47,6 @@ public class TramitesBusiness implements Serializable {
             }
         }catch (Exception e){
             logger.error(e.getMessage());
-            resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringError);
             resultado.setBlnValido(false);
         }
 

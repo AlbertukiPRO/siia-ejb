@@ -31,6 +31,7 @@ public class AreasBusiness implements Serializable {
     @Autowired
     private areasDAO areasDAO;
 
+
     /**
      *
      * @author Alberto Noche Rosas
@@ -39,13 +40,11 @@ public class AreasBusiness implements Serializable {
     public ResultadoTO obtenerAreas(String url){
 
         final ResultadoTO resultado = new ResultadoTO(true);
-        final String keyStrigERROR = "comun.msj.citas.areas.error";
 
         try {
             final List<AreasTO> areas = areasDAO.getAreasDAO(url);
             List<SelectItem> listAreas = new ArrayList<>(); //lista local para el SelectOneMenu
             if (areas==null){
-                resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStrigERROR);
                 resultado.setBlnValido(false);
             }else{
                 for (AreasTO item : areas){
@@ -55,7 +54,6 @@ public class AreasBusiness implements Serializable {
             }
         }catch (Exception e){
             logger.error(e.getMessage());
-            resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStrigERROR);
             resultado.setBlnValido(false);
         }
         return resultado;
@@ -70,19 +68,16 @@ public class AreasBusiness implements Serializable {
     public ResultadoTO obtenerFechasFromDB(String url, String idArea){
 
         final ResultadoTO resultado = new ResultadoTO(true);
-        final String keyStringERROR = "comun.msj.citas.fechas.loaderror";
 
         try {
             final List<String> horarios = areasDAO.getFechasDB(url, idArea);
             if (horarios == null){
-                resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringERROR);
                 resultado.setBlnValido(false);
             }else{
                 resultado.setObjeto(horarios);
             }
         }catch (Exception e){
             logger.error(e.getMessage());
-            resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringERROR);
             resultado.setBlnValido(false);
         }
 
@@ -91,19 +86,16 @@ public class AreasBusiness implements Serializable {
 
     public ResultadoTO obtenerHorariosFromDB(String url, String fecha, String idArea){
         ResultadoTO resultado = new ResultadoTO(true);
-        final String keyStringERROR = "";
 
         try {
             final List<String> horarios = areasDAO.getHorarioFromDB(url, fecha, idArea);
             if (horarios == null){
-                resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringERROR);
                 resultado.setBlnValido(false);
             }else{
                 resultado.setObjeto(horarios);
             }
         }catch (Exception e){
             logger.error(e.getMessage());
-            resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, keyStringERROR);
             resultado.setBlnValido(false);
         }
         return resultado;
