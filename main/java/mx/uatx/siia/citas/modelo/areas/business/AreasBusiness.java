@@ -47,10 +47,11 @@ public class AreasBusiness implements Serializable {
             if (areas==null){
                 resultado.setBlnValido(false);
             }else{
-                for (AreasTO item : areas){
-                    listAreas.add(new SelectItem(item.getIntIdAreas(), item.getStrNombreAreas()));
-                }
-                resultado.setObjeto(listAreas);
+//                for (AreasTO item : areas){
+//                    listAreas.add(new SelectItem(item.getIntIdAreas(), item.getStrNombreAreas()));
+//                }
+//                resultado.setObjeto(listAreas);
+                resultado.setObjeto(areas);
             }
         }catch (Exception e){
             logger.error(e.getMessage());

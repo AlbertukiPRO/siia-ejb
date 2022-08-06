@@ -1,6 +1,8 @@
 package mx.uatx.siia.citas.modelo.dao;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import mx.uatx.siia.citas.modelo.MisCitas;
 import mx.uatx.siia.serviciosUniversitarios.dto.CitasTO;
 import mx.uatx.siia.serviciosUniversitarios.modelo.SiPaPermisos;
 import org.springframework.stereotype.Repository;
@@ -15,10 +17,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.readUrl;
 
 @Repository
     /*
@@ -50,6 +57,33 @@ public class citasDAO implements Serializable {
         //TODO:  Obtener citas de la DB y crear una lista de citas.
 
         return citasTOList;
+    }
+
+    public int getNumCita(String apirest, String iduser){
+
+        System.out.println("----- Finish get num Citas ----");
+
+        return Integer.parseInt(readUrl(apirest+"?user="+iduser));
+    }
+
+
+    /**
+     * Metodo para obtener las citas agendadas por el usuario
+     * @param api URL string del servicio
+     * @param user string con el la matricula del usuario
+     * @return List<MisCitas>
+     */
+    public List<MisCitas> obtenerCita(String api, String user){
+        List<MisCitas> misCitas;
+
+        String strJson = readUrl(api+"?id="+user);
+
+        System.out.println("----- FINISH GET MIS CITAS ---");
+        Type listType = new TypeToken<List<MisCitas>>(){}.getType();
+
+        misCitas = new Gson().fromJson(strJson,listType);
+
+        return misCitas;
     }
 
     /**
@@ -96,12 +130,11 @@ public class citasDAO implements Serializable {
 //
 //           for (Map.Entry<String,List<String>> entry : header.entrySet())
 //               System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-            System.out.println("Code response server and sms: "+http.getResponseCode() + " " + http.getResponseMessage() );
 
             http.disconnect();
 
         }catch (Exception e){
-            System.out.println(e.toString());
+            System.out.println(e);
         }
         return codeResponde;
     }

@@ -1,6 +1,7 @@
 package mx.uatx.siia.citas.modelo.citasBusiness;
 
 
+import mx.uatx.siia.citas.modelo.MisCitas;
 import mx.uatx.siia.citas.modelo.dao.citasDAO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -36,6 +38,40 @@ public class CitaBusiness implements Serializable {
             logger.error(e.getMessage());
             resultado.setBlnValido(false);
         }
+        return resultado;
+    }
+
+    public ResultadoTO miCita(String restApi, String idUser ){
+        final ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            final List<MisCitas> lista = citasDAO.obtenerCita(restApi,idUser);
+            if (lista==null){
+                resultado.setBlnValido(false);
+            }else{
+                resultado.setObjeto(lista);
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            resultado.setBlnValido(false);
+        }
+        return  resultado;
+    }
+
+    public ResultadoTO numeroCitas(String restApi, String idUser){
+        final ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            final int num = citasDAO.getNumCita(restApi, idUser);
+            if (num!=0)
+                resultado.setBlnValido(false);
+            else
+                resultado.setObjeto(num);
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            resultado.setBlnValido(false);
+        }
+
         return resultado;
     }
 }

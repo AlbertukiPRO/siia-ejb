@@ -66,7 +66,6 @@ public class TramitesBusiness implements Serializable {
 //               res.agregarMensaje(SeveridadMensajeEnum.ERROR, "comun.msj.citas.tramites.obtener");
 //               res.setBlnValido(false);
 //           } else {
-//               //TODO:
 //               listTramites.add(new TramitesTO());
 //           }
 //       } catch (Exception e) {
