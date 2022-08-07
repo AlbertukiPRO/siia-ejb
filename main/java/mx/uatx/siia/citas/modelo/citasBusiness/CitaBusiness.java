@@ -62,8 +62,8 @@ public class CitaBusiness implements Serializable {
         final ResultadoTO resultado = new ResultadoTO(true);
 
         try {
-            final int num = citasDAO.getNumCita(restApi, idUser);
-            if (num!=0)
+            final String num = citasDAO.getNumCita(restApi, idUser);
+            if (num==null)
                 resultado.setBlnValido(false);
             else
                 resultado.setObjeto(num);

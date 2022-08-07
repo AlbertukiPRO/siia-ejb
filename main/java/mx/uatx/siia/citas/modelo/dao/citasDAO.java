@@ -59,11 +59,11 @@ public class citasDAO implements Serializable {
         return citasTOList;
     }
 
-    public int getNumCita(String apirest, String iduser){
+    public String getNumCita(String apirest, String iduser){
 
         System.out.println("----- Finish get num Citas ----");
 
-        return Integer.parseInt(readUrl(apirest+"?user="+iduser));
+        return readUrl(apirest+"?user="+iduser);
     }
 
 

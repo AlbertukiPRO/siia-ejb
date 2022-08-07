@@ -15,9 +15,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.removeLastChar;
-
-
 @Service
 @Configurable
 public class AreasBusiness implements Serializable {
@@ -47,11 +44,10 @@ public class AreasBusiness implements Serializable {
             if (areas==null){
                 resultado.setBlnValido(false);
             }else{
-//                for (AreasTO item : areas){
-//                    listAreas.add(new SelectItem(item.getIntIdAreas(), item.getStrNombreAreas()));
-//                }
-//                resultado.setObjeto(listAreas);
-                resultado.setObjeto(areas);
+                for (AreasTO item : areas){
+                    listAreas.add(new SelectItem(item.getIntIdAreas(), item.getStrNombreAreas()));
+                }
+                resultado.setObjeto(listAreas);
             }
         }catch (Exception e){
             logger.error(e.getMessage());

@@ -49,7 +49,6 @@ public class areasDAO implements Serializable {
         List<AreasTO> listaAreas;
         String strJson = readUrl(url);
         if (!strJson.isEmpty()){
-            System.out.println("----- Response from ["+url+"] => "+strJson);
             Type listType = new TypeToken<List<AreasTO>>(){}.getType();
 
             listaAreas = new Gson().fromJson(strJson,listType);
@@ -80,7 +79,6 @@ public class areasDAO implements Serializable {
         }catch (Exception e){
             System.out.println(e);
         }
-        System.out.println("Finish Horarios Reservados => [value] = "+lista.toString());
         return lista;
     }
 
@@ -105,8 +103,6 @@ public class areasDAO implements Serializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        System.out.println("|----- Finish Horarios Reservados => [value] = "+ lista);
         return lista;
     }
 
