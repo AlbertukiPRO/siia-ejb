@@ -72,7 +72,7 @@ public class areasDAO implements Serializable {
             String resultado = readUrl(url+"?idarea="+area);
             if (!resultado.equals("0")){
                 System.out.println("----- Response from ["+url+"?idarea="+area+"] => resultado");
-                lista = Arrays.asList(resultado.split(","));
+                lista = new ArrayList<>(Arrays.asList(resultado.split(",")));
             }else{
                 lista = new ArrayList<>();
             }

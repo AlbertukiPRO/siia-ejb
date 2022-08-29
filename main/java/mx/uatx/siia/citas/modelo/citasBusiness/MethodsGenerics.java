@@ -2,6 +2,8 @@ package mx.uatx.siia.citas.modelo.citasBusiness;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -94,6 +96,11 @@ public class MethodsGenerics {
     }
 
     public static String formattingStringFechasCalendar(List<String> horarios){
+
+        for (long i = 1; i < 62; i++) {
+            horarios.add(MethodsGenerics.lessOneDay(i, true));
+        }
+
         StringBuilder cadena = new StringBuilder();
 
         for (String item: horarios){
@@ -108,8 +115,14 @@ public class MethodsGenerics {
         return dtf.format(now);
     }
 
+    public static String lessOneDay(Long numDay, boolean type){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format( type ? now.minusDays(numDay) : now.plusDays(numDay));
+    }
+
     public static String formatDate(String fecha){
-        java.util.Date date = new Date(fecha);
+        Date date = new Date(fecha);
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         return formatter.format(date);
     }

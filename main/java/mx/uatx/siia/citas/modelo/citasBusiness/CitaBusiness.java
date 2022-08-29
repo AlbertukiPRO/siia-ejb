@@ -2,6 +2,8 @@ package mx.uatx.siia.citas.modelo.citasBusiness;
 
 
 import mx.uatx.siia.citas.modelo.MisCitas;
+import mx.uatx.siia.citas.modelo.Tramites.business.TramitesBusiness;
+import mx.uatx.siia.citas.modelo.areas.business.AreasBusiness;
 import mx.uatx.siia.citas.modelo.dao.citasDAO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import org.slf4j.Logger;
@@ -16,7 +18,7 @@ import java.util.Map;
 
 @Service
 @Configurable //para la inyección de dependencias no administradas por spring.
-public class CitaBusiness implements Serializable {
+public class CitaBusiness extends TramitesBusiness implements Serializable {
 
     @Autowired
     private citasDAO citasDAO;

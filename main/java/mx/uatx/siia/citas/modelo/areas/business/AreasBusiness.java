@@ -60,7 +60,7 @@ public class AreasBusiness implements Serializable {
     /**
      *
      * @param url del api rest para los horarios reservados en la base de datos.
-     * @return List de Strings de Horarios que no se mostrar.
+     * @return List de Strings de Horarios que no se mostraran.
      */
     public ResultadoTO obtenerFechasFromDB(String url, String idArea){
 
