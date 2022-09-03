@@ -11,7 +11,8 @@ public enum URLs {
     HorariosReservados("http://localhost/siiaServices/apis/getFechasReservadas.php"),
     AgendarCita("http://localhost/siiaServices/apis/Insert.php"),
     MiCita("http://localhost/siiaServices/apis/misCitas.php"),
-    GetNumCitas("http://localhost/siiaServices/apis/commun.php");
+    GetNumCitas("http://localhost/siiaServices/apis/commun.php"),
+    CancelarMiCita("http://localhost/siiaServices/apis/deleteCita.php");
 
     private String valor;
     URLs(String valor) {

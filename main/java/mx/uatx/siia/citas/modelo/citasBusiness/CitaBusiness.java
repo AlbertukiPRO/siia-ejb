@@ -76,4 +76,21 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
 
         return resultado;
     }
+
+    public ResultadoTO cancelarCita(String strIdCita, String strMotivo){
+        final ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            final int nRows = Integer.parseInt(citasDAO.cancelarCita(strIdCita, strMotivo));
+            if (nRows!=0)
+                resultado.setObjeto(nRows);
+            else
+                resultado.setBlnValido(false);
+        }catch (Exception e){
+            logger.info(e.getMessage());
+            resultado.setBlnValido(false);
+        }
+
+        return resultado;
+    }
 }

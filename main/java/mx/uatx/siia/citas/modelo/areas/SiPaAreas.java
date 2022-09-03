@@ -1,4 +1,4 @@
-package mx.uatx.siia.citas.modelo.Areas;
+package mx.uatx.siia.citas.modelo.areas;
 
 
 import javax.persistence.Column;

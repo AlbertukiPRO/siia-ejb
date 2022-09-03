@@ -19,9 +19,7 @@ public class MisCitas {
         String[] datosCita = strDescripcionCita.split(",");
         String[] fechaHora = strFechaHoraReservada.split(",");
 
-        System.out.println("Split =>"+datosCita);
-
-        this.strIdCita = datosCita[3]+strIdCita+datosCita[4];
+        this.strIdCita = strIdCita;
         this.strDescripcionCita = "<b>Descripción: </b>"+datosCita[0]+"<br>"+"<b>Area: </b>"+datosCita[1]+"<br>"+"<b>Tramite: </b>"+datosCita[2];
         this.strRepuesta = strRepuesta;
         this.strFechaHoraReservada = fechaHora[0]+"<br>"+fechaHora[1];
@@ -29,8 +27,12 @@ public class MisCitas {
         this.strUser =  strUser;
     }
 
+    public MisCitas(){
+
+    }
+
     public String getStrIdCita() {
-        return "CI"+strIdCita;
+        return strIdCita;
     }
     public String getUrlIMG() {
         return urlIMG;
@@ -96,5 +98,21 @@ public class MisCitas {
 
     public void setStrUser(String strUser) {
         this.strUser = strUser;
+    }
+
+
+    @Override
+    public String toString() {
+        return "MisCitas{" +
+                "strIdCita='" + strIdCita + '\'' +
+                ", strDescripcionCita='" + strDescripcionCita + '\'' +
+                ", strRepuesta='" + strRepuesta + '\'' +
+                ", strFechaHoraReservada='" + strFechaHoraReservada + '\'' +
+                ", strEstatus='" + strEstatus + '\'' +
+                ", strUser='" + strUser + '\'' +
+                ", area='" + area + '\'' +
+                ", tramite='" + tramite + '\'' +
+                ", urlIMG='" + urlIMG + '\'' +
+                '}';
     }
 }
