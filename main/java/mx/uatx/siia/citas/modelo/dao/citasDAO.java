@@ -3,8 +3,9 @@ package mx.uatx.siia.citas.modelo.dao;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import mx.uatx.siia.citas.modelo.MisCitas;
+import mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics;
+import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.CitasTO;
-import mx.uatx.siia.serviciosUniversitarios.modelo.SiPaPermisos;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,7 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.readUrl;
 
@@ -75,13 +73,15 @@ public class citasDAO implements Serializable {
      */
     public List<MisCitas> obtenerCita(String api, String user){
         List<MisCitas> misCitas;
-
         String strJson = readUrl(api+"?id="+user);
 
-        System.out.println("----- FINISH GET MIS CITAS ---");
-        Type listType = new TypeToken<List<MisCitas>>(){}.getType();
+        if (!strJson.isEmpty()){
+            System.out.println("----- FINISH GET MIS CITAS ---");
+            Type listType = new TypeToken<List<MisCitas>>(){}.getType();
 
-        misCitas = new Gson().fromJson(strJson,listType);
+            misCitas = new Gson().fromJson(strJson,listType);
+        }else
+            misCitas = new ArrayList<>();
 
         return misCitas;
     }
@@ -92,9 +92,9 @@ public class citasDAO implements Serializable {
      * @param restService [String] con la url del servicio web
      * @return boolean con base en el exito de la transaccion.
      */
-    public int guardarCita(Map<String, String> dataCita, String restService){
+    public Map<String, String> guardarCita(Map<String, String> dataCita, String restService){
         int codeResponde = 0;
-        System.out.println("---- SEND VALUES TO api save [ Run ]");
+        Map<String, String> response = new HashMap<>();
         try {
             URL url = new URL(restService);
             HttpURLConnection http = (HttpURLConnection)url.openConnection();
@@ -114,7 +114,7 @@ public class citasDAO implements Serializable {
                 br = new BufferedReader(new InputStreamReader(http.getInputStream()));
                 String strCurrentLine;
                 while ((strCurrentLine = br.readLine()) != null) {
-                    System.out.println(strCurrentLine);
+                   codeResponde = Integer.parseInt(strCurrentLine);
                 }
             } else {
                 br = new BufferedReader(new InputStreamReader(http.getErrorStream()));
@@ -125,18 +125,85 @@ public class citasDAO implements Serializable {
                 }
             }
 
-            //HEADERS.
-//           Map<String, List<String>> header = http.getHeaderFields();
-//
-//           for (Map.Entry<String,List<String>> entry : header.entrySet())
-//               System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            response.put("respoSMS", String.valueOf(http.getResponseCode()));
+            response.put("responsecode",http.getResponseMessage());
+            response.put("codefromservice", String.valueOf(codeResponde));
 
             http.disconnect();
 
         }catch (Exception e){
             System.out.println(e);
         }
-        return codeResponde;
+        return response;
+    }
+
+    /**
+     * @param strIdCita String value del IDCITA
+     * @param strMotivo String con el texto del movito de la cancelacion de la cita.
+     * @return nRows => String con el numero de filas afectadas segun la consulta TODO: Implementacion temporal
+     */
+    public String cancelarCita(String strIdCita, String strMotivo){
+        String nRows;
+        try{
+            nRows = readUrl(URLs.CancelarMiCita.getValor()+"?idCita="+strIdCita+"&motivo="+strMotivo);
+        }catch (Exception e){
+            nRows = "0";
+        }
+        return nRows;
+    }
+
+    /**
+     * @param idArea String con él, id del área o departamento
+     * @param apiurl String con la direccion del servicio php
+     * @return List<MisCitas> de los datos de la DB
+     */
+    public List<MisCitas> getAllCitasOnId(String idArea, String apiurl){
+        List<MisCitas> misCitas;
+        String strJson = MethodsGenerics.readUrl(apiurl+"idArea="+idArea);
+        System.out.println("--------- FINISH GET ALL CITAS ON AREA ---- [idArea] => "+idArea);
+        if (!strJson.isEmpty()){
+            Type lisType = new TypeToken<List<MisCitas>>(){}.getType();
+            misCitas = new Gson().fromJson(strJson, lisType);
+        }else
+            misCitas = new ArrayList<>();
+
+        return misCitas;
+    }
+
+    /**
+     * @param params String[] con los parametros de criterio para la consulta
+     * @param apirurl String del servicio de la DB
+     * @return List<MisCitas> de los datos de la DB
+     */
+    public List<MisCitas> getAllCitasOnDate(String[] params, String apirurl){
+        List<MisCitas> misCitas;
+        String strJson = MethodsGenerics.readUrl(apirurl+"idArea="+params[0]+"&fecha="+params[1]);
+        System.out.println("--------- FINISH GET ALL CITAS ON DATE ---- [fecha] => "+params[1]);
+        if (!strJson.isEmpty()){
+            Type lisType = new TypeToken<List<MisCitas>>(){}.getType();
+            misCitas = new Gson().fromJson(strJson, lisType);
+        }else
+            misCitas = new ArrayList<>();
+
+        return misCitas;
+    }
+
+    /**
+     * @param params String[] con los parametros de criterio para la consulta
+     * @param api String del servicio de la DB
+     * @return List<MisCitas> de los datos de la DB
+     */
+    public List<MisCitas> getAllCitasOnTramite(String[] params, String api){
+         List<MisCitas> misCitas;
+         String strJson = MethodsGenerics.readUrl(api+"idArea="+params[0]+"&idTramite="+params[1]);
+        System.out.println("--------- FINISH GET ALL CITAS ON TRAMITE ---- [idTramite] => "+params[1]);
+        if (!strJson.isEmpty()){
+            Type lisType = new TypeToken<List<MisCitas>>(){}.getType();
+            misCitas = new Gson().fromJson(strJson, lisType);
+        }else
+            misCitas = new ArrayList<>();
+
+        return misCitas;
     }
 
 }

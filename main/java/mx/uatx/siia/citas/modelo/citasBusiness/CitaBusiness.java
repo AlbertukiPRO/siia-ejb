@@ -5,6 +5,7 @@ import mx.uatx.siia.citas.modelo.MisCitas;
 import mx.uatx.siia.citas.modelo.Tramites.business.TramitesBusiness;
 import mx.uatx.siia.citas.modelo.areas.business.AreasBusiness;
 import mx.uatx.siia.citas.modelo.dao.citasDAO;
+import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +31,8 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
         final ResultadoTO resultado  = new ResultadoTO(true);
 
         try {
-            final int wasSavedCita = citasDAO.guardarCita(dataCita, restService);
-            if (wasSavedCita==200){
+            final Map<String, String> wasSavedCita = citasDAO.guardarCita(dataCita, restService);
+            if (!(wasSavedCita.get("responsecode").equals("OK"))){
                 resultado.setBlnValido(false);
             }else{
                 resultado.setObjeto(wasSavedCita);
@@ -91,6 +92,35 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
             resultado.setBlnValido(false);
         }
 
+        return resultado;
+    }
+
+    /**
+     * @param idArea String con el id del area o departamento
+     * @param service int con el numero del servicio segun la api
+     * @return List<MisCitas> en un generico ResultadoTO
+     */
+    public ResultadoTO getMisCitasOfService(String[] params, int service){
+        final ResultadoTO resultado = new ResultadoTO(true);
+
+        List<MisCitas> misCitas = null;
+        try {
+            switch (service){
+                case 1:
+                     misCitas = citasDAO.getAllCitasOnId(params[0], URLs.ReportesGeneric.getValor()+service+"&");
+                     break;
+                     case 3:
+                         misCitas = citasDAO.getAllCitasOnTramite(params, URLs.ReportesGeneric.getValor()+service+"&");
+                         break;
+            }
+            if (misCitas.isEmpty())
+                resultado.setBlnValido(false);
+            else
+                resultado.setObjeto(misCitas);
+        }catch (Exception e){
+            logger.info(e.getMessage());
+            resultado.setBlnValido(false);
+        }
         return resultado;
     }
 }

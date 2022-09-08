@@ -9,9 +9,11 @@ public class MisCitas {
     private String strEstatus;
     private String strUser;
     private String area;
-    private String tramite;
-
-    private String urlIMG;
+    private String strtramite;
+    
+    private String strNombre;
+    private String strPrograma;
+    private String strHora;
 
 
     public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String strRepuesta, String strFechaHoraReservada, String strEstatus) {
@@ -27,19 +29,24 @@ public class MisCitas {
         this.strUser =  strUser;
     }
 
+    public MisCitas(String strIdCita, String strDescripcionCita, String strRepuesta, String strFechaHoraReservada, String strUser, String tramite, String strNombre, String strPrograma, String strHora) {
+        this.strIdCita = strIdCita;
+        this.strDescripcionCita = strDescripcionCita;
+        this.strRepuesta = strRepuesta;
+        this.strFechaHoraReservada = strFechaHoraReservada;
+        this.strUser = strUser;
+        this.strtramite = tramite;
+        this.strNombre = strNombre;
+        this.strPrograma = strPrograma;
+        this.strHora = strHora;
+    }
+
     public MisCitas(){
 
     }
 
     public String getStrIdCita() {
         return strIdCita;
-    }
-    public String getUrlIMG() {
-        return urlIMG;
-    }
-
-    public void setUrlIMG(String urlIMG) {
-        this.urlIMG = urlIMG;
     }
     public String getArea() {
         return area;
@@ -50,11 +57,11 @@ public class MisCitas {
     }
 
     public String getTramite() {
-        return tramite;
+        return strtramite;
     }
 
     public void setTramite(String tramite) {
-        this.tramite = tramite;
+        this.strtramite = tramite;
     }
 
     public void setStrIdCita(String strIdCita) {
@@ -78,8 +85,39 @@ public class MisCitas {
     }
 
     public String getStrFechaHoraReservada() {
-        String[] fechaHora = strFechaHoraReservada.split(",");
-        return fechaHora[0]+" - "+fechaHora[1];
+        return strFechaHoraReservada;
+    }
+
+    public String getStrtramite() {
+        return strtramite;
+    }
+
+    public void setStrtramite(String strtramite) {
+        this.strtramite = strtramite;
+    }
+
+    public String getStrNombre() {
+        return strNombre;
+    }
+
+    public void setStrNombre(String strNombre) {
+        this.strNombre = strNombre;
+    }
+
+    public String getStrPrograma() {
+        return strPrograma;
+    }
+
+    public void setStrPrograma(String strPrograma) {
+        this.strPrograma = strPrograma;
+    }
+
+    public String getStrHora() {
+        return strHora;
+    }
+
+    public void setStrHora(String strHora) {
+        this.strHora = strHora;
     }
 
     public void setStrFechaHoraReservada(String strFechaHoraReservada) { this.strFechaHoraReservada = strFechaHoraReservada;}
@@ -111,8 +149,7 @@ public class MisCitas {
                 ", strEstatus='" + strEstatus + '\'' +
                 ", strUser='" + strUser + '\'' +
                 ", area='" + area + '\'' +
-                ", tramite='" + tramite + '\'' +
-                ", urlIMG='" + urlIMG + '\'' +
+                ", tramite='" + strtramite + '\'' +
                 '}';
     }
 }
