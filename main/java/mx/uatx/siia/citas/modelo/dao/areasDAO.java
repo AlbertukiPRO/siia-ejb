@@ -2,6 +2,7 @@ package mx.uatx.siia.citas.modelo.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import mx.uatx.siia.citas.modelo.areas.business.SiPaAreasConfiguraciones;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,6 +106,21 @@ public class areasDAO implements Serializable {
             throw new RuntimeException(e);
         }
         return lista;
+    }
+
+    public List<SiPaAreasConfiguraciones> getSettings(String idArea, String api){
+        List<SiPaAreasConfiguraciones> list = null;
+        try {
+            String json = readUrl(api+"?coomon=settings&idarea="+idArea);
+            if (!json.isEmpty()){
+                Type listType = new TypeToken<List<SiPaAreasConfiguraciones>>(){}.getType();
+
+                list = new Gson().fromJson(json,listType);
+            }else list = new ArrayList<>();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return list;
     }
 
 }

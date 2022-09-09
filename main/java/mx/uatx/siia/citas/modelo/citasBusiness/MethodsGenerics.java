@@ -79,7 +79,7 @@ public class MethodsGenerics {
         }
 
         if (!(horariosReservados.size() == 0)){
-            horariosReservados.stream().forEach((item)->{
+            horariosReservados.forEach((item)->{
                 for (int i = 0; i < listHorarios.size(); i++) {
                     if (item.equals(listHorarios.get(i))){
                         listHorarios.remove(i);

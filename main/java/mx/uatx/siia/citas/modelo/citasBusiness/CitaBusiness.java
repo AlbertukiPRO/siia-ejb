@@ -3,7 +3,6 @@ package mx.uatx.siia.citas.modelo.citasBusiness;
 
 import mx.uatx.siia.citas.modelo.MisCitas;
 import mx.uatx.siia.citas.modelo.Tramites.business.TramitesBusiness;
-import mx.uatx.siia.citas.modelo.areas.business.AreasBusiness;
 import mx.uatx.siia.citas.modelo.dao.citasDAO;
 import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
@@ -31,7 +30,7 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
         final ResultadoTO resultado  = new ResultadoTO(true);
 
         try {
-            final Map<String, String> wasSavedCita = citasDAO.guardarCita(dataCita, restService);
+            final Map<String, String> wasSavedCita = citasDAO.putDataRequest(dataCita, restService);
             if (!(wasSavedCita.get("responsecode").equals("OK"))){
                 resultado.setBlnValido(false);
             }else{
@@ -61,11 +60,11 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
         return  resultado;
     }
 
-    public ResultadoTO numeroCitas(String restApi, String idUser){
+    public ResultadoTO numeroCitas(String restApi, String idUser, String tramite){
         final ResultadoTO resultado = new ResultadoTO(true);
 
         try {
-            final String num = citasDAO.getNumCita(restApi, idUser);
+            final String num = citasDAO.getNumCita(restApi, idUser, tramite);
             if (num==null)
                 resultado.setBlnValido(false);
             else
@@ -96,7 +95,7 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
     }
 
     /**
-     * @param idArea String con el id del area o departamento
+     * @param params string array con los parametros para la peticion
      * @param service int con el numero del servicio segun la api
      * @return List<MisCitas> en un generico ResultadoTO
      */
@@ -121,6 +120,22 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
             logger.info(e.getMessage());
             resultado.setBlnValido(false);
         }
+        return resultado;
+    }
+
+    public ResultadoTO getHoursOfCalendarDisable(String idArea, String fecha){
+        ResultadoTO resultado = new ResultadoTO(true);
+        List<String> hours;
+
+        try {
+            hours = citasDAO.getHoursDisablesCalendar(idArea, fecha, URLs.Commun.getValor());
+            if (hours == null) resultado.setBlnValido(false);
+            else resultado.setObjeto(hours);
+        }catch (Exception e){
+            logger.info(e.getMessage());
+            resultado.setBlnValido(false);
+        }
+
         return resultado;
     }
 }

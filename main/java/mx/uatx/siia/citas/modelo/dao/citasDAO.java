@@ -13,7 +13,6 @@ import sun.net.www.protocol.http.HttpURLConnection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.StoredProcedureQuery;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -57,11 +56,11 @@ public class citasDAO implements Serializable {
         return citasTOList;
     }
 
-    public String getNumCita(String apirest, String iduser){
+    public String getNumCita(String apirest, String iduser, String idtramite){
 
         System.out.println("----- Finish get num Citas ----");
 
-        return readUrl(apirest+"?user="+iduser);
+        return readUrl(apirest+"?user="+iduser+"&tramite="+idtramite);
     }
 
 
@@ -92,7 +91,7 @@ public class citasDAO implements Serializable {
      * @param restService [String] con la url del servicio web
      * @return boolean con base en el exito de la transaccion.
      */
-    public Map<String, String> guardarCita(Map<String, String> dataCita, String restService){
+    public Map<String, String> putDataRequest(Map<String, String> dataCita, String restService){
         int codeResponde = 0;
         Map<String, String> response = new HashMap<>();
         try {
@@ -204,6 +203,18 @@ public class citasDAO implements Serializable {
             misCitas = new ArrayList<>();
 
         return misCitas;
+    }
+
+    public List<String> getHoursDisablesCalendar(String idArea, String fecha, String api){
+        List<String> hours;
+        String json = MethodsGenerics.readUrl(api+"?coomon=hoursdisable&idarea="+idArea+"&fecha="+fecha);
+        System.out.println("--------- FINISH GET ALL Hours Disables ---- [List] => "+json);
+        if (!json.isEmpty()){
+            hours = new ArrayList<>(Arrays.asList(json.split(",")));
+        }else
+            hours = new ArrayList<>();
+
+        return hours;
     }
 
 }

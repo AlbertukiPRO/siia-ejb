@@ -9,9 +9,9 @@ public enum URLs {
     Tramites("http://localhost/siiaServices/apis/getTramites.php"),
     FechasReservadas("http://localhost/siiaServices/apis/getFechasReservadas.php"),
     HorariosReservados("http://localhost/siiaServices/apis/getFechasReservadas.php"),
-    AgendarCita("http://localhost/siiaServices/apis/Insert.php"),
+    InsertData("http://localhost/siiaServices/apis/Insert.php"),
     MiCita("http://localhost/siiaServices/apis/misCitas.php"),
-    GetNumCitas("http://localhost/siiaServices/apis/commun.php"),
+    Commun("http://localhost/siiaServices/apis/commun.php"),
     CancelarMiCita("http://localhost/siiaServices/apis/deleteCita.php"),
     ReportesGeneric("http://localhost/siiaServices/apis/reportesServices.php?typeService=");
 

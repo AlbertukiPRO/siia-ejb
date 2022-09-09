@@ -1,6 +1,7 @@
 package mx.uatx.siia.citas.modelo.areas.business;
 
 import mx.uatx.siia.citas.modelo.dao.areasDAO;
+import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
@@ -93,6 +94,22 @@ public class AreasBusiness implements Serializable {
             }
         }catch (Exception e){
             logger.error(e.getMessage());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+
+
+    public ResultadoTO obtenerConfiguracionArea(String idArea){
+
+        ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            final List<SiPaAreasConfiguraciones> configuraciones =  areasDAO.getSettings(idArea, URLs.Commun.getValor());
+            if (configuraciones==null) resultado.setBlnValido(false);
+            else resultado.setObjeto(configuraciones);
+        }catch (Exception e){
+            logger.info(e.getMessage());
             resultado.setBlnValido(false);
         }
         return resultado;
