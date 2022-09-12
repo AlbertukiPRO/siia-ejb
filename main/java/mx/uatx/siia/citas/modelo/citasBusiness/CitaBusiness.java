@@ -13,12 +13,13 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Configurable //para la inyección de dependencias no administradas por spring.
-public class CitaBusiness extends TramitesBusiness implements Serializable {
+public class CitaBusiness implements Serializable {
 
     @Autowired
     private citasDAO citasDAO;
@@ -26,11 +27,11 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
     private static final long serialVersionUID = 7209423068137481883L;
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public ResultadoTO agendarCita(Map<String, String> dataCita, String restService) {
+    public ResultadoTO saveDataDB(Map<String, Object> dataCita, String restService) {
         final ResultadoTO resultado  = new ResultadoTO(true);
 
         try {
-            final Map<String, String> wasSavedCita = citasDAO.putDataRequest(dataCita, restService);
+            final Map<String, Object> wasSavedCita = citasDAO.putDataRequest(dataCita, restService);
             if (!(wasSavedCita.get("responsecode").equals("OK"))){
                 resultado.setBlnValido(false);
             }else{
@@ -136,6 +137,20 @@ public class CitaBusiness extends TramitesBusiness implements Serializable {
             resultado.setBlnValido(false);
         }
 
+        return resultado;
+    }
+
+    public ResultadoTO reservarHorario(Map<String, Object> datacollect){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final Map<String, Object> resMap = citasDAO.putDataRequest(datacollect, URLs.InsertData.getValor()+"?reservar=true");
+            if (resMap.get("codefromservice").equals("1")){
+                resultado.setObjeto(true);
+            }else resultado.setObjeto(false);
+        }catch (Exception e){
+            resultado.setObjeto(false);
+            logger.info(e.getMessage());
+        }
         return resultado;
     }
 }

@@ -115,6 +115,7 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
+
 //    public List<AreasTO> ObtenerAreas(){
 //        final ResultadoTO res = new ResultadoTO(true);
 //

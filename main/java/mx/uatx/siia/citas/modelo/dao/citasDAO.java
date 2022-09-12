@@ -21,6 +21,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Function;
 
 import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.readUrl;
 
@@ -91,9 +92,9 @@ public class citasDAO implements Serializable {
      * @param restService [String] con la url del servicio web
      * @return boolean con base en el exito de la transaccion.
      */
-    public Map<String, String> putDataRequest(Map<String, String> dataCita, String restService){
+    public Map<String, Object> putDataRequest(Map<String, Object> dataCita, String restService){
         int codeResponde = 0;
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         try {
             URL url = new URL(restService);
             HttpURLConnection http = (HttpURLConnection)url.openConnection();
@@ -215,6 +216,9 @@ public class citasDAO implements Serializable {
             hours = new ArrayList<>();
 
         return hours;
+    }
+    public boolean reservarHora(String api) {
+        return MethodsGenerics.readUrl(api).equals("1");
     }
 
 }

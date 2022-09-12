@@ -22,7 +22,7 @@ public class MethodsGenerics {
 
     public static String readUrl(String urlString) {
         System.out.println("*******************************************************");
-        System.out.println("----- Calling client http.get() => [" + urlString + "]");
+        System.out.println("----- Calling Service -> http.get() => [" + urlString + "]");
         System.out.println("*******************************************************");
         BufferedReader reader = null;
         try {
@@ -34,11 +34,12 @@ public class MethodsGenerics {
             while ((read = reader.read(chars)) != -1)
                 buffer.append(chars, 0, read);
 
-            System.out.println("|----- Finished http.get() @return => " + buffer);
-
+            System.out.println("|--------------------------------------------------------");
+            System.out.println("|----- Finished Service http.get() @return => " + buffer);
+            System.out.println("|--------------------------------------------------------");
             return buffer.toString();
         } catch (IOException e) {
-            System.out.println("----------------- THROW EXCEPTION ------------- " + e);
+            System.out.println("----------------- THROW EXCEPTION ------------- \n" + e);
         } finally {
             if (reader != null) {
                 try {
