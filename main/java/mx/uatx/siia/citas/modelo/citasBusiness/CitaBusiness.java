@@ -107,11 +107,14 @@ public class CitaBusiness implements Serializable {
         try {
             switch (service){
                 case 1:
-                     misCitas = citasDAO.getAllCitasOnId(params[0], URLs.ReportesGeneric.getValor()+service+"&");
+                    misCitas = citasDAO.getAllCitasOnTramite(params, URLs.ReportesGeneric.getValor()+service+"&");
                      break;
-                     case 3:
-                         misCitas = citasDAO.getAllCitasOnTramite(params, URLs.ReportesGeneric.getValor()+service+"&");
+                     case 2:
+                         misCitas = citasDAO.getAllCitasOnId(params[0], URLs.ReportesGeneric.getValor()+service+"&");
                          break;
+                case 3:
+                    misCitas = citasDAO.getAllCitasOnDate(params, URLs.ReportesGeneric.getValor()+service+"&");
+                    break;
             }
             if (misCitas.isEmpty())
                 resultado.setBlnValido(false);

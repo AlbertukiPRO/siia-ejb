@@ -16,7 +16,7 @@ public class MisCitas {
     private String strHora;
 
 
-    public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String strRepuesta, String strtramite, String strFechaHoraReservada, String strEstatus, String strNombre) {
+    public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String strRepuesta, String strtramite,  String strNombre, String strFechaHoraReservada, String strEstatus) {
 
         String[] datosCita = strDescripcionCita.split(",");
         String[] fechaHora = strFechaHoraReservada.split(",");
@@ -26,12 +26,12 @@ public class MisCitas {
         this.strDescripcionCita = "<b>Descripción: </b>"+datosCita[0]+"<br>"+"<b>Area: </b>"+datosCita[1]+"<br>"+"<b>Tramite: </b>"+datosCita[2];
         this.strRepuesta = strRepuesta;
         this.strFechaHoraReservada = fechaHora[0]+"<br>"+fechaHora[1];
-        this.strEstatus = strEstatus;
         this.strUser =  strUser;
         this.strNombre = strNombre;
+        this.strEstatus = strEstatus;
     }
 
-    public MisCitas(String strIdCita, String strDescripcionCita, String strRepuesta, String strFechaHoraReservada, String strUser, String tramite, String strNombre, String strPrograma, String strHora) {
+    public MisCitas(String strIdCita, String strDescripcionCita, String strRepuesta, String strFechaHoraReservada, String strUser, String tramite, String strNombre) {
         this.strIdCita = strIdCita;
         this.strDescripcionCita = strDescripcionCita;
         this.strRepuesta = strRepuesta;
@@ -39,8 +39,6 @@ public class MisCitas {
         this.strUser = strUser;
         this.strtramite = tramite;
         this.strNombre = strNombre;
-        this.strPrograma = strPrograma;
-        this.strHora = strHora;
     }
 
     public MisCitas(){
