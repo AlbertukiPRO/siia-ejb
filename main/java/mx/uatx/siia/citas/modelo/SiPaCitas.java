@@ -2,35 +2,42 @@ package mx.uatx.siia.citas.modelo;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class SiPaCitas {
+public class SiPaCitas implements Serializable {
+    /**
+     * Serial VersionUID
+     */
+    private static final long serialVersionUID = -4748540113039819136L;
+    @NotNull
     @Id
-    @Column(name = "idcita", unique = true, nullable = false)
+    @Column(name = "IDCITA", nullable = false, unique = true)
     private Integer intIdCita;
 
-    @Column(name="idalumno")
+    @Column(name="IDHISTORIALACADEMICO")
     private Integer intIdAlumno;
 
-    @Column(name="idarea")
+    @Column(name="IDAREACAMPUS")
     private Integer intIdTramite;
 
-    @Column(name="idtramite")
+    @Column(name="IDTRAMITE")
     private Integer intTramite;
 
-    @Column(name = "descripcioncita")
+    @Column(name = "DESCRIPCIONCITA")
     private String strDescripcionCita;
 
-    @Column(name="estatus")
+    @Column(name="ESTATUSCITAS")
     private String strEstatus;
 
-    @Column(name="fechareservada")
+    @Column(name="FECHARESERVADACITA")
     private String strFechaReservada;
 
-    @Column(name = "retroalimentación")
-    private String strRetroalimentación;
+    @Column(name = "RETROALIMENTACIONCITA")
+    private String strRetroalimentacion;
 
-    @Column(name = "horareservada")
+    @Column(name = "FECHARESERVADACITA_1")
     private String strHoraReservada;
 
     /* GETTERS AND SETTERS */
@@ -91,12 +98,12 @@ public class SiPaCitas {
         this.strFechaReservada = strFechaReservada;
     }
 
-    public String getStrRetroalimentación() {
-        return strRetroalimentación;
+    public String getStrRetroalimentacion() {
+        return strRetroalimentacion;
     }
 
-    public void setStrRetroalimentación(String strRetroalimentación) {
-        this.strRetroalimentación = strRetroalimentación;
+    public void setStrRetroalimentacion(String strRetroalimentacion) {
+        this.strRetroalimentacion = strRetroalimentacion;
     }
 
     public String getStrHoraReservada() {

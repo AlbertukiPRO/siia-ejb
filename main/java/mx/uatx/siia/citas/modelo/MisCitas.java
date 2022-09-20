@@ -31,7 +31,7 @@ public class MisCitas {
         this.strEstatus = strEstatus;
     }
 
-    public MisCitas(String strIdCita, String strDescripcionCita, String strRepuesta, String strFechaHoraReservada, String strUser, String tramite, String strNombre) {
+    public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String tramite,  String strNombre, String strRepuesta, String strFechaHoraReservada, String strPrograma, String strHora) {
         this.strIdCita = strIdCita;
         this.strDescripcionCita = strDescripcionCita;
         this.strRepuesta = strRepuesta;
@@ -39,6 +39,8 @@ public class MisCitas {
         this.strUser = strUser;
         this.strtramite = tramite;
         this.strNombre = strNombre;
+        this.strHora = strHora;
+        this.strPrograma = strPrograma;
     }
 
     public MisCitas(){
@@ -149,7 +151,10 @@ public class MisCitas {
                 ", strEstatus='" + strEstatus + '\'' +
                 ", strUser='" + strUser + '\'' +
                 ", area='" + area + '\'' +
-                ", tramite='" + strtramite + '\'' +
+                ", strtramite='" + strtramite + '\'' +
+                ", strNombre='" + strNombre + '\'' +
+                ", strPrograma='" + strPrograma + '\'' +
+                ", strHora='" + strHora + '\'' +
                 '}';
     }
 }

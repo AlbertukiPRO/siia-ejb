@@ -2,6 +2,7 @@ package mx.uatx.siia.citas.modelo.citasBusiness;
 
 
 import mx.uatx.siia.citas.modelo.MisCitas;
+import mx.uatx.siia.citas.modelo.SiPaCitas;
 import mx.uatx.siia.citas.modelo.Tramites.business.TramitesBusiness;
 import mx.uatx.siia.citas.modelo.dao.citasDAO;
 import mx.uatx.siia.citas.modelo.enums.URLs;
@@ -26,6 +27,20 @@ public class CitaBusiness implements Serializable {
 
     private static final long serialVersionUID = 7209423068137481883L;
     protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+
+    public ResultadoTO guardarCita(){
+
+        final ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            final boolean misCitas = citasDAO.NuevaCita(new MisCitas());
+        } catch (Exception e){
+            logger.info(e.getMessage());
+        }
+
+        return resultado;
+    }
 
     public ResultadoTO saveDataDB(Map<String, Object> dataCita, String restService) {
         final ResultadoTO resultado  = new ResultadoTO(true);

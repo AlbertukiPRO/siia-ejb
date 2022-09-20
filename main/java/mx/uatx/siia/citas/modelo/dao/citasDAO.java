@@ -3,9 +3,13 @@ package mx.uatx.siia.citas.modelo.dao;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import mx.uatx.siia.citas.modelo.MisCitas;
+import mx.uatx.siia.citas.modelo.SiPaCitas;
 import mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics;
 import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.CitasTO;
+import org.eclipse.persistence.exceptions.EntityManagerSetupException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,17 +38,25 @@ La anotación se utiliza para indicar que la clase proporciona es el mecanismo p
 public class citasDAO implements Serializable {
 
     @PersistenceContext(name = "SIIA")
-    private EntityManager em;
+    private EntityManager entityManager;
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+
+
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-    public CitasTO NuevaCita(final String strUsuario) throws Exception {
-        CitasTO citasTO = null; //clase donde se almacena el resultado del acceso a los datos.
+    public boolean NuevaCita(final MisCitas cita){
 
-        //TODO: storedProcedure [ ❗ consulta SQL ]
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(cita);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (EntityManagerSetupException e){
+            logger.error(e.getMessage());
+        }
 
-        //crear instancia de la clase y enviar los datos al constructor
-        //TODO: citasTO  = new CitasTo(values constructor 2 o "n");
-
-        return citasTO;
+        return false;
     }
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
@@ -160,10 +172,12 @@ public class citasDAO implements Serializable {
     public List<MisCitas> getAllCitasOnId(String idArea, String apiurl){
         List<MisCitas> misCitas;
         String strJson = MethodsGenerics.readUrl(apiurl+"idArea="+idArea);
-        System.out.println("--------- FINISH GET ALL CITAS ON AREA ---- [idArea] => "+idArea);
         if (!strJson.isEmpty()){
             Type lisType = new TypeToken<List<MisCitas>>(){}.getType();
             misCitas = new Gson().fromJson(strJson, lisType);
+            System.out.println("|--------------------------------------------------------");
+            System.out.println("|----- Finished Service http.get() @return => " + misCitas);
+            System.out.println("|--------------------------------------------------------");
         }else
             misCitas = new ArrayList<>();
 
@@ -178,10 +192,12 @@ public class citasDAO implements Serializable {
     public List<MisCitas> getAllCitasOnDate(String[] params, String apirurl){
         List<MisCitas> misCitas;
         String strJson = MethodsGenerics.readUrl(apirurl+"idArea="+params[0]+"&fecha="+params[1]);
-        System.out.println("--------- FINISH GET ALL CITAS ON DATE ---- [fecha] => "+params[1]);
         if (!strJson.isEmpty()){
             Type lisType = new TypeToken<List<MisCitas>>(){}.getType();
             misCitas = new Gson().fromJson(strJson, lisType);
+            System.out.println("|--------------------------------------------------------");
+            System.out.println("|----- Finished Service http.get() @return => " + misCitas);
+            System.out.println("|--------------------------------------------------------");
         }else
             misCitas = new ArrayList<>();
 
@@ -196,10 +212,12 @@ public class citasDAO implements Serializable {
     public List<MisCitas> getAllCitasOnTramite(String[] params, String api){
          List<MisCitas> misCitas;
          String strJson = MethodsGenerics.readUrl(api+"idArea="+params[0]+"&idTramite="+params[1]);
-        System.out.println("--------- FINISH GET ALL CITAS ON TRAMITE ---- [idTramite] => "+params[1]);
         if (!strJson.isEmpty()){
             Type lisType = new TypeToken<List<MisCitas>>(){}.getType();
             misCitas = new Gson().fromJson(strJson, lisType);
+            System.out.println("|--------------------------------------------------------");
+            System.out.println("|----- Finished Service http.get() @return => " + misCitas);
+            System.out.println("|--------------------------------------------------------");
         }else
             misCitas = new ArrayList<>();
 
