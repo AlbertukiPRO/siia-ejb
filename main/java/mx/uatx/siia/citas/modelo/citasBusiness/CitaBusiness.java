@@ -34,7 +34,7 @@ public class CitaBusiness implements Serializable {
         final ResultadoTO resultado = new ResultadoTO(true);
 
         try {
-            final boolean misCitas = citasDAO.NuevaCita(new MisCitas());
+            final boolean misCitas = citasDAO.NuevaCita(new SiPaCitas());
         } catch (Exception e){
             logger.info(e.getMessage());
         }

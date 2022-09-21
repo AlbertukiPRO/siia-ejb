@@ -7,10 +7,10 @@ import javax.persistence.Id;
 @Entity
 public class SiPaTramites {
     @Id
-    @Column(name = "idtramites", nullable = false)
-    private Integer idTramites;
+    @Column(name = "IDTRAMITE")
+    private Integer idTramite;
 
-    @Column(name = "idarea")
+    @Column(name = "IDAREACAMPUS")
     private Integer intIdArea;
 
     @Column(name = "nombretramite")
@@ -27,11 +27,11 @@ public class SiPaTramites {
     /* getters and setter */
 
     public Integer getIdTramites() {
-        return idTramites;
+        return idTramite;
     }
 
     public void setIdTramites(Integer idTramites) {
-        this.idTramites = idTramites;
+        this.idTramite = idTramites;
     }
 
     public Integer getIntIdArea() {

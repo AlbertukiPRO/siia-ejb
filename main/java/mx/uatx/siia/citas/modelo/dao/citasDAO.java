@@ -36,7 +36,6 @@ La anotación se utiliza para indicar que la clase proporciona es el mecanismo p
 //* DAO: DATA ACCESS OBJECT
 
 public class citasDAO implements Serializable {
-
     @PersistenceContext(name = "SIIA")
     private EntityManager entityManager;
 
@@ -45,7 +44,7 @@ public class citasDAO implements Serializable {
 
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-    public boolean NuevaCita(final MisCitas cita){
+    public boolean NuevaCita(final SiPaCitas cita){
 
         try {
             entityManager.getTransaction().begin();
