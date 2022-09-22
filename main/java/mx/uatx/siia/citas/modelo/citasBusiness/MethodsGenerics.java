@@ -33,10 +33,6 @@ public class MethodsGenerics {
             char[] chars = new char[1024];
             while ((read = reader.read(chars)) != -1)
                 buffer.append(chars, 0, read);
-
-            System.out.println("|--------------------------------------------------------");
-            System.out.println("|----- Finished Service http.get() @return => " + buffer);
-            System.out.println("|--------------------------------------------------------");
             return buffer.toString();
         } catch (IOException e) {
             System.out.println("----------------- THROW EXCEPTION ------------- \n" + e);
@@ -114,6 +110,16 @@ public class MethodsGenerics {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
+    }
+
+    public static Date getDateToFullCalendar(String strdate){
+        Date date = null;
+        try{
+            date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(strdate);
+        }catch (Exception  e){
+            System.out.println(e);
+        }
+        return date;
     }
 
     public static String lessOneDay(Long numDay, boolean type){

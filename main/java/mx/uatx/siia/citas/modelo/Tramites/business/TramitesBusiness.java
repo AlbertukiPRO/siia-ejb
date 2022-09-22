@@ -1,5 +1,7 @@
 package mx.uatx.siia.citas.modelo.Tramites.business;
 
+import mx.uatx.siia.citas.modelo.SiPaCitas;
+import mx.uatx.siia.citas.modelo.Tramites.SiPaTramites;
 import mx.uatx.siia.citas.modelo.dao.tramitesDAO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import mx.uatx.siia.serviciosUniversitarios.dto.TramitesTO;
@@ -29,6 +31,25 @@ public class TramitesBusiness implements Serializable {
 
     @Autowired
     private tramitesDAO tramitesDAO;
+
+    public ResultadoTO obtenerListTramites(int idArea){
+        final ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final List<SiPaTramites> tramites = tramitesDAO.getListTramites(idArea);
+            List<SelectItem> selectOneMenu = new ArrayList<>();
+            if (tramites == null){
+                resultado.setBlnValido(false);
+            }else{
+                for (SiPaTramites item : tramites){
+                    selectOneMenu.add(new SelectItem(item.getIdTramites(), item.getStrNombreTramite()));
+                }
+                resultado.setObjeto(selectOneMenu);
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return resultado;
+    }
 
     public ResultadoTO obtenerTramites(String url, String idArea){
 

@@ -13,13 +13,13 @@ public class SiPaTramites {
     @Column(name = "IDAREACAMPUS")
     private Integer intIdArea;
 
-    @Column(name = "nombretramite")
+    @Column(name = "NOMBRETRAMITE")
     private String strNombreTramite;
 
-    @Column(name = "descripcióntramite")
-    private String strDescripciónTramite;
+    @Column(name = "DESCRIPCIONTRAMITE")
+    private String strDescripcionTramite;
 
-    @Column(name = "requisitos")
+    @Column(name = "REQUISITOSTRAMITE")
     private String strRequisitos;
 
 
@@ -50,12 +50,12 @@ public class SiPaTramites {
         this.strNombreTramite = strNombreTramite;
     }
 
-    public String getStrDescripciónTramite() {
-        return strDescripciónTramite;
+    public String getStrDescripcionTramite() {
+        return strDescripcionTramite;
     }
 
-    public void setStrDescripciónTramite(String strDescripciónTramite) {
-        this.strDescripciónTramite = strDescripciónTramite;
+    public void setStrDescripcionTramite(String strDescripcionTramite) {
+        this.strDescripcionTramite = strDescripcionTramite;
     }
 
     public String getStrRequisitos() {

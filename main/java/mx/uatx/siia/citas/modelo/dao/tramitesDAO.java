@@ -2,11 +2,13 @@ package mx.uatx.siia.citas.modelo.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import mx.uatx.siia.citas.modelo.Tramites.SiPaTramites;
 import mx.uatx.siia.serviciosUniversitarios.dto.TramitesTO;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -20,11 +22,11 @@ public class tramitesDAO implements Serializable {
     @PersistenceContext(name = "SIIA")
     private EntityManager em;
 
-    //@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-    public TramitesTO tramites() throws Exception {
-        TramitesTO tramitesTO = new TramitesTO("1",1,"Baja Temporal","el estudiante solicita una baja","texto requisitos");
 
-        return tramitesTO;
+    @Transactional
+    public List<SiPaTramites> getListTramites(int idArea){
+        String query = "SELECT * FROM SIIUAT.SICTTRAMITES WHERE IDAREACAMPUS ="+idArea;
+        return (List<SiPaTramites>) em.createNativeQuery(query, SiPaTramites.class).getResultList();
     }
 
 
