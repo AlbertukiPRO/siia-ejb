@@ -2,6 +2,7 @@ package mx.uatx.siia.citas.modelo.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import mx.uatx.siia.citas.modelo.areas.SiPaAreas;
 import mx.uatx.siia.citas.modelo.areas.business.SiPaAreasConfiguraciones;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
 import org.springframework.stereotype.Repository;
@@ -32,18 +33,27 @@ public class areasDAO implements Serializable {
     @PersistenceContext(name="SIIA")
     private EntityManager em;
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-    public AreasTO obtenerAreas(){
-        AreasTO areasTO = new AreasTO("1","Servicios Escolares",1,1,1);
+    @Transactional
+    public List<SiPaAreas> obtenerAreas(){
+        String query = "SELECT * FROM SIIUAT.SICTAREAS";
+        return em.createNativeQuery(query, SiPaAreas.class).getResultList();
+    }
 
-        //TODO ;
+    @Transactional
+    public List<String> obtenerFechasArea(String idArea){
+        List<String> lista = null;
+        try {
+            String query = "SELECT s.fechaexcepcion as fechaexepcion FROM siexcepciones as s INNER JOIN sictareas as c ON c.idareacampus = s.idareareservada where s.idareareservada = $value and s.horaexepcion = 'all'";
+            lista = em.createNativeQuery(query, String.class).getResultList();
 
-
-        return areasTO;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return lista;
     }
 
     /**
-     *
+     * @deprecated
      * @param url => 'http:localhost/siiaservices/getareas.php'
      * @return List => AreasTO
      */
@@ -63,7 +73,6 @@ public class areasDAO implements Serializable {
     }
 
     /**
-     *
      * @param url  => 'http:localhost/siiaservices/getFechasReservadas.php'
      * @param area => id Area seleccionada
      * @return List => Strings, con los horarios reservados de las citas.

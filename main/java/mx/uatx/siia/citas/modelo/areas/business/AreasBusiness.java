@@ -16,6 +16,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author Alberto Noche Rosas
+ */
+
 @Service
 @Configurable
 public class AreasBusiness implements Serializable {
@@ -29,27 +34,19 @@ public class AreasBusiness implements Serializable {
     @Autowired
     private areasDAO areasDAO;
 
-
-    /**
-     *
-     * @author Alberto Noche Rosas
-     */
-
-    public ResultadoTO obtenerAreas(String url){
+    public ResultadoTO obtenerAreas(){
 
         final ResultadoTO resultado = new ResultadoTO(true);
 
         try {
-            final List<AreasTO> areas = areasDAO.getAreasDAO(url);
-            List<SelectItem> listAreas = new ArrayList<>(); //lista local para el SelectOneMenu
-            if (areas==null){
-                resultado.setBlnValido(false);
-            }else{
-                for (AreasTO item : areas){
-                    listAreas.add(new SelectItem(item.getIntIdAreas(), item.getStrNombreAreas()));
-                }
-                resultado.setObjeto(listAreas);
+            //final List<AreasTO> areas = areasDAO.getAreasDAO(url); todo implementar la consulta a la DB.
+            List<AreasTO> areas = new ArrayList<>();
+            areas.add(0, new AreasTO("1","Control Escolar"));
+            List<SelectItem> listAreas = new ArrayList<>();
+            for (AreasTO item : areas){
+                listAreas.add(new SelectItem(item.getIntIdAreas(), item.getStrNombreAreas()));
             }
+            resultado.setObjeto(listAreas);
         }catch (Exception e){
             logger.error(e.getMessage());
             resultado.setBlnValido(false);
@@ -57,6 +54,15 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO obtenerFechasArea(){
+        final ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final List<String> horarios;
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return resultado;
+    }
 
     /**
      *

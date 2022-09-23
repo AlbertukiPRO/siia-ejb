@@ -32,7 +32,11 @@ public class TramitesBusiness implements Serializable {
     @Autowired
     private tramitesDAO tramitesDAO;
 
-    public ResultadoTO obtenerListTramites(int idArea){
+    /**
+     * @param idArea typeOf=>Integer , Example: int idarea = 1;
+     * @return ResultadoTO con List<SelectItem>.
+     */
+    public ResultadoTO obtenerTramites(int idArea){
         final ResultadoTO resultado = new ResultadoTO(true);
         try {
             final List<SiPaTramites> tramites = tramitesDAO.getListTramites(idArea);
@@ -47,10 +51,14 @@ public class TramitesBusiness implements Serializable {
             }
         }catch (Exception e){
             logger.error(e.getMessage());
+            resultado.setBlnValido(false);
         }
         return resultado;
     }
 
+    /**
+     * @deprecated este metodo solo funciona en local.
+     */
     public ResultadoTO obtenerTramites(String url, String idArea){
 
         final ResultadoTO resultado = new ResultadoTO(true);
@@ -73,26 +81,5 @@ public class TramitesBusiness implements Serializable {
 
         return resultado;
     }
-
-
-//    public List<TramitesTO> ObtenerTramites() {
-//        final ResultadoTO res = new ResultadoTO(true);
-//
-//        List<TramitesTO> listTramites = null;
-//
-//       try {
-//           final TramitesTO loadTramites =  tramitesDAO.tramites();
-//
-//           if (loadTramites == null){
-//               res.agregarMensaje(SeveridadMensajeEnum.ERROR, "comun.msj.citas.tramites.obtener");
-//               res.setBlnValido(false);
-//           } else {
-//               listTramites.add(new TramitesTO());
-//           }
-//       } catch (Exception e) {
-//       }
-//        return listTramites;
-//
-//    }
 
 }
