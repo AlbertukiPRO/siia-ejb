@@ -1,5 +1,6 @@
 package mx.uatx.siia.citas.modelo.areas.business;
 
+import mx.uatx.siia.citas.modelo.MisCitas;
 import mx.uatx.siia.citas.modelo.dao.areasDAO;
 import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
@@ -114,6 +115,20 @@ public class AreasBusiness implements Serializable {
             final List<SiPaAreasConfiguraciones> configuraciones =  areasDAO.getSettings(idArea, URLs.Commun.getValor());
             if (configuraciones==null) resultado.setBlnValido(false);
             else resultado.setObjeto(configuraciones);
+        }catch (Exception e){
+            logger.info(e.getMessage());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+
+    public ResultadoTO obtenerEventos(String idcita){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try{
+            final List<MisCitas> listEventos = areasDAO.getEventos(idcita, URLs.Eventos.getValor());
+            logger.info("--- LISTA EVENTOS => "+listEventos);
+            if (listEventos.isEmpty()) resultado.setBlnValido(false);
+            else resultado.setObjeto(listEventos);
         }catch (Exception e){
             logger.info(e.getMessage());
             resultado.setBlnValido(false);

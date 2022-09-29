@@ -13,7 +13,8 @@ public enum URLs {
     MiCita("http://localhost/siiaServices/apis/misCitas.php"),
     Commun("http://localhost/siiaServices/apis/commun.php"),
     CancelarMiCita("http://localhost/siiaServices/apis/deleteCita.php"),
-    ReportesGeneric("http://localhost/siiaServices/apis/reportesServices.php?typeService=");
+    ReportesGeneric("http://localhost/siiaServices/apis/reportesServices.php?typeService="),
+    Eventos("http://localhost/siiaServices/apis/Eventos.php");
 
     private String valor;
     URLs(String valor) {

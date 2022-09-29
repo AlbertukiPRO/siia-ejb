@@ -2,6 +2,7 @@ package mx.uatx.siia.citas.modelo.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import mx.uatx.siia.citas.modelo.MisCitas;
 import mx.uatx.siia.citas.modelo.areas.SiPaAreas;
 import mx.uatx.siia.citas.modelo.areas.business.SiPaAreasConfiguraciones;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
@@ -126,6 +127,21 @@ public class areasDAO implements Serializable {
 
                 list = new Gson().fromJson(json,listType);
             }else list = new ArrayList<>();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+    public List<MisCitas> getEventos(String idCita, String url) {
+        List<MisCitas> list = null;
+        try {
+            String json = readUrl(url+"?idarea="+idCita);
+            if (!json.isEmpty()){
+                Type listype = new TypeToken<List<MisCitas>>(){}.getType();
+                list = new Gson().fromJson(json, listype);
+            }else
+                list = new ArrayList<>();
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
