@@ -136,6 +136,35 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO obtenerCita(int type, String url, String[] params){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+
+            switch (type){
+                case 1:
+                    List<MisCitas> list = null;
+                    list = areasDAO.getCitas(url);
+                    if (list.isEmpty()) resultado.setBlnValido(false);
+                    else resultado.setObjeto(list);
+                    break;
+                case 2:
+                    MisCitas cita = areasDAO.getCita(params[0].toString(), url+"?idarea="+params[0]+"&idcita="+params[2]+"&iduser="+params[1]);
+                    if (cita == null) resultado.setBlnValido(false);
+                    else resultado.setObjeto(cita);
+                    break;
+                default:
+                    List<MisCitas> list1 = new ArrayList<>();
+                    resultado.setBlnValido(false);
+                    resultado.setObjeto(list1);
+                    break;
+            }
+
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return resultado;
+    }
+
 
 //    public List<AreasTO> ObtenerAreas(){
 //        final ResultadoTO res = new ResultadoTO(true);

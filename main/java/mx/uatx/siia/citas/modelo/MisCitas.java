@@ -15,6 +15,11 @@ public class MisCitas {
     private String strPrograma;
     private String strHora;
 
+    private String facultad;
+    private String semestre;
+    private String grupo;
+    private String fotoPerfil;
+
 
     public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String strRepuesta, String strtramite,  String strNombre, String strFechaHoraReservada, String strEstatus) {
 
@@ -41,6 +46,21 @@ public class MisCitas {
         this.strNombre = strNombre;
         this.strHora = strHora;
         this.strPrograma = strPrograma;
+    }
+
+    public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String tramite,  String strNombre, String strRepuesta, String strFechaHoraReservada, String strPrograma, String strHora, String facultad, String semestre, String grupo) {
+        this.strIdCita = strIdCita;
+        this.strDescripcionCita = strDescripcionCita;
+        this.strRepuesta = strRepuesta;
+        this.strFechaHoraReservada = strFechaHoraReservada;
+        this.strUser = strUser;
+        this.strtramite = tramite;
+        this.strNombre = strNombre;
+        this.strHora = strHora;
+        this.strPrograma = strPrograma;
+        this.facultad = facultad;
+        this.semestre = semestre;
+        this.grupo = grupo;
     }
 
     public MisCitas(){

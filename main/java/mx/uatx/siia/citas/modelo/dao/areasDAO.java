@@ -148,4 +148,34 @@ public class areasDAO implements Serializable {
         return list;
     }
 
+    public MisCitas getCita(String idCita, String url) {
+        List<MisCitas> misCitas = null;
+        try {
+            String json = readUrl(url);
+            if (!json.isEmpty()){
+                Type listype = new TypeToken<List<MisCitas>>(){}.getType();
+                misCitas = new Gson().fromJson(json, listype);
+            }else
+                misCitas = new ArrayList<>();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return misCitas.get(0);
+    }
+
+    public List<MisCitas> getCitas(String url) {
+        List<MisCitas> list = null;
+        try {
+            String json = readUrl(url);
+            if (!json.isEmpty()){
+                Type listype = new TypeToken<List<MisCitas>>(){}.getType();
+                list = new Gson().fromJson(json, listype);
+            }else
+                list = new ArrayList<>();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
 }
