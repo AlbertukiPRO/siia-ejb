@@ -1,23 +1,35 @@
 package mx.uatx.siia.citas.modelo.areas.business;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class SiPaAreasConfiguraciones {
 
+    @Id
+    @Column(name = "IDCONFIGURACIONES")
+    private long idConfiguraciones;
+
+    @Column(name = "HORAINICIO")
     private String horaServicioInicio;
+
+    @Column(name = "HORAFIN")
     private String horaServicioFin;
-    private String strNameJefe;
+
+    @Column(name = "NOMBREJEFE")
     private String duracionCitas;
 
-    public SiPaAreasConfiguraciones(String horaServicioInicio, String horaServicioFin, String strNameJefe, String duracionCitas) {
-        this.horaServicioInicio = horaServicioInicio;
-        this.horaServicioFin = horaServicioFin;
-        this.strNameJefe = strNameJefe;
-        this.duracionCitas = duracionCitas;
+    @Column(name = "IDAREA")
+    private String idAreas;
+
+
+    public long getIdConfiguraciones() {
+        return idConfiguraciones;
     }
 
-    public SiPaAreasConfiguraciones(String horaServicioInicio, String horaServicioFin, String duracionCitas) {
-        this.horaServicioInicio = horaServicioInicio;
-        this.horaServicioFin = horaServicioFin;
-        this.duracionCitas = duracionCitas;
+    public void setIdConfiguraciones(long idConfiguraciones) {
+        this.idConfiguraciones = idConfiguraciones;
     }
 
     public String getHoraServicioInicio() {
@@ -36,19 +48,19 @@ public class SiPaAreasConfiguraciones {
         this.horaServicioFin = horaServicioFin;
     }
 
-    public String getStrNameJefe() {
-        return strNameJefe;
-    }
-
-    public void setStrNameJefe(String strNameJefe) {
-        this.strNameJefe = strNameJefe;
-    }
-
     public String getDuracionCitas() {
         return duracionCitas;
     }
 
     public void setDuracionCitas(String duracionCitas) {
         this.duracionCitas = duracionCitas;
+    }
+
+    public String getIdAreas() {
+        return idAreas;
+    }
+
+    public void setIdAreas(String idAreas) {
+        this.idAreas = idAreas;
     }
 }

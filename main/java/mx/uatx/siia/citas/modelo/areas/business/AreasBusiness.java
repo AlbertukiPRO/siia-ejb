@@ -1,11 +1,13 @@
 package mx.uatx.siia.citas.modelo.areas.business;
 
 import mx.uatx.siia.citas.modelo.MisCitas;
+import mx.uatx.siia.citas.modelo.areas.SiPaAreas;
 import mx.uatx.siia.citas.modelo.dao.areasDAO;
 import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
+import org.bouncycastle.crypto.tls.TlsRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,15 +43,15 @@ public class AreasBusiness implements Serializable {
 
         final ResultadoTO resultado = new ResultadoTO(true);
 
-        try {
-            //final List<AreasTO> areas = areasDAO.getAreasDAO(url); todo implementar la consulta a la DB.
-            List<AreasTO> areas = new ArrayList<>();
-            areas.add(0, new AreasTO("1","Control Escolar"));
-            List<SelectItem> listAreas = new ArrayList<>();
-            for (AreasTO item : areas){
-                listAreas.add(new SelectItem(item.getIntIdAreas(), item.getStrNombreAreas()));
+        try{
+            final List<SiPaAreas> areasList = areasDAO.obtenerAreas();
+            List<SelectItem> selectItems = new ArrayList<>();
+
+            for (SiPaAreas item : areasList){
+                selectItems.add(new SelectItem(item.getIdarea(), item.getStrNombreArea()));
             }
-            resultado.setObjeto(listAreas);
+
+            resultado.setObjeto(selectItems);
         }catch (Exception e){
             logger.error(e.getMessage());
             resultado.setBlnValido(false);
@@ -65,8 +69,38 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO obtenerDiasInhabiles(String strIdArea){
+        final ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            List<String> horarios = areasDAO.getFechas(strIdArea);
+            if (horarios == null){
+                resultado.setBlnValido(false);
+                resultado.setObjeto(Collections.singletonList("Sin datos"));
+            }else resultado.setObjeto(horarios);
+        }catch (Exception e){
+            logger.error(e.getMessage()+e.getCause());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+    public ResultadoTO obtenerHorarios(String[] params){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final List<String> horarios = areasDAO.getHorarios(params);
+            if (horarios == null){
+                resultado.setBlnValido(false);
+                resultado.setObjeto(Collections.singletonList("Sin horarios"));
+            }else resultado.setObjeto(horarios);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+
     /**
-     *
+     * @deprecated metodo local para uso con php y msql
      * @param url del api rest para los horarios reservados en la base de datos.
      * @return List de Strings de Horarios que no se mostraran.
      */
@@ -85,7 +119,6 @@ public class AreasBusiness implements Serializable {
             logger.error(e.getMessage());
             resultado.setBlnValido(false);
         }
-
         return resultado;
     }
 
@@ -108,15 +141,13 @@ public class AreasBusiness implements Serializable {
 
 
     public ResultadoTO obtenerConfiguracionArea(String idArea){
-
         ResultadoTO resultado = new ResultadoTO(true);
-
         try {
-            final List<SiPaAreasConfiguraciones> configuraciones =  areasDAO.getSettings(idArea, URLs.Commun.getValor());
+            final List<SiPaAreasConfiguraciones> configuraciones = areasDAO.getConfig(idArea);
             if (configuraciones==null) resultado.setBlnValido(false);
             else resultado.setObjeto(configuraciones);
         }catch (Exception e){
-            logger.info(e.getMessage());
+            logger.error(e.getMessage());
             resultado.setBlnValido(false);
         }
         return resultado;
@@ -159,6 +190,23 @@ public class AreasBusiness implements Serializable {
                     break;
             }
 
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return resultado;
+    }
+
+    public ResultadoTO desactivarDia(String day, String[] params){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try{
+            final boolean flag = areasDAO.disableDay(day, params[0], params[1], URLs.FechasReservadas.getValor());
+            if (!flag) {
+                resultado.setBlnValido(false);
+                resultado.setObjeto(false);
+                logger.info("Was day delete ? =>"+ false);
+            } else {
+                resultado.setObjeto(flag);
+            }
         }catch (Exception e){
             logger.error(e.getMessage());
         }

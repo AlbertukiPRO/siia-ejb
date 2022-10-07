@@ -63,4 +63,12 @@ public class AreasTO {
     public void setIntIdHorarios(Integer intIdHorarios) {
         this.intIdHorarios = intIdHorarios;
     }
+
+    @Override
+    public String toString() {
+        return "AreasTO{" +
+                "intIdAreas='" + intIdAreas + '\'' +
+                ", strNombreAreas='" + strNombreAreas + '\'' +
+                '}';
+    }
 }
