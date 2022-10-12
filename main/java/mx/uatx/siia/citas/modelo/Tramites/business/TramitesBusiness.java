@@ -1,11 +1,9 @@
 package mx.uatx.siia.citas.modelo.Tramites.business;
 
-import mx.uatx.siia.citas.modelo.SiPaCitas;
 import mx.uatx.siia.citas.modelo.Tramites.SiPaTramites;
 import mx.uatx.siia.citas.modelo.dao.tramitesDAO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import mx.uatx.siia.serviciosUniversitarios.dto.TramitesTO;
-import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,8 +2,7 @@ package mx.uatx.siia.citas.modelo.citasBusiness;
 
 
 import mx.uatx.siia.citas.modelo.MisCitas;
-import mx.uatx.siia.citas.modelo.SiPaCitas;
-import mx.uatx.siia.citas.modelo.Tramites.business.TramitesBusiness;
+import mx.uatx.siia.citas.modelo.SIMSCITAS;
 import mx.uatx.siia.citas.modelo.dao.citasDAO;
 import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
@@ -13,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,16 +28,78 @@ public class CitaBusiness implements Serializable {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 
-    public ResultadoTO guardarCita(){
+    public ResultadoTO guardarCita(Map<String, Object> formData){
 
+        final ResultadoTO resultado = new ResultadoTO(true);
+        try {
+
+            SIMSCITAS citas = new SIMSCITAS();
+            citas.setIntIdAlumno((Long) formData.get("idhistorical"));
+            citas.setIntTramite(Integer.parseInt(formData.get("idtramite").toString()));
+            citas.setIntIdArea(Integer.parseInt(formData.get("idarea").toString()));
+            citas.setStrDescripcionCita((String) formData.get("descripcion"));
+            citas.setStrEstatus("Agendada");
+            citas.setStrRetroalimentacion("vacio");
+            citas.setStrFechaReservada((String) formData.get("fecha"));
+            citas.setStrHoraReservada((String) formData.get("hora"));
+            citas.setStrUSERAUDIT("20181837");
+
+            boolean flag = citasDAO.nuevaCita(citas);
+            if (flag){
+                resultado.setObjeto(flag);
+                resultado.setBlnValido(true);
+            }else
+                resultado.setBlnValido(false);
+        } catch (Exception e){
+            logger.info(e.getMessage()+"\n"+e.getCause());
+        }
+        return resultado;
+    }
+
+    public ResultadoTO validarTramite(Long longIdUser, Integer intIdTramite){
         final ResultadoTO resultado = new ResultadoTO(true);
 
         try {
-            final boolean misCitas = citasDAO.NuevaCita(new SiPaCitas());
-        } catch (Exception e){
-            logger.info(e.getMessage());
+            final boolean flag1 = citasDAO.validarTramite(longIdUser, intIdTramite);
+            if (flag1) {
+                resultado.setObjeto(flag1);
+                resultado.setBlnValido(true);
+            }else resultado.setBlnValido(false);
+            logger.info("[main/java/mx/uatx/siia/citas/modelo/citasBusiness/CitaBusiness.java] => validarTramite -> ["+flag1+"]");
+        }catch (Exception e){
+            resultado.setBlnValido(false);
+            logger.error(e.getMessage()+"\n"+e.getCause());
         }
+        return resultado;
+    }
+    public ResultadoTO validarHorario(String strHora, String strFecha){
+        final ResultadoTO resultado = new ResultadoTO(true);
 
+        try {
+            final boolean flag2 = citasDAO.validarHorario(strFecha, strHora);
+            if (flag2) {
+                resultado.setObjeto(flag2);
+                resultado.setBlnValido(true);
+            }else resultado.setBlnValido(false);
+            logger.info("[main/java/mx/uatx/siia/citas/modelo/citasBusiness/CitaBusiness.java] => validarHorario -> ["+flag2+"]");
+        }catch (Exception e){
+            resultado.setBlnValido(false);
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+        return resultado;
+    }
+
+    public ResultadoTO obtenerMisCitas(Long longidHistorico){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            List<MisCitas> list = citasDAO.MisCitas(longidHistorico);
+            if (list!=null){
+                resultado.setObjeto(list);
+            }else resultado.setBlnValido(false);
+        }catch (Exception e){
+            resultado.setBlnValido(false);
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
         return resultado;
     }
 
@@ -59,7 +120,7 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
-    public ResultadoTO miCita(String restApi, String idUser ){
+    public ResultadoTO miCita(String restApi, String idUser){
         final ResultadoTO resultado = new ResultadoTO(true);
 
         try {

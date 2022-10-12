@@ -1,69 +1,44 @@
 package mx.uatx.siia.citas.modelo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class MisCitas {
 
+    @Id
+    @Column(name = "IDCITA")
     private String strIdCita;
+    @Column(name = "DESCRIPCIONCITA")
     private String strDescripcionCita;
+    @Column(name = "RETROALIMENTACIONCITA")
     private String strRepuesta;
+    @Column(name = "FECHARESERVADACITA")
     private String strFechaHoraReservada;
+    @Column(name = "FECHARESERVADACITA_1")
+    private String strHora;
+    @Column(name = "ESTATUSCITAS")
     private String strEstatus;
+    @Column(name = "IDHISTORIALACADEMICO")
     private String strUser;
+    @Column(name = "NBAREA")
     private String area;
+    @Column(name = "NOMBRETRAMITE")
     private String strtramite;
-    
+    @Column(name = "STRUSER")
     private String strNombre;
     private String strPrograma;
-    private String strHora;
-
     private String facultad;
     private String semestre;
     private String grupo;
     private String fotoPerfil;
 
-
-    public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String strRepuesta, String strtramite,  String strNombre, String strFechaHoraReservada, String strEstatus) {
-
-        String[] datosCita = strDescripcionCita.split(",");
-        String[] fechaHora = strFechaHoraReservada.split(",");
-
-        this.strtramite = strtramite;
-        this.strIdCita = strIdCita;
-        this.strDescripcionCita = "<b>Descripción: </b>"+datosCita[0]+"<br>"+"<b>Area: </b>"+datosCita[1]+"<br>"+"<b>Tramite: </b>"+datosCita[2];
-        this.strRepuesta = strRepuesta;
-        this.strFechaHoraReservada = fechaHora[0]+"<br>"+fechaHora[1];
-        this.strUser =  strUser;
+    public MisCitas(String strNombre){
         this.strNombre = strNombre;
-        this.strEstatus = strEstatus;
     }
 
-    public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String tramite,  String strNombre, String strRepuesta, String strFechaHoraReservada, String strPrograma, String strHora) {
-        this.strIdCita = strIdCita;
-        this.strDescripcionCita = strDescripcionCita;
-        this.strRepuesta = strRepuesta;
-        this.strFechaHoraReservada = strFechaHoraReservada;
-        this.strUser = strUser;
-        this.strtramite = tramite;
-        this.strNombre = strNombre;
-        this.strHora = strHora;
-        this.strPrograma = strPrograma;
-    }
-
-    public MisCitas(String strIdCita, String strUser, String strDescripcionCita, String tramite,  String strNombre, String strRepuesta, String strFechaHoraReservada, String strPrograma, String strHora, String facultad, String semestre, String grupo) {
-        this.strIdCita = strIdCita;
-        this.strDescripcionCita = strDescripcionCita;
-        this.strRepuesta = strRepuesta;
-        this.strFechaHoraReservada = strFechaHoraReservada;
-        this.strUser = strUser;
-        this.strtramite = tramite;
-        this.strNombre = strNombre;
-        this.strHora = strHora;
-        this.strPrograma = strPrograma;
-        this.facultad = facultad;
-        this.semestre = semestre;
-        this.grupo = grupo;
-    }
-
-    public MisCitas(){
+    public MisCitas() {
 
     }
 

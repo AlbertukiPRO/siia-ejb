@@ -2,25 +2,25 @@ package mx.uatx.siia.citas.modelo;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-public class SiPaCitas implements Serializable {
+@Table(name = "SIIUAT.SIMSCITAS")
+public class SIMSCITAS implements Serializable {
     /**
      * Serial VersionUID
      */
     private static final long serialVersionUID = -4748540113039819136L;
-    @NotNull
     @Id
-    @Column(name = "IDCITA", nullable = false, unique = true)
+    @SequenceGenerator(name = "IDCITA", sequenceName = "IDCITA", allocationSize = 1)
+    @Column(name = "IDCITA")
     private Integer intIdCita;
 
     @Column(name="IDHISTORIALACADEMICO")
-    private Integer intIdAlumno;
+    private Long intIdAlumno;
 
     @Column(name="IDAREACAMPUS")
-    private Integer intIdTramite;
+    private Integer intIdArea;
 
     @Column(name="IDTRAMITE")
     private Integer intTramite;
@@ -40,6 +40,9 @@ public class SiPaCitas implements Serializable {
     @Column(name = "FECHARESERVADACITA_1")
     private String strHoraReservada;
 
+    @Column(name = "USERAUDIT")
+    private String strUSERAUDIT;
+
     /* GETTERS AND SETTERS */
 
     public Integer getIntIdCita() {
@@ -50,20 +53,20 @@ public class SiPaCitas implements Serializable {
         this.intIdCita = intIdCita;
     }
 
-    public Integer getIntIdAlumno() {
+    public Long getIntIdAlumno() {
         return intIdAlumno;
     }
 
-    public void setIntIdAlumno(Integer intIdAlumno) {
+    public void setIntIdAlumno(Long intIdAlumno) {
         this.intIdAlumno = intIdAlumno;
     }
 
-    public Integer getIntIdTramite() {
-        return intIdTramite;
+    public Integer getIntIdArea() {
+        return intIdArea;
     }
 
-    public void setIntIdTramite(Integer intIdTramite) {
-        this.intIdTramite = intIdTramite;
+    public void setIntIdArea(Integer intIdArea) {
+        this.intIdArea = intIdArea;
     }
 
     public Integer getIntTramite() {
@@ -106,11 +109,35 @@ public class SiPaCitas implements Serializable {
         this.strRetroalimentacion = strRetroalimentacion;
     }
 
+    public String getStrUSERAUDIT() {
+        return strUSERAUDIT;
+    }
+
+    public void setStrUSERAUDIT(String strUSERAUDIT) {
+        this.strUSERAUDIT = strUSERAUDIT;
+    }
+
     public String getStrHoraReservada() {
         return strHoraReservada;
     }
 
     public void setStrHoraReservada(String strHoraReservada) {
         this.strHoraReservada = strHoraReservada;
+    }
+
+    @Override
+    public String toString() {
+        return "SiPaCitas{" +
+                "intIdCita=" + intIdCita +
+                ", intIdAlumno=" + intIdAlumno +
+                ", intIdArea=" + intIdArea +
+                ", intTramite=" + intTramite +
+                ", strDescripcionCita='" + strDescripcionCita + '\'' +
+                ", strEstatus='" + strEstatus + '\'' +
+                ", strFechaReservada='" + strFechaReservada + '\'' +
+                ", strRetroalimentacion='" + strRetroalimentacion + '\'' +
+                ", strHoraReservada='" + strHoraReservada + '\'' +
+                ", strUSERAUDIT='" + strUSERAUDIT + '\'' +
+                '}';
     }
 }

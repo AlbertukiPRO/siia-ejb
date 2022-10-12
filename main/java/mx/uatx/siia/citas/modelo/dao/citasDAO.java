@@ -3,11 +3,10 @@ package mx.uatx.siia.citas.modelo.dao;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import mx.uatx.siia.citas.modelo.MisCitas;
-import mx.uatx.siia.citas.modelo.SiPaCitas;
+import mx.uatx.siia.citas.modelo.SIMSCITAS;
 import mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics;
 import mx.uatx.siia.citas.modelo.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.CitasTO;
-import org.eclipse.persistence.exceptions.EntityManagerSetupException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -17,6 +16,7 @@ import sun.net.www.protocol.http.HttpURLConnection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -25,7 +25,6 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.Function;
 
 import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.readUrl;
 
@@ -43,29 +42,72 @@ public class citasDAO implements Serializable {
 
 
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-    public boolean NuevaCita(final SiPaCitas cita){
-
+    @Transactional()
+    public boolean nuevaCita(final SIMSCITAS cita){
         try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(cita);
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (EntityManagerSetupException e){
-            logger.error(e.getMessage());
-        }
+            Query query = entityManager.createNativeQuery("INSERT INTO SIIUAT.SIMSCITAS (IDCITA, IDHISTORIALACADEMICO, IDAREACAMPUS, IDTRAMITE, DESCRIPCIONCITA, ESTATUSCITAS, FECHARESERVADACITA, RETROALIMENTACIONCITA, FECHARESERVADACITA_1, FCAUDIT, USERAUDIT) VALUES (SIIUAT.IDCITA.nextval, ?, ?, ?, ?, ?, ?, ?, ?, sysdate, ?)");
+            query.setParameter(1, cita.getIntIdAlumno());
+            query.setParameter(2,cita.getIntIdArea());
+            query.setParameter(3, cita.getIntTramite());
+            query.setParameter(4, cita.getStrDescripcionCita());
+            query.setParameter(5,cita.getStrEstatus());
+            query.setParameter(6, cita.getStrFechaReservada());
+            query.setParameter(7, cita.getStrRetroalimentacion());
+            query.setParameter(8, cita.getStrHoraReservada());
+            query.setParameter(9, cita.getStrUSERAUDIT());
+            query.executeUpdate();
 
-        return false;
+            logger.info("--> RES OF QUERY [Save Cita] => "+entityManager.getTransaction().getRollbackOnly());
+
+        } catch (Exception e){
+            logger.error(e.getMessage()+ "\n"+e.getCause());
+        }
+        return true;
     }
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-    public List<CitasTO> MisCitas(final String strUsuario) throws Exception {
+    @Transactional()
+    public boolean validarTramite(Long longIdhistorical, int intIdTramite) {
+        int flag = 0;
+        Query query = entityManager.createNativeQuery("SELECT COUNT(sm.IDTRAMITE) num FROM SIIUAT.SIMSCITAS sm WHERE IDHISTORIALACADEMICO = ? and IDTRAMITE = ?");
+        query.setParameter(1, longIdhistorical);
+        query.setParameter(2, intIdTramite);
+        logger.info("--> STEP 1 Results => "+query.getSingleResult());
+        flag = Integer.parseInt(query.getSingleResult().toString());
+        return flag == 0;
+    }
 
-        List<CitasTO> citasTOList = null;
+    @Transactional()
+    public boolean validarHorario(String strFecha, String strHora){
+        int flag = 0;
+        Query query = entityManager.createNativeQuery("SELECT COUNT(HORAEXEPCION) FROM SIIUAT.SIEXCEPCIONES ex where FECHAEXCEPCION = ? and HORAEXEPCION = ?");
+        query.setParameter(1, strFecha);
+        query.setParameter(2, strHora);
 
-        //TODO:  Obtener citas de la DB y crear una lista de citas.
+        logger.info("--> STEP 2 Results => "+query.getSingleResult());
+
+        flag = Integer.parseInt(query.getSingleResult().toString());
+        return flag == 0;
+    }
+
+    @Transactional()
+    public List<MisCitas> MisCitas(final Long longidHistorico) throws Exception {
+
+        List<MisCitas> citasTOList = null;
+
+        Query query = entityManager.createNativeQuery("SELECT SIMSCITAS.*, S.NOMBRETRAMITE, A.NBAREA FROM SIIUAT.SIMSCITAS INNER JOIN SIIUAT.SICTTRAMITES S on S.IDTRAMITE = SIMSCITAS.IDTRAMITE INNER JOIN SIIUAT.SICTAREAS A on A.CLAREA = SIMSCITAS.IDAREACAMPUS WHERE IDHISTORIALACADEMICO = ?", MisCitas.class);
+        query.setParameter(1, longidHistorico);
+        citasTOList = query.getResultList();
 
         return citasTOList;
+    }
+
+    @Transactional
+    public boolean reservarHorario(){
+        boolean flag = false;
+
+        Query query = entityManager.createNativeQuery("  ");
+
+        return true;
     }
 
     public String getNumCita(String apirest, String iduser, String idtramite){

@@ -1,13 +1,11 @@
 package mx.uatx.siia.citas.modelo.areas.business;
 
 import mx.uatx.siia.citas.modelo.MisCitas;
+import mx.uatx.siia.citas.modelo.SIMSCITAS;
 import mx.uatx.siia.citas.modelo.areas.SiPaAreas;
 import mx.uatx.siia.citas.modelo.dao.areasDAO;
 import mx.uatx.siia.citas.modelo.enums.URLs;
-import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
-import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
-import org.bouncycastle.crypto.tls.TlsRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,16 +56,6 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
-    public ResultadoTO obtenerFechasArea(){
-        final ResultadoTO resultado = new ResultadoTO(true);
-        try {
-            final List<String> horarios;
-        }catch (Exception e){
-            logger.error(e.getMessage());
-        }
-        return resultado;
-    }
-
     public ResultadoTO obtenerDiasInhabiles(String strIdArea){
         final ResultadoTO resultado = new ResultadoTO(true);
 
@@ -100,6 +87,25 @@ public class AreasBusiness implements Serializable {
     }
 
     /**
+     * @param idArea string con el id del area
+     * @return ResultadoTO con la lista de la configuración
+     */
+    public ResultadoTO obtenerConfiguracionArea(String idArea){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final List<SiPaAreasConfiguraciones> configuraciones = areasDAO.getConfig(idArea);
+            if (configuraciones==null) resultado.setBlnValido(false);
+            else resultado.setObjeto(configuraciones);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+
+    /*----------------------------------------------------------------------------------------*/
+
+    /**
      * @deprecated metodo local para uso con php y msql
      * @param url del api rest para los horarios reservados en la base de datos.
      * @return List de Strings de Horarios que no se mostraran.
@@ -122,6 +128,11 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
+    /**
+     * @deprecated metodo local para uso con php y msql
+     * @param url del api rest para los horarios reservados en la base de datos.
+     * @return List de Strings de Horarios que no se mostraran.
+     */
     public ResultadoTO obtenerHorariosFromDB(String url, String fecha, String idArea){
         ResultadoTO resultado = new ResultadoTO(true);
 
@@ -140,25 +151,27 @@ public class AreasBusiness implements Serializable {
     }
 
 
-    public ResultadoTO obtenerConfiguracionArea(String idArea){
+
+    public ResultadoTO obtenerEventos(String idarea){
         ResultadoTO resultado = new ResultadoTO(true);
-        try {
-            final List<SiPaAreasConfiguraciones> configuraciones = areasDAO.getConfig(idArea);
-            if (configuraciones==null) resultado.setBlnValido(false);
-            else resultado.setObjeto(configuraciones);
+        try{
+            final List<SIMSCITAS> listEventos =areasDAO.obtenerCitasToCalendar(idarea);
+            logger.info("--- LISTA EVENTOS => "+listEventos);
+            if (listEventos == null) resultado.setBlnValido(false);
+            else resultado.setObjeto(listEventos);
         }catch (Exception e){
-            logger.error(e.getMessage());
+            logger.info(e.getMessage());
             resultado.setBlnValido(false);
         }
         return resultado;
     }
 
-    public ResultadoTO obtenerEventos(String idcita){
+    public ResultadoTO obtenerEventosMariaDB(String idarea){
         ResultadoTO resultado = new ResultadoTO(true);
         try{
-            final List<MisCitas> listEventos = areasDAO.getEventos(idcita, URLs.Eventos.getValor());
+            final List<MisCitas> listEventos = areasDAO.getEventos(idarea, URLs.Eventos.getValor());
             logger.info("--- LISTA EVENTOS => "+listEventos);
-            if (listEventos.isEmpty()) resultado.setBlnValido(false);
+            if (listEventos == null) resultado.setBlnValido(false);
             else resultado.setObjeto(listEventos);
         }catch (Exception e){
             logger.info(e.getMessage());
@@ -196,11 +209,11 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
-    public ResultadoTO desactivarDia(String day, String[] params){
+    public ResultadoTO desactivarDia(String[] params){
         ResultadoTO resultado = new ResultadoTO(true);
         try{
-            final boolean flag = areasDAO.disableDay(day, params[0], params[1], URLs.FechasReservadas.getValor());
-            if (!flag) {
+            final int flag = areasDAO.desactivarDia(params[0], params[1], params[2]);
+            if (flag==0) {
                 resultado.setBlnValido(false);
                 resultado.setObjeto(false);
                 logger.info("Was day delete ? =>"+ false);

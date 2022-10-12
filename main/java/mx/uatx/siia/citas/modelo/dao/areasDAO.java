@@ -3,20 +3,19 @@ package mx.uatx.siia.citas.modelo.dao;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import mx.uatx.siia.citas.modelo.MisCitas;
+import mx.uatx.siia.citas.modelo.SIMSCITAS;
 import mx.uatx.siia.citas.modelo.areas.SiPaAreas;
 import mx.uatx.siia.citas.modelo.areas.business.SiPaAreasConfiguraciones;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.Serializable;
-import java.lang.reflect.Executable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -172,17 +171,56 @@ public class areasDAO implements Serializable {
         return list;
     }
 
+    public int desactivarDia(String strIdArea, String strFecha, String strUserAudit){
+        int flag = 0;
+        try {
+            Query query  = em.createNativeQuery(" INSERT INTO SIIUAT.SIEXCEPCIONES (IDEXCEPCION, FECHAEXCEPCION, HORAEXEPCION, FCAUDIT, USERAUDIT) VALUES " +
+                    "(SIIUAT.IDEXCEPCION.nextval, ?, 'all', sysdate, ? ");
+            query.setParameter(1, strFecha);
+            query.setParameter(2, strUserAudit);
+            flag = (int) query.executeUpdate();
+
+            Query query1 = em.createNativeQuery("SELECT * FROM ( SELECT SIIUAT.SIEXCEPCIONES.IDEXCEPCION FROM SIEXCEPCIONES order by IDEXCEPCION DESC ) where ROWNUM <= 1");
+            int idException = (int) query1.getSingleResult();
+
+            Query query2 = em.createNativeQuery("INSERT INTO SIIUAT.SIAXFECHASHORARIOS (IDFECHAHORA, IDAREACAMPUS, IDEXCEPCIONES, FCAUDIT, USERAUDIT) VALUES " +
+                    "(SIIUAT.IDFECHAHORA.nextval, ?, ?, sysdate, ?)  ");
+            query2.setParameter(1, strIdArea);
+            query2.setParameter(2, idException);
+            query.setParameter(3, strUserAudit);
+
+
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+        return flag;
+    }
+
+    public List<SIMSCITAS> obtenerCitasToCalendar(String strIdArea){
+        List<SIMSCITAS> list = null;
+        try {
+            Query query = em.createNativeQuery("SELECT * FROM SIIUAT.SIMSCITAS  WHERE IDAREACAMPUS = ?", SIMSCITAS.class);
+            query.setParameter(1, strIdArea);
+            list = query.getResultList();
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+        return list;
+    }
+
+    /*-------------------------  METODOS LOCALES PARA USO DE PHP Y MYSQL  -----------------------------*/
+
     public List<MisCitas> getEventos(String idCita, String url) {
         List<MisCitas> list = null;
         try {
             String json = readUrl(url+"?idarea="+idCita);
             if(!json.equals("vacio")){
-                if (!json.isEmpty()){
-                    Type listype = new TypeToken<List<MisCitas>>(){}.getType();
-                    list = new Gson().fromJson(json, listype);
-                }else
-                    list = new ArrayList<>();
-            }else list = new ArrayList<>();
+                Type listype = new TypeToken<List<MisCitas>>(){}.getType();
+                list = new Gson().fromJson(json, listype);
+            }else {
+                list = new ArrayList<>();
+                list.add(0, new MisCitas("Vacio"));
+            }
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
