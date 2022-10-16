@@ -1,4 +1,4 @@
-package mx.uatx.siia.citas.modelo;
+package mx.uatx.siia.citas;
 
 import javax.persistence.*;
 

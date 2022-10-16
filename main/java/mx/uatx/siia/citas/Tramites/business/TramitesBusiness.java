@@ -1,7 +1,7 @@
-package mx.uatx.siia.citas.modelo.Tramites.business;
+package mx.uatx.siia.citas.Tramites.business;
 
-import mx.uatx.siia.citas.modelo.Tramites.SiPaTramites;
-import mx.uatx.siia.citas.modelo.dao.tramitesDAO;
+import mx.uatx.siia.citas.Tramites.SiPaTramites;
+import mx.uatx.siia.citas.dao.tramitesDAO;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import mx.uatx.siia.serviciosUniversitarios.dto.TramitesTO;
 import org.slf4j.Logger;

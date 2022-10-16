@@ -1,4 +1,4 @@
-package mx.uatx.siia.citas.modelo.interfaces;
+package mx.uatx.siia.citas.interfaces;
 
 public interface TaskBackground {
 

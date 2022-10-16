@@ -1,34 +1,23 @@
-package mx.uatx.siia.citas.modelo.areas.business;
+package mx.uatx.siia.citas.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
-@Entity
-public class SiPaAreasConfiguraciones {
+public class ConfiguacionesDTO {
 
-    @Id
-    @Column(name = "IDCONFIGURACIONES")
-    private long idConfiguraciones;
-
-    @Column(name = "HORAINICIO")
+    private Integer idConfiguraciones;
     private String horaServicioInicio;
-
-    @Column(name = "HORAFIN")
     private String horaServicioFin;
-
-    @Column(name = "NOMBREJEFE")
     private String duracionCitas;
+    private Integer idAreas;
 
-    @Column(name = "IDAREA")
-    private String idAreas;
+   public ConfiguacionesDTO(){
 
+   }
 
-    public long getIdConfiguraciones() {
+    public Integer getIdConfiguraciones() {
         return idConfiguraciones;
     }
 
-    public void setIdConfiguraciones(long idConfiguraciones) {
+    public void setIdConfiguraciones(Integer idConfiguraciones) {
         this.idConfiguraciones = idConfiguraciones;
     }
 
@@ -56,11 +45,22 @@ public class SiPaAreasConfiguraciones {
         this.duracionCitas = duracionCitas;
     }
 
-    public String getIdAreas() {
+    public Integer getIdAreas() {
         return idAreas;
     }
 
-    public void setIdAreas(String idAreas) {
+    public void setIdAreas(Integer idAreas) {
         this.idAreas = idAreas;
+    }
+
+    @Override
+    public String toString() {
+        return "ConfiguacionesDTO{" +
+                "idConfiguraciones=" + idConfiguraciones +
+                ", horaServicioInicio='" + horaServicioInicio + '\'' +
+                ", horaServicioFin='" + horaServicioFin + '\'' +
+                ", duracionCitas='" + duracionCitas + '\'' +
+                ", idAreas=" + idAreas +
+                '}';
     }
 }

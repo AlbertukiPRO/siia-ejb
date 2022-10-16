@@ -1,11 +1,6 @@
-package mx.uatx.siia.citas.modelo.citasBusiness;
+package mx.uatx.siia.citas.citasBusiness;
 
-import mx.uatx.siia.citas.modelo.areas.business.AreasBusiness;
-import mx.uatx.siia.citas.modelo.areas.business.SiPaAreasConfiguraciones;
-import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import mx.uatx.siia.citas.areas.business.SiPaAreasConfiguraciones;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package mx.uatx.siia.citas.modelo.citasBusiness;
+package mx.uatx.siia.citas.citasBusiness;
 
 
-import mx.uatx.siia.citas.modelo.MisCitas;
-import mx.uatx.siia.citas.modelo.SIMSCITAS;
-import mx.uatx.siia.citas.modelo.dao.citasDAO;
-import mx.uatx.siia.citas.modelo.enums.URLs;
+import mx.uatx.siia.citas.MisCitas;
+import mx.uatx.siia.citas.SIMSCITAS;
+import mx.uatx.siia.citas.dao.citasDAO;
+import mx.uatx.siia.citas.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.SequenceGenerator;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class CitaBusiness implements Serializable {
 
 
     public ResultadoTO guardarCita(Map<String, Object> formData){
-
+        logger.info("--------- Guardando cita --------- ");
         final ResultadoTO resultado = new ResultadoTO(true);
         try {
 
@@ -45,6 +44,15 @@ public class CitaBusiness implements Serializable {
             citas.setStrUSERAUDIT("20181837");
 
             boolean flag = citasDAO.nuevaCita(citas);
+
+            // TODO check if this functioned.
+
+            String[] params1 = new String[]{ formData.get("fecha").toString(),formData.get("hora").toString(), "20181837"  };
+            String[] params2 = new String[]{ formData.get("idarea").toString(), "20181837" };
+            logger.info("--- CITAS RUN SAVE HORARIO ---");
+            citasDAO.reservarHorario(params1, params2);
+
+
             if (flag){
                 resultado.setObjeto(flag);
                 resultado.setBlnValido(true);
@@ -120,40 +128,6 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
-    public ResultadoTO miCita(String restApi, String idUser){
-        final ResultadoTO resultado = new ResultadoTO(true);
-
-        try {
-            final List<MisCitas> lista = citasDAO.obtenerCita(restApi,idUser);
-            if (lista==null){
-                resultado.setBlnValido(false);
-            }else{
-                resultado.setObjeto(lista);
-            }
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            resultado.setBlnValido(false);
-        }
-        return  resultado;
-    }
-
-    public ResultadoTO numeroCitas(String restApi, String idUser, String tramite){
-        final ResultadoTO resultado = new ResultadoTO(true);
-
-        try {
-            final String num = citasDAO.getNumCita(restApi, idUser, tramite);
-            if (num==null)
-                resultado.setBlnValido(false);
-            else
-                resultado.setObjeto(num);
-        } catch (Exception e){
-            logger.error(e.getMessage());
-            resultado.setBlnValido(false);
-        }
-
-        return resultado;
-    }
-
     public ResultadoTO cancelarCita(String strIdCita, String strMotivo){
         final ResultadoTO resultado = new ResultadoTO(true);
 
@@ -216,20 +190,6 @@ public class CitaBusiness implements Serializable {
             resultado.setBlnValido(false);
         }
 
-        return resultado;
-    }
-
-    public ResultadoTO reservarHorario(Map<String, Object> datacollect){
-        ResultadoTO resultado = new ResultadoTO(true);
-        try {
-            final Map<String, Object> resMap = citasDAO.putDataRequest(datacollect, URLs.InsertData.getValor()+"?reservar=true");
-            if (resMap.get("codefromservice").equals("1")){
-                resultado.setObjeto(true);
-            }else resultado.setObjeto(false);
-        }catch (Exception e){
-            resultado.setObjeto(false);
-            logger.info(e.getMessage());
-        }
         return resultado;
     }
 }

@@ -1,22 +1,16 @@
-package mx.uatx.siia.citas.modelo.citasBusiness;
+package mx.uatx.siia.citas.citasBusiness;
 
-import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
-import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class MethodsGenerics {
 

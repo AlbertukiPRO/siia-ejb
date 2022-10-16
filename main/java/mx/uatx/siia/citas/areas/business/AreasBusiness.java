@@ -1,10 +1,9 @@
-package mx.uatx.siia.citas.modelo.areas.business;
+package mx.uatx.siia.citas.areas.business;
 
-import mx.uatx.siia.citas.modelo.MisCitas;
-import mx.uatx.siia.citas.modelo.SIMSCITAS;
-import mx.uatx.siia.citas.modelo.areas.SiPaAreas;
-import mx.uatx.siia.citas.modelo.dao.areasDAO;
-import mx.uatx.siia.citas.modelo.enums.URLs;
+import mx.uatx.siia.citas.MisCitas;
+import mx.uatx.siia.citas.SIMSCITAS;
+import mx.uatx.siia.citas.areas.SiPaAreas;
+import mx.uatx.siia.citas.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,7 @@ public class AreasBusiness implements Serializable {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private areasDAO areasDAO;
+    private mx.uatx.siia.citas.dao.areasDAO areasDAO;
 
     public ResultadoTO obtenerAreas(){
 
@@ -93,7 +92,7 @@ public class AreasBusiness implements Serializable {
     public ResultadoTO obtenerConfiguracionArea(String idArea){
         ResultadoTO resultado = new ResultadoTO(true);
         try {
-            final List<SiPaAreasConfiguraciones> configuraciones = areasDAO.getConfig(idArea);
+            final SiPaAreasConfiguraciones configuraciones = areasDAO.getConfig(Integer.parseInt(idArea));
             if (configuraciones==null) resultado.setBlnValido(false);
             else resultado.setObjeto(configuraciones);
         }catch (Exception e){
@@ -127,29 +126,6 @@ public class AreasBusiness implements Serializable {
         }
         return resultado;
     }
-
-    /**
-     * @deprecated metodo local para uso con php y msql
-     * @param url del api rest para los horarios reservados en la base de datos.
-     * @return List de Strings de Horarios que no se mostraran.
-     */
-    public ResultadoTO obtenerHorariosFromDB(String url, String fecha, String idArea){
-        ResultadoTO resultado = new ResultadoTO(true);
-
-        try {
-            final List<String> horarios = areasDAO.getHorarioFromDB(url, fecha, idArea);
-            if (horarios == null){
-                resultado.setBlnValido(false);
-            }else{
-                resultado.setObjeto(horarios);
-            }
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            resultado.setBlnValido(false);
-        }
-        return resultado;
-    }
-
 
 
     public ResultadoTO obtenerEventos(String idarea){

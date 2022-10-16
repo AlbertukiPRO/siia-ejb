@@ -1,4 +1,4 @@
-package mx.uatx.siia.citas.modelo.enums;
+package mx.uatx.siia.citas.enums;
 
 /**
  * @author Alberto Noche Rosas

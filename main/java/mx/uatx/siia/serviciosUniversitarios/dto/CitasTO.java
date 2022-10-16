@@ -85,14 +85,8 @@ public class CitasTO {
     private String strRetroalimentacion;
     private String strHoraReservada;
 
-    public CitasTO(Integer intIdAlumno, Integer intIdArea, Integer intIdTramite, String strDescripcionTramite, String strEstatus, String strFechaReserva, String strHoraReservada) {
-        this.intIdAlumno = intIdAlumno;
-        this.intIdArea = intIdArea;
-        this.intIdTramite = intIdTramite;
-        this.strDescripcionTramite = strDescripcionTramite;
-        this.strEstatus = strEstatus;
-        this.strFechaReserva = strFechaReserva;
-        this.strHoraReservada = strHoraReservada;
+    public CitasTO(){
+
     }
 
     @Override

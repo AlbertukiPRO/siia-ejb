@@ -1,8 +1,9 @@
-package mx.uatx.siia.citas.modelo.dao;
+package mx.uatx.siia.citas.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import mx.uatx.siia.citas.modelo.Tramites.SiPaTramites;
+import mx.uatx.siia.citas.Tramites.SiPaTramites;
+import mx.uatx.siia.citas.citasBusiness.MethodsGenerics;
 import mx.uatx.siia.serviciosUniversitarios.dto.TramitesTO;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +13,6 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
-
-import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.readUrl;
 
 @Repository
 
@@ -41,7 +40,7 @@ public class tramitesDAO implements Serializable {
         /**
          * @param idTramite variable encode url obligatoria para el servicio.
          */
-        String strJson = readUrl(url+"?idTramite="+idArea);
+        String strJson = MethodsGenerics.readUrl(url+"?idTramite="+idArea);
 
         System.out.println("----  Response from [ " +url+"?idTramite="+idArea+" ]");
 

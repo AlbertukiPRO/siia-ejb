@@ -1,4 +1,4 @@
-package mx.uatx.siia.citas.modelo.Tramites;
+package mx.uatx.siia.citas.Tramites;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

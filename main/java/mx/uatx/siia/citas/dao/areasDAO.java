@@ -1,11 +1,11 @@
-package mx.uatx.siia.citas.modelo.dao;
+package mx.uatx.siia.citas.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import mx.uatx.siia.citas.modelo.MisCitas;
-import mx.uatx.siia.citas.modelo.SIMSCITAS;
-import mx.uatx.siia.citas.modelo.areas.SiPaAreas;
-import mx.uatx.siia.citas.modelo.areas.business.SiPaAreasConfiguraciones;
+import mx.uatx.siia.citas.MisCitas;
+import mx.uatx.siia.citas.SIMSCITAS;
+import mx.uatx.siia.citas.areas.SiPaAreas;
+import mx.uatx.siia.citas.areas.business.SiPaAreasConfiguraciones;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +17,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.readUrl;
+import static mx.uatx.siia.citas.citasBusiness.MethodsGenerics.readUrl;
 
 
 /**
@@ -40,8 +37,7 @@ public class areasDAO implements Serializable {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Transactional
-    public List<SiPaAreas> obtenerAreas(){
-                                                                                    // %Control% => parmatro de prueba;
+    public List<SiPaAreas> obtenerAreas(){// %Control% => parmatro de prueba;
         String query = "SELECT * FROM SIIUAT.SICTAREAS where IDTIPOAREA = 10 and NBAREA LIKE '%Control%'";
         return em.createNativeQuery(query, SiPaAreas.class).getResultList();
     }
@@ -110,8 +106,8 @@ public class areasDAO implements Serializable {
             Query query = em.createNativeQuery("SELECT ex.HORAEXEPCION FROM SIIUAT.SIEXCEPCIONES ex " +
                     "inner join SIIUAT.SIAXFECHASHORARIOS S on ex.IDEXCEPCION = S.IDEXCEPCIONES " +
                     "where S.IDAREACAMPUS = ? and ex.FECHAEXCEPCION = ?");
-            query.setParameter(1, ""+params[0]);
-            query.setParameter(2, ""+params[1]);
+            query.setParameter(1, params[0]);
+            query.setParameter(2, params[1]);
             lista = query.getResultList();
         }catch (Exception e){
             logger.error(e.getMessage()+"\n"+e.getCause());
@@ -119,54 +115,15 @@ public class areasDAO implements Serializable {
         return lista;
     }
 
-
-    /**
-     * @deprecated no usar
-     * @param link => url del servicio [String] => http:
-     * @param fecha => fecha [String] => 19/05/2022
-     * @param idArea => idArea [String] => 1
-     * @return List => [String] con los horarios => 08:00, 08:25
-     */
-    public List<String> getHorarioFromDB(String link, String fecha, String idArea){
-
-        List<String> lista;
+    @Transactional
+    public SiPaAreasConfiguraciones getConfig(Integer idArea){
+        SiPaAreasConfiguraciones list = null;
         try {
-            String resultado = readUrl(link+"?fecha="+fecha+"&idarea="+idArea);
-
-            if (!resultado.equals("0")){
-                lista = Arrays.asList(resultado.split(","));
-            }else{
-                lista = Collections.emptyList();
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return lista;
-    }
-
-    public List<SiPaAreasConfiguraciones> getSettings(String idArea, String api){
-        List<SiPaAreasConfiguraciones> list = null;
-        try {
-            String json = readUrl(api+"?coomon=settings&idarea="+idArea);
-            if (!json.isEmpty()){
-                Type listType = new TypeToken<List<SiPaAreasConfiguraciones>>(){}.getType();
-
-                list = new Gson().fromJson(json,listType);
-            }else list = new ArrayList<>();
+            Query query = em.createNativeQuery("SELECT * FROM SIIUAT.SIAXCONFIGURACIONES WHERE IDAREA = ?", SiPaAreasConfiguraciones.class);
+            query.setParameter(1, idArea);
+            list = (SiPaAreasConfiguraciones) query.getSingleResult();
         }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        return list;
-    }
-
-    public List<SiPaAreasConfiguraciones> getConfig(String idArea){
-        List<SiPaAreasConfiguraciones> list = null;
-        try {
-            String query = "SELECT * FROM SIIUAT.SIAXCONFIGURACIONES WHERE IDAREA = "+idArea;
-            list = em.createNativeQuery(query, SiPaAreasConfiguraciones.class).getResultList();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage()+"\n"+e.getCause());
         }
         return list;
     }
@@ -196,11 +153,17 @@ public class areasDAO implements Serializable {
         return flag;
     }
 
+    @Transactional
     public List<SIMSCITAS> obtenerCitasToCalendar(String strIdArea){
         List<SIMSCITAS> list = null;
         try {
             Query query = em.createNativeQuery("SELECT * FROM SIIUAT.SIMSCITAS  WHERE IDAREACAMPUS = ?", SIMSCITAS.class);
             query.setParameter(1, strIdArea);
+
+//            Properties props = new Properties();
+//            props.put("eclipselink.weaving", "static");
+
+
             list = query.getResultList();
         }catch (Exception e){
             logger.error(e.getMessage()+"\n"+e.getCause());

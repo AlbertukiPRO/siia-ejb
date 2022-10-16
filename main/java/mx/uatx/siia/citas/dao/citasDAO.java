@@ -1,16 +1,14 @@
-package mx.uatx.siia.citas.modelo.dao;
+package mx.uatx.siia.citas.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import mx.uatx.siia.citas.modelo.MisCitas;
-import mx.uatx.siia.citas.modelo.SIMSCITAS;
-import mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics;
-import mx.uatx.siia.citas.modelo.enums.URLs;
-import mx.uatx.siia.serviciosUniversitarios.dto.CitasTO;
+import mx.uatx.siia.citas.MisCitas;
+import mx.uatx.siia.citas.SIMSCITAS;
+import mx.uatx.siia.citas.citasBusiness.MethodsGenerics;
+import mx.uatx.siia.citas.enums.URLs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import sun.net.www.protocol.http.HttpURLConnection;
 
@@ -26,7 +24,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static mx.uatx.siia.citas.modelo.citasBusiness.MethodsGenerics.readUrl;
+import static mx.uatx.siia.citas.citasBusiness.MethodsGenerics.readUrl;
 
 @Repository
     /*
@@ -102,21 +100,24 @@ public class citasDAO implements Serializable {
     }
 
     @Transactional
-    public boolean reservarHorario(){
-        boolean flag = false;
+    public void reservarHorario(String[] params1, String[] params2){
 
-        Query query = entityManager.createNativeQuery("  ");
+        Query queryExcepciones = entityManager.createNativeQuery("INSERT INTO SIIUAT.SIEXCEPCIONES (IDEXCEPCION, FECHAEXCEPCION, HORAEXEPCION, FCAUDIT, USERAUDIT) VALUES " +
+                "(SIIUAT.IDEXCEPCION.nextval, ?, ?, sysdate, ?)");
+        queryExcepciones.setParameter(1, params1[0]);
+        queryExcepciones.setParameter(2, params1[1]);
+        queryExcepciones.setParameter(3, params1[2]);
+        queryExcepciones.executeUpdate();
 
-        return true;
+        Query queryFechasYHorarios = entityManager.createNativeQuery("INSERT INTO SIIUAT.SIAXFECHASHORARIOS (IDFECHAHORA, IDAREACAMPUS, IDEXCEPCIONES, FCAUDIT, USERAUDIT) VALUES " +
+                "(SIIUAT.IDFECHAHORA.nextval, ?, SIIUAT.IDEXCEPCION.currval, sysdate, ?)");
+        queryFechasYHorarios.setParameter(1, params2[0]);
+        queryFechasYHorarios.setParameter(2, params2[1]);
+        queryFechasYHorarios.executeUpdate();
+
+        logger.info("--> RES OF QUERY [Save EXCEPCIONES Y FECHAS] => "+entityManager.getTransaction().getRollbackOnly());
+
     }
-
-    public String getNumCita(String apirest, String iduser, String idtramite){
-
-        System.out.println("----- Finish get num Citas ----");
-
-        return readUrl(apirest+"?user="+iduser+"&tramite="+idtramite);
-    }
-
 
     /**
      * Metodo para obtener las citas agendadas por el usuario
@@ -275,9 +276,6 @@ public class citasDAO implements Serializable {
             hours = new ArrayList<>();
 
         return hours;
-    }
-    public boolean reservarHora(String api) {
-        return MethodsGenerics.readUrl(api).equals("1");
     }
 
 }

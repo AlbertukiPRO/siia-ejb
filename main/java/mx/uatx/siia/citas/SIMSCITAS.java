@@ -1,16 +1,11 @@
-package mx.uatx.siia.citas.modelo;
-
-
+package mx.uatx.siia.citas;
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "SIIUAT.SIMSCITAS")
-public class SIMSCITAS implements Serializable {
+public class SIMSCITAS  {
     /**
      * Serial VersionUID
      */
-    private static final long serialVersionUID = -4748540113039819136L;
     @Id
     @SequenceGenerator(name = "IDCITA", sequenceName = "IDCITA", allocationSize = 1)
     @Column(name = "IDCITA")
