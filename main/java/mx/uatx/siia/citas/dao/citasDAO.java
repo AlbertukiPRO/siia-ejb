@@ -35,10 +35,7 @@ La anotación se utiliza para indicar que la clase proporciona es el mecanismo p
 public class citasDAO implements Serializable {
     @PersistenceContext(name = "SIIA")
     private EntityManager entityManager;
-
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-
 
     @Transactional()
     public boolean nuevaCita(final SIMSCITAS cita){
@@ -100,23 +97,34 @@ public class citasDAO implements Serializable {
     }
 
     @Transactional
-    public void reservarHorario(String[] params1, String[] params2){
+    public boolean reservarHorario(String[] params1){
 
-        Query queryExcepciones = entityManager.createNativeQuery("INSERT INTO SIIUAT.SIEXCEPCIONES (IDEXCEPCION, FECHAEXCEPCION, HORAEXEPCION, FCAUDIT, USERAUDIT) VALUES " +
+        Query queryExcepciones = entityManager.createNativeQuery("" +
+                "INSERT INTO SIIUAT.SIEXCEPCIONES (IDEXCEPCION, FECHAEXCEPCION, HORAEXEPCION, FCAUDIT, USERAUDIT) VALUES " +
                 "(SIIUAT.IDEXCEPCION.nextval, ?, ?, sysdate, ?)");
         queryExcepciones.setParameter(1, params1[0]);
         queryExcepciones.setParameter(2, params1[1]);
         queryExcepciones.setParameter(3, params1[2]);
         queryExcepciones.executeUpdate();
 
+        return true;
+    }
+
+    @Transactional
+    public Integer getIdEx(){
+        Query getIdEx = entityManager.createNativeQuery("SELECT * FROM ( SELECT SIEXCEPCIONES.IDEXCEPCION FROM SIIUAT.SIEXCEPCIONES order by IDEXCEPCION DESC ) where ROWNUM <= 1");
+        logger.info("RESULTADOS => "+getIdEx.getSingleResult());
+        return Integer.parseInt(getIdEx.getSingleResult().toString());
+    }
+
+    @Transactional
+    public void insertFechas(String[] params2, Integer index){
         Query queryFechasYHorarios = entityManager.createNativeQuery("INSERT INTO SIIUAT.SIAXFECHASHORARIOS (IDFECHAHORA, IDAREACAMPUS, IDEXCEPCIONES, FCAUDIT, USERAUDIT) VALUES " +
-                "(SIIUAT.IDFECHAHORA.nextval, ?, SIIUAT.IDEXCEPCION.currval, sysdate, ?)");
+                "(SIIUAT.IDFECHAHORA.nextval, ?, ?, sysdate, ?)");
         queryFechasYHorarios.setParameter(1, params2[0]);
-        queryFechasYHorarios.setParameter(2, params2[1]);
+        queryFechasYHorarios.setParameter(2, index);
+        queryFechasYHorarios.setParameter(3, params2[1]);
         queryFechasYHorarios.executeUpdate();
-
-        logger.info("--> RES OF QUERY [Save EXCEPCIONES Y FECHAS] => "+entityManager.getTransaction().getRollbackOnly());
-
     }
 
     /**

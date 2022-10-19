@@ -45,14 +45,6 @@ public class CitaBusiness implements Serializable {
 
             boolean flag = citasDAO.nuevaCita(citas);
 
-            // TODO check if this functioned.
-
-            String[] params1 = new String[]{ formData.get("fecha").toString(),formData.get("hora").toString(), "20181837"  };
-            String[] params2 = new String[]{ formData.get("idarea").toString(), "20181837" };
-            logger.info("--- CITAS RUN SAVE HORARIO ---");
-            citasDAO.reservarHorario(params1, params2);
-
-
             if (flag){
                 resultado.setObjeto(flag);
                 resultado.setBlnValido(true);
@@ -106,6 +98,21 @@ public class CitaBusiness implements Serializable {
             }else resultado.setBlnValido(false);
         }catch (Exception e){
             resultado.setBlnValido(false);
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+        return resultado;
+    }
+
+    public ResultadoTO reservarHorarios(String[] p1, String[] p2){
+
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            boolean flag = citasDAO.reservarHorario(p1);
+            Integer index = citasDAO.getIdEx();
+            citasDAO.insertFechas(p2, index);
+            resultado.setBlnValido(true);
+            resultado.setObjeto(flag);
+        }catch (Exception e) {
             logger.error(e.getMessage()+"\n"+e.getCause());
         }
         return resultado;
