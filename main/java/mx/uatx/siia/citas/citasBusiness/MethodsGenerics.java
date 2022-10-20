@@ -109,7 +109,7 @@ public class MethodsGenerics {
     public static Date getDateToFullCalendar(String strdate){
         Date date = null;
         try{
-            date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").parse(strdate);
+            date = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm").parse(strdate);
         }catch (Exception  e){
             System.out.println(e);
         }

@@ -5,10 +5,26 @@ public class CitasTO {
     private Integer intIdCita;
     private Integer intIdAlumno;
     private Integer intIdArea;
-    private Integer intIdTramite;
-    private String strDescripcionTramite;
+    private Integer intTramite;
+    private String strDescripcionCita;
     private String strEstatus;
-    private String strFechaReserva;
+    private String strFechaReservada;
+    private String strHoraReservada;
+    private String strRetroalimentacion;
+
+
+    /* EXTRA PARAMS */
+
+    private String strNombreUser;
+    private String strPrograma;
+    private String strFacultad;
+    private Integer strGrado;
+    private String strGrupo;
+    private String strCorreo;
+
+    public CitasTO(){
+
+    }
 
     public Integer getIntIdCita() {
         return intIdCita;
@@ -34,20 +50,36 @@ public class CitasTO {
         this.intIdArea = intIdArea;
     }
 
-    public Integer getIntIdTramite() {
-        return intIdTramite;
-    }
-
-    public void setIntIdTramite(Integer intIdTramite) {
-        this.intIdTramite = intIdTramite;
-    }
-
     public String getStrDescripcionTramite() {
-        return strDescripcionTramite;
+        return strDescripcionCita;
     }
 
     public void setStrDescripcionTramite(String strDescripcionTramite) {
-        this.strDescripcionTramite = strDescripcionTramite;
+        this.strDescripcionCita = strDescripcionTramite;
+    }
+
+    public Integer getIntTramite() {
+        return intTramite;
+    }
+
+    public void setIntTramite(Integer intTramite) {
+        this.intTramite = intTramite;
+    }
+
+    public String getStrDescripcionCita() {
+        return strDescripcionCita;
+    }
+
+    public void setStrDescripcionCita(String strDescripcionCita) {
+        this.strDescripcionCita = strDescripcionCita;
+    }
+
+    public String getStrFechaReservada() {
+        return strFechaReservada;
+    }
+
+    public void setStrFechaReservada(String strFechaReservada) {
+        this.strFechaReservada = strFechaReservada;
     }
 
     public String getStrEstatus() {
@@ -56,14 +88,6 @@ public class CitasTO {
 
     public void setStrEstatus(String strEstatus) {
         this.strEstatus = strEstatus;
-    }
-
-    public String getStrFechaReserva() {
-        return strFechaReserva;
-    }
-
-    public void setStrFechaReserva(String strFechaReserva) {
-        this.strFechaReserva = strFechaReserva;
     }
 
     public String getStrRetroalimentacion() {
@@ -82,11 +106,53 @@ public class CitasTO {
         this.strHoraReservada = strHoraReservada;
     }
 
-    private String strRetroalimentacion;
-    private String strHoraReservada;
 
-    public CitasTO(){
+    public String getStrNombreUser() {
+        return strNombreUser;
+    }
 
+    public void setStrNombreUser(String strNombreUser) {
+        this.strNombreUser = strNombreUser;
+    }
+
+    public String getStrPrograma() {
+        return strPrograma;
+    }
+
+    public void setStrPrograma(String strPrograma) {
+        this.strPrograma = strPrograma;
+    }
+
+    public String getStrFacultad() {
+        return strFacultad;
+    }
+
+    public void setStrFacultad(String strFacultad) {
+        this.strFacultad = strFacultad;
+    }
+
+    public Integer getStrGrado() {
+        return strGrado;
+    }
+
+    public void setStrGrado(Integer strGrado) {
+        this.strGrado = strGrado;
+    }
+
+    public String getStrGrupo() {
+        return strGrupo;
+    }
+
+    public void setStrGrupo(String strGrupo) {
+        this.strGrupo = strGrupo;
+    }
+
+    public String getStrCorreo() {
+        return strCorreo;
+    }
+
+    public void setStrCorreo(String strCorreo) {
+        this.strCorreo = strCorreo;
     }
 
     @Override
@@ -95,10 +161,10 @@ public class CitasTO {
                 "intIdCita=" + intIdCita +
                 ", intIdAlumno=" + intIdAlumno +
                 ", intIdArea=" + intIdArea +
-                ", intIdTramite=" + intIdTramite +
-                ", strDescripcionTramite='" + strDescripcionTramite + '\'' +
+                ", intIdTramite=" + intTramite +
+                ", strDescripcionTramite='" + strDescripcionCita + '\'' +
                 ", strEstatus='" + strEstatus + '\'' +
-                ", strFechaReserva='" + strFechaReserva + '\'' +
+                ", strFechaReserva='" + strFechaReservada + '\'' +
                 ", strRetroalimentacion='" + strRetroalimentacion + '\'' +
                 ", strHoraReservada='" + strHoraReservada + '\'' +
                 '}';

@@ -157,18 +157,22 @@ public class areasDAO implements Serializable {
     public List<SIMSCITAS> obtenerCitasToCalendar(String strIdArea){
         List<SIMSCITAS> list = null;
         try {
-            Query query = em.createNativeQuery("SELECT * FROM SIIUAT.SIMSCITAS  WHERE IDAREACAMPUS = ?", SIMSCITAS.class);
+            Query query = em.createNativeQuery("SELECT * FROM SIIUAT.SIMSCITAS WHERE IDAREACAMPUS = ?", SIMSCITAS.class);
             query.setParameter(1, strIdArea);
-
-//            Properties props = new Properties();
-//            props.put("eclipselink.weaving", "static");
-
 
             list = query.getResultList();
         }catch (Exception e){
             logger.error(e.getMessage()+"\n"+e.getCause());
         }
         return list;
+    }
+
+    @Transactional
+    public SIMSCITAS obtenerCita(Long longIdUser, Long longIdCita){
+        Query query = em.createNativeQuery("SELECT 'Yair Ivan Valencia Perez' NOMBRE, 'Ingeniería en computación' PROGRAMA, 'Facultad de Ciencias Básicas Ingeniería y Tecnología' FACULTAD, 9 GRADO, 'B' GRUPO, '200181837@uat.mx.com' CORREO, SIMSCITAS.* FROM SIIUAT.SIMSCITAS WHERE IDHISTORIALACADEMICO = ? and IDCITA = ?", SIMSCITAS.class);
+        query.setParameter(1, longIdUser);
+        query.setParameter(2, longIdCita);
+        return (SIMSCITAS) query.getSingleResult();
     }
 
     /*-------------------------  METODOS LOCALES PARA USO DE PHP Y MYSQL  -----------------------------*/

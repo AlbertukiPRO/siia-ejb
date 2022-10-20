@@ -102,31 +102,6 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
-    /*----------------------------------------------------------------------------------------*/
-
-    /**
-     * @deprecated metodo local para uso con php y msql
-     * @param url del api rest para los horarios reservados en la base de datos.
-     * @return List de Strings de Horarios que no se mostraran.
-     */
-    public ResultadoTO obtenerFechasFromDB(String url, String idArea){
-
-        final ResultadoTO resultado = new ResultadoTO(true);
-
-        try {
-            final List<String> horarios = areasDAO.getFechasDB(url, idArea);
-            if (horarios == null){
-                resultado.setBlnValido(false);
-            }else{
-                resultado.setObjeto(horarios);
-            }
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            resultado.setBlnValido(false);
-        }
-        return resultado;
-    }
-
 
     public ResultadoTO obtenerEventos(String idarea){
         ResultadoTO resultado = new ResultadoTO(true);
@@ -141,6 +116,45 @@ public class AreasBusiness implements Serializable {
         }
         return resultado;
     }
+
+    public ResultadoTO obtenerCita(Long longIdUser, Long longIdCita){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final SIMSCITAS cita = areasDAO.obtenerCita(longIdUser, longIdCita);
+            if (cita==null) {
+                resultado.setBlnValido(false);
+            } else resultado.setObjeto(cita);
+        }catch (Exception e){
+            resultado.setBlnValido(false);
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+        return resultado;
+    }
+    /*----------------------------------------------------------------------------------------*/
+
+    /*
+     * @deprecated metodo local para uso con php y msql
+     * @param url del api rest para los horarios reservados en la base de datos.
+     * @return List de Strings de Horarios que no se mostraran.
+     */
+//    public ResultadoTO obtenerFechasFromDB(String url, String idArea){
+//
+//        final ResultadoTO resultado = new ResultadoTO(true);
+//
+//        try {
+//            final List<String> horarios = areasDAO.getFechasDB(url, idArea);
+//            if (horarios == null){
+//                resultado.setBlnValido(false);
+//            }else{
+//                resultado.setObjeto(horarios);
+//            }
+//        }catch (Exception e){
+//            logger.error(e.getMessage());
+//            resultado.setBlnValido(false);
+//        }
+//        return resultado;
+//    }
+
 
     public ResultadoTO obtenerEventosMariaDB(String idarea){
         ResultadoTO resultado = new ResultadoTO(true);
@@ -201,27 +215,5 @@ public class AreasBusiness implements Serializable {
         }
         return resultado;
     }
-
-
-//    public List<AreasTO> ObtenerAreas(){
-//        final ResultadoTO res = new ResultadoTO(true);
-//
-//        List<AreasTO> listAreas = null;
-//
-//       try {
-//           final AreasTO loadAreas = areasDAO.obtenerAreas();
-//
-//           //TODO: Agregar listAreas.add(new AreasTO("",""))
-//           listAreas.add(loadAreas);
-//
-//           if (loadAreas == null){
-//               res.agregarMensaje(SeveridadMensajeEnum.ERROR, "comun.msj.citas.nuevacita.error");
-//               res.setBlnValido(false);
-//           }
-//       }catch (Exception exception){
-//
-//       }
-//        return listAreas;
-//    }
 
 }

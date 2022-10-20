@@ -38,6 +38,21 @@ public class SIMSCITAS  {
     @Column(name = "USERAUDIT")
     private String strUSERAUDIT;
 
+    /** attributes que seran agregados después en el sql join **/
+
+    @Column(name = "NOMBRE")
+    private String strNombreUser;
+    @Column(name = "PROGRAMA")
+    private String strPrograma;
+    @Column(name = "FACULTAD")
+    private String strFacultad;
+    @Column(name = "GRADO")
+    private Integer strGrado;
+    @Column(name = "GRUPO")
+    private String strGrupo;
+    @Column(name = "CORREO")
+    private String strCorreo;
+
     /* GETTERS AND SETTERS */
 
     public Integer getIntIdCita() {
@@ -118,6 +133,55 @@ public class SIMSCITAS  {
 
     public void setStrHoraReservada(String strHoraReservada) {
         this.strHoraReservada = strHoraReservada;
+    }
+
+
+    public String getStrNombreUser() {
+        return strNombreUser;
+    }
+
+    public void setStrNombreUser(String strNombreUser) {
+        this.strNombreUser = strNombreUser;
+    }
+
+    public String getStrPrograma() {
+        return strPrograma;
+    }
+
+    public void setStrPrograma(String strPrograma) {
+        this.strPrograma = strPrograma;
+    }
+
+    public String getStrFacultad() {
+        return strFacultad;
+    }
+
+    public void setStrFacultad(String strFacultad) {
+        this.strFacultad = strFacultad;
+    }
+
+    public Integer getStrGrado() {
+        return strGrado;
+    }
+
+    public void setStrGrado(Integer strGrado) {
+        this.strGrado = strGrado;
+    }
+
+    public String getStrGrupo() {
+        return strGrupo;
+    }
+
+    public void setStrGrupo(String strGrupo) {
+        this.strGrupo = strGrupo;
+    }
+
+    public String getStrCorreo() {
+        return strCorreo;
+    }
+
+    public void setStrCorreo(String strCorreo) {
+        this.strCorreo = strCorreo;
     }
 
     @Override
