@@ -40,6 +40,8 @@ public class SIMSCITAS  {
 
     /** attributes que seran agregados después en el sql join **/
 
+    @Column(name = "IDHISTORIALACADEMICO")
+    private Integer longHistorialAcademico;
     @Column(name = "NOMBRE")
     private String strNombreUser;
     @Column(name = "PROGRAMA")
@@ -52,6 +54,10 @@ public class SIMSCITAS  {
     private String strGrupo;
     @Column(name = "CORREO")
     private String strCorreo;
+    @Column(name = "NBAREA")
+    private String strNameArea;
+    @Column(name = "NOMBRETRAMITE")
+    private String strNameTramite;
 
     /* GETTERS AND SETTERS */
 
@@ -107,6 +113,14 @@ public class SIMSCITAS  {
         return strFechaReservada;
     }
 
+    public Integer getLongHistorialAcademico() {
+        return longHistorialAcademico;
+    }
+
+    public void setLongHistorialAcademico(Integer longHistorialAcademico) {
+        this.longHistorialAcademico = longHistorialAcademico;
+    }
+
     public void setStrFechaReservada(String strFechaReservada) {
         this.strFechaReservada = strFechaReservada;
     }
@@ -135,6 +149,21 @@ public class SIMSCITAS  {
         this.strHoraReservada = strHoraReservada;
     }
 
+    public String getStrNameArea() {
+        return strNameArea;
+    }
+
+    public void setStrNameArea(String strNameArea) {
+        this.strNameArea = strNameArea;
+    }
+
+    public String getStrNameTramite() {
+        return strNameTramite;
+    }
+
+    public void setStrNameTramite(String strNameTramite) {
+        this.strNameTramite = strNameTramite;
+    }
 
     public String getStrNombreUser() {
         return strNombreUser;
@@ -197,6 +226,8 @@ public class SIMSCITAS  {
                 ", strRetroalimentacion='" + strRetroalimentacion + '\'' +
                 ", strHoraReservada='" + strHoraReservada + '\'' +
                 ", strUSERAUDIT='" + strUSERAUDIT + '\'' +
+                ", NBAREA='" +  + '\'' +
+                ", NOMBRETRAMITE='" + strUSERAUDIT + '\'' +
                 '}';
     }
 }

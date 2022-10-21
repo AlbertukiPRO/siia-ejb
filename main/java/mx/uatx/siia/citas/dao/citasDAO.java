@@ -127,6 +127,20 @@ public class citasDAO implements Serializable {
         queryFechasYHorarios.executeUpdate();
     }
 
+    @Transactional
+    public List<SIMSCITAS> obtenerCitasPorTramite(long idtramite, long idarea){
+        Query query = entityManager.createNativeQuery(" SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBRE, 'Ingeniería en computación' PROGRAMA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA " +
+                "FROM SIMSCITAS " +
+                "INNER JOIN SIIUAT.SICTTRAMITES T on T.IDTRAMITE = SIMSCITAS.IDTRAMITE " +
+                "where SIMSCITAS.IDTRAMITE = ? and SIMSCITAS.IDAREACAMPUS = ? ", SIMSCITAS.class);
+        query.setParameter(1, idtramite);
+        query.setParameter(2, idarea);
+
+        return (List<SIMSCITAS>) query.getSingleResult();
+    }
+
+    /*------------------------------------------------------------------------*/
+
     /**
      * Metodo para obtener las citas agendadas por el usuario
      * @param api URL string del servicio

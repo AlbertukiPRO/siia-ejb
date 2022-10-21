@@ -121,6 +121,7 @@ public class AreasBusiness implements Serializable {
         ResultadoTO resultado = new ResultadoTO(true);
         try {
             final SIMSCITAS cita = areasDAO.obtenerCita(longIdUser, longIdCita);
+            logger.info(cita.toString());
             if (cita==null) {
                 resultado.setBlnValido(false);
             } else resultado.setObjeto(cita);

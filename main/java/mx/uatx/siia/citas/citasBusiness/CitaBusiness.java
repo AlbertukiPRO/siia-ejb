@@ -118,6 +118,25 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO GenerarReportePorTipoTramite(long longIdTramite, long longIdArea){
+
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final List<SIMSCITAS> list = citasDAO.obtenerCitasPorTramite(longIdTramite, longIdArea);
+            if (list==null)
+                resultado.setBlnValido(false);
+            else
+               resultado.setObjeto(list);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+
+        return resultado;
+    }
+
+    /*----------------------------------------*/
+
+
     public ResultadoTO saveDataDB(Map<String, Object> dataCita, String restService) {
         final ResultadoTO resultado  = new ResultadoTO(true);
 

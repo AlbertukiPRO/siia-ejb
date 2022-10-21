@@ -169,7 +169,10 @@ public class areasDAO implements Serializable {
 
     @Transactional
     public SIMSCITAS obtenerCita(Long longIdUser, Long longIdCita){
-        Query query = em.createNativeQuery("SELECT 'Yair Ivan Valencia Perez' NOMBRE, 'Ingeniería en computación' PROGRAMA, 'Facultad de Ciencias Básicas Ingeniería y Tecnología' FACULTAD, 9 GRADO, 'B' GRUPO, '200181837@uat.mx.com' CORREO, SIMSCITAS.* FROM SIIUAT.SIMSCITAS WHERE IDHISTORIALACADEMICO = ? and IDCITA = ?", SIMSCITAS.class);
+        Query query = em.createNativeQuery("SELECT 'Yair Ivan Valencia Perez' NOMBRE, 'Ingeniería en computación' PROGRAMA, 'Facultad de Ciencias Básicas Ingeniería y Tecnología' FACULTAD, 9 GRADO, 'B' GRUPO, '200181837@uat.mx.com' CORREO, S.NBAREA, T.NOMBRETRAMITE, " +
+                "       SIMSCITAS.* FROM SIIUAT.SIMSCITAS INNER JOIN SIIUAT.SICTAREAS S on SIMSCITAS.IDAREACAMPUS = S.CLAREA " +
+                "                                         INNER JOIN SIIUAT.SICTTRAMITES T on T.IDTRAMITE = SIMSCITAS.IDTRAMITE " +
+                "                   WHERE SIMSCITAS.IDHISTORIALACADEMICO = ? and IDCITA = ?", SIMSCITAS.class);
         query.setParameter(1, longIdUser);
         query.setParameter(2, longIdCita);
         return (SIMSCITAS) query.getSingleResult();

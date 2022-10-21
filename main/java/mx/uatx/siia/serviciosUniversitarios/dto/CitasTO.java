@@ -15,6 +15,9 @@ public class CitasTO {
 
     /* EXTRA PARAMS */
 
+    private Integer longHistorialAcademico;
+    private String strNameArea;
+    private String strNameTramite;
     private String strNombreUser;
     private String strPrograma;
     private String strFacultad;
@@ -115,6 +118,14 @@ public class CitasTO {
         this.strNombreUser = strNombreUser;
     }
 
+    public Integer getLongHistorialAcademico() {
+        return longHistorialAcademico;
+    }
+
+    public void setLongHistorialAcademico(Integer longHistorialAcademico) {
+        this.longHistorialAcademico = longHistorialAcademico;
+    }
+
     public String getStrPrograma() {
         return strPrograma;
     }
@@ -151,6 +162,22 @@ public class CitasTO {
         return strCorreo;
     }
 
+    public String getStrNameArea() {
+        return strNameArea;
+    }
+
+    public void setStrNameArea(String strNameArea) {
+        this.strNameArea = strNameArea;
+    }
+
+    public String getStrNameTramite() {
+        return strNameTramite;
+    }
+
+    public void setStrNameTramite(String strNameTramite) {
+        this.strNameTramite = strNameTramite;
+    }
+
     public void setStrCorreo(String strCorreo) {
         this.strCorreo = strCorreo;
     }
@@ -167,6 +194,8 @@ public class CitasTO {
                 ", strFechaReserva='" + strFechaReservada + '\'' +
                 ", strRetroalimentacion='" + strRetroalimentacion + '\'' +
                 ", strHoraReservada='" + strHoraReservada + '\'' +
+                ", NBAREA='" + strNameArea + '\'' +
+                ", NOMBRETRAMITE='" + strNameTramite + '\'' +
                 '}';
     }
 }
