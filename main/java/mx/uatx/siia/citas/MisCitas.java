@@ -15,50 +15,39 @@ public class MisCitas {
     @Column(name = "RETROALIMENTACIONCITA")
     private String strRepuesta;
     @Column(name = "FECHARESERVADACITA")
-    private String strFechaHoraReservada;
+    private String strFechaReservada;
     @Column(name = "FECHARESERVADACITA_1")
-    private String strHora;
+    private String strHoraReservada;
     @Column(name = "ESTATUSCITAS")
     private String strEstatus;
     @Column(name = "IDHISTORIALACADEMICO")
-    private String strUser;
+    private String strIdHistorial;
     @Column(name = "NBAREA")
     private String area;
     @Column(name = "NOMBRETRAMITE")
-    private String strtramite;
-    @Column(name = "STRUSER")
+    private String strNameTramite;
+    @Column(name = "NOMBREUSER")
     private String strNombre;
+    @Column(name = "MATRICULA")
+    private String strMatricula;
+    @Column(name = "PROGRAMA")
     private String strPrograma;
+
     private String facultad;
     private String semestre;
     private String grupo;
-    private String fotoPerfil;
-
-    public MisCitas(String strNombre){
-        this.strNombre = strNombre;
-    }
+    private String nombre;
 
     public MisCitas() {
 
     }
 
+    public MisCitas(String strNombre){
+        this.strNombre = strNombre;
+    }
+
     public String getStrIdCita() {
         return strIdCita;
-    }
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getTramite() {
-        return strtramite;
-    }
-
-    public void setTramite(String tramite) {
-        this.strtramite = tramite;
     }
 
     public void setStrIdCita(String strIdCita) {
@@ -74,23 +63,59 @@ public class MisCitas {
     }
 
     public String getStrRepuesta() {
-        return strRepuesta != null ? strRepuesta : " ";
+        return strRepuesta;
     }
 
     public void setStrRepuesta(String strRepuesta) {
         this.strRepuesta = strRepuesta;
     }
 
-    public String getStrFechaHoraReservada() {
-        return strFechaHoraReservada;
+    public String getStrFechaReservada() {
+        return strFechaReservada;
     }
 
-    public String getStrtramite() {
-        return strtramite;
+    public void setStrFechaReservada(String strFechaReservada) {
+        this.strFechaReservada = strFechaReservada;
     }
 
-    public void setStrtramite(String strtramite) {
-        this.strtramite = strtramite;
+    public String getStrHoraReservada() {
+        return strHoraReservada;
+    }
+
+    public void setStrHoraReservada(String strHoraReservada) {
+        this.strHoraReservada = strHoraReservada;
+    }
+
+    public String getStrEstatus() {
+        return strEstatus;
+    }
+
+    public void setStrEstatus(String strEstatus) {
+        this.strEstatus = strEstatus;
+    }
+
+    public String getStrIdHistorial() {
+        return strIdHistorial;
+    }
+
+    public void setStrIdHistorial(String strIdHistorial) {
+        this.strIdHistorial = strIdHistorial;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getStrNameTramite() {
+        return strNameTramite;
+    }
+
+    public void setStrNameTramite(String strNameTramite) {
+        this.strNameTramite = strNameTramite;
     }
 
     public String getStrNombre() {
@@ -101,6 +126,14 @@ public class MisCitas {
         this.strNombre = strNombre;
     }
 
+    public String getStrMatricula() {
+        return strMatricula;
+    }
+
+    public void setStrMatricula(String strMatricula) {
+        this.strMatricula = strMatricula;
+    }
+
     public String getStrPrograma() {
         return strPrograma;
     }
@@ -109,47 +142,20 @@ public class MisCitas {
         this.strPrograma = strPrograma;
     }
 
-    public String getStrHora() {
-        return strHora;
-    }
-
-    public void setStrHora(String strHora) {
-        this.strHora = strHora;
-    }
-
-    public void setStrFechaHoraReservada(String strFechaHoraReservada) { this.strFechaHoraReservada = strFechaHoraReservada;}
-
-    public String getStrEstatus() {
-        return strEstatus;
-    }
-
-    public void setStrEstatus(String strEstatus) {
-        this.strEstatus = strEstatus;
-    }
-
-    public String getStrUser() {
-        return strUser;
-    }
-
-    public void setStrUser(String strUser) {
-        this.strUser = strUser;
-    }
-
-
     @Override
     public String toString() {
         return "MisCitas{" +
                 "strIdCita='" + strIdCita + '\'' +
                 ", strDescripcionCita='" + strDescripcionCita + '\'' +
                 ", strRepuesta='" + strRepuesta + '\'' +
-                ", strFechaHoraReservada='" + strFechaHoraReservada + '\'' +
+                ", strFechaHoraReservada='" + strFechaReservada + '\'' +
                 ", strEstatus='" + strEstatus + '\'' +
-                ", strUser='" + strUser + '\'' +
+                ", strUser='" + strIdHistorial + '\'' +
                 ", area='" + area + '\'' +
-                ", strtramite='" + strtramite + '\'' +
+                ", strNameTramite='" + strNameTramite + '\'' +
                 ", strNombre='" + strNombre + '\'' +
                 ", strPrograma='" + strPrograma + '\'' +
-                ", strHora='" + strHora + '\'' +
+                ", strHora='" + strHoraReservada + '\'' +
                 '}';
     }
 }

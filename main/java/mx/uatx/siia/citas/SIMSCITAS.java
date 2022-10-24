@@ -11,8 +11,8 @@ public class SIMSCITAS  {
     @Column(name = "IDCITA")
     private Integer intIdCita;
 
-    @Column(name="IDHISTORIALACADEMICO")
-    private Long intIdAlumno;
+    @Column(name="MATRICULA")
+    private Integer intMatricula;
 
     @Column(name="IDAREACAMPUS")
     private Integer intIdArea;
@@ -69,12 +69,12 @@ public class SIMSCITAS  {
         this.intIdCita = intIdCita;
     }
 
-    public Long getIntIdAlumno() {
-        return intIdAlumno;
+    public Integer getIntMatricula() {
+        return intMatricula;
     }
 
-    public void setIntIdAlumno(Long intIdAlumno) {
-        this.intIdAlumno = intIdAlumno;
+    public void setIntMatricula(Integer intIdAlumno) {
+        this.intMatricula = intIdAlumno;
     }
 
     public Integer getIntIdArea() {
@@ -217,7 +217,7 @@ public class SIMSCITAS  {
     public String toString() {
         return "SiPaCitas{" +
                 "intIdCita=" + intIdCita +
-                ", intIdAlumno=" + intIdAlumno +
+                ", intIdAlumno=" + intMatricula +
                 ", intIdArea=" + intIdArea +
                 ", intTramite=" + intTramite +
                 ", strDescripcionCita='" + strDescripcionCita + '\'' +

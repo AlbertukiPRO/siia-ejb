@@ -157,7 +157,7 @@ public class areasDAO implements Serializable {
     public List<SIMSCITAS> obtenerCitasToCalendar(String strIdArea){
         List<SIMSCITAS> list = null;
         try {
-            Query query = em.createNativeQuery("SELECT * FROM SIIUAT.SIMSCITAS WHERE IDAREACAMPUS = ?", SIMSCITAS.class);
+            Query query = em.createNativeQuery("SELECT 20082306 MATRICULA, SIMSCITAS.* FROM SIIUAT.SIMSCITAS WHERE IDAREACAMPUS = ?", SIMSCITAS.class);
             query.setParameter(1, strIdArea);
 
             list = query.getResultList();

@@ -41,7 +41,7 @@ public class citasDAO implements Serializable {
     public boolean nuevaCita(final SIMSCITAS cita){
         try {
             Query query = entityManager.createNativeQuery("INSERT INTO SIIUAT.SIMSCITAS (IDCITA, IDHISTORIALACADEMICO, IDAREACAMPUS, IDTRAMITE, DESCRIPCIONCITA, ESTATUSCITAS, FECHARESERVADACITA, RETROALIMENTACIONCITA, FECHARESERVADACITA_1, FCAUDIT, USERAUDIT) VALUES (SIIUAT.IDCITA.nextval, ?, ?, ?, ?, ?, ?, ?, ?, sysdate, ?)");
-            query.setParameter(1, cita.getIntIdAlumno());
+            query.setParameter(1, cita.getLongHistorialAcademico());
             query.setParameter(2,cita.getIntIdArea());
             query.setParameter(3, cita.getIntTramite());
             query.setParameter(4, cita.getStrDescripcionCita());
@@ -128,15 +128,18 @@ public class citasDAO implements Serializable {
     }
 
     @Transactional
-    public List<SIMSCITAS> obtenerCitasPorTramite(long idtramite, long idarea){
-        Query query = entityManager.createNativeQuery(" SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBRE, 'Ingeniería en computación' PROGRAMA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA " +
-                "FROM SIMSCITAS " +
+    public List<MisCitas> obtenerCitasPorTramite(long idtramite, long idarea, String fechaA, String fechaB){
+        Query query = entityManager.createNativeQuery(" SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBREUSER, 'Ingeniería en computación' PROGRAMA, 20082306 MATRICULA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA, SIMSCITAS.IDCITA" +
+                " FROM SIIUAT.SIMSCITAS " +
                 "INNER JOIN SIIUAT.SICTTRAMITES T on T.IDTRAMITE = SIMSCITAS.IDTRAMITE " +
-                "where SIMSCITAS.IDTRAMITE = ? and SIMSCITAS.IDAREACAMPUS = ? ", SIMSCITAS.class);
+                "where SIMSCITAS.IDTRAMITE = ? and SIMSCITAS.IDAREACAMPUS = ? and " +
+                "                      to_date(SIMSCITAS.FCAUDIT, 'dd-mm-yy') BETWEEN to_date(?, 'dd-mm-yy') and to_date(?, 'dd-mm-yy') ", MisCitas.class);
         query.setParameter(1, idtramite);
         query.setParameter(2, idarea);
+        query.setParameter(3, fechaA);
+        query.setParameter(4, fechaB);
 
-        return (List<SIMSCITAS>) query.getSingleResult();
+        return (List<MisCitas>) query.getResultList();
     }
 
     /*------------------------------------------------------------------------*/

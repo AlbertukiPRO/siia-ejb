@@ -3,7 +3,7 @@ package mx.uatx.siia.serviciosUniversitarios.dto;
 public class CitasTO {
 
     private Integer intIdCita;
-    private Integer intIdAlumno;
+    private Integer intMatricula;
     private Integer intIdArea;
     private Integer intTramite;
     private String strDescripcionCita;
@@ -37,12 +37,12 @@ public class CitasTO {
         this.intIdCita = intIdCita;
     }
 
-    public Integer getIntIdAlumno() {
-        return intIdAlumno;
+    public Integer getIntMatricula() {
+        return intMatricula;
     }
 
-    public void setIntIdAlumno(Integer intIdAlumno) {
-        this.intIdAlumno = intIdAlumno;
+    public void setIntMatricula(Integer intMatricula) {
+        this.intMatricula = intMatricula;
     }
 
     public Integer getIntIdArea() {
@@ -185,17 +185,18 @@ public class CitasTO {
     @Override
     public String toString() {
         return "CitasTO{" +
-                "intIdCita=" + intIdCita +
-                ", intIdAlumno=" + intIdAlumno +
-                ", intIdArea=" + intIdArea +
+                "intIdCita=" + intIdCita + " type of " + ((Object)intIdCita).getClass().getSimpleName() +
+                ", intIdAlumno=" + intMatricula +  " type of " +  ((Object)intMatricula).getClass().getSimpleName() +
+                ", longHistorialAcademico=" + longHistorialAcademico +  " type of " +  ((Object)longHistorialAcademico).getClass().getSimpleName() +
                 ", intIdTramite=" + intTramite +
-                ", strDescripcionTramite='" + strDescripcionCita + '\'' +
-                ", strEstatus='" + strEstatus + '\'' +
-                ", strFechaReserva='" + strFechaReservada + '\'' +
-                ", strRetroalimentacion='" + strRetroalimentacion + '\'' +
-                ", strHoraReservada='" + strHoraReservada + '\'' +
-                ", NBAREA='" + strNameArea + '\'' +
-                ", NOMBRETRAMITE='" + strNameTramite + '\'' +
+                ", programa=" + strPrograma +" type of " +  ((Object)strPrograma).getClass().getSimpleName() +
+                ", strDescripcionTramite='" + strDescripcionCita +  " type of " + ((Object)strDescripcionCita).getClass().getSimpleName() +
+                ", strEstatus='" + strEstatus +
+                ", strFechaReserva='" + strFechaReservada +  " type of " + ((Object)strFechaReservada).getClass().getSimpleName() +
+                ", strRetroalimentacion='" + strRetroalimentacion +
+                ", strHoraReservada='" + strHoraReservada +  " type of " + ((Object)strHoraReservada).getClass().getSimpleName() +
+                ", NBAREA='" + strNameArea +
+                ", NOMBRETRAMITE='" + strNameTramite +  " type of " + ((Object)strNameTramite).getClass().getSimpleName() +
                 '}';
     }
 }

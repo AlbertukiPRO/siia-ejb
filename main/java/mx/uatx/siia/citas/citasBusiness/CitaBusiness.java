@@ -33,7 +33,7 @@ public class CitaBusiness implements Serializable {
         try {
 
             SIMSCITAS citas = new SIMSCITAS();
-            citas.setIntIdAlumno((Long) formData.get("idhistorical"));
+            citas.setLongHistorialAcademico(Integer.parseInt(formData.get("idhistorical").toString()));
             citas.setIntTramite(Integer.parseInt(formData.get("idtramite").toString()));
             citas.setIntIdArea(Integer.parseInt(formData.get("idarea").toString()));
             citas.setStrDescripcionCita((String) formData.get("descripcion"));
@@ -118,11 +118,11 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
-    public ResultadoTO GenerarReportePorTipoTramite(long longIdTramite, long longIdArea){
+    public ResultadoTO GenerarReportePorTipoTramite(long longIdTramite, long longIdArea, String f1, String f2){
 
         ResultadoTO resultado = new ResultadoTO(true);
         try {
-            final List<SIMSCITAS> list = citasDAO.obtenerCitasPorTramite(longIdTramite, longIdArea);
+            final List<MisCitas> list = citasDAO.obtenerCitasPorTramite(longIdTramite, longIdArea, f1, f2);
             if (list==null)
                 resultado.setBlnValido(false);
             else
