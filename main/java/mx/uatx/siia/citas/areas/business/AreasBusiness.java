@@ -131,6 +131,19 @@ public class AreasBusiness implements Serializable {
         }
         return resultado;
     }
+
+    public ResultadoTO guardarConfiguracionesArea(long longIdArea, String[] params){
+
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final boolean flag = areasDAO.guardarConfiguracion(longIdArea, params);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
+        }
+        return  resultado;
+    }
+
     /*----------------------------------------------------------------------------------------*/
 
     /*

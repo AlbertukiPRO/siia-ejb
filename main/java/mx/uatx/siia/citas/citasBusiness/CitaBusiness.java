@@ -134,6 +134,20 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO GenerarReporteCitasGlobal(long longidarea, String f1, String f2){
+
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final List<MisCitas> list = citasDAO.obtenerCitasGlobales(longidarea,f1,f2);
+            if (list==null)
+                resultado.setBlnValido(false);
+            else resultado.setObjeto(list);
+        }catch (Exception e) {
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+        return resultado;
+    }
+
     /*----------------------------------------*/
 
 
@@ -203,12 +217,10 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
-    public ResultadoTO getHoursOfCalendarDisable(String idArea, String fecha){
+    public ResultadoTO getHoursOfCalendarDisable(long idArea, String strFecha){
         ResultadoTO resultado = new ResultadoTO(true);
-        List<String> hours;
-
         try {
-            hours = citasDAO.getHoursDisablesCalendar(idArea, fecha, URLs.Commun.getValor());
+            final List<String> hours = citasDAO.obtenerHorasDesactivadasFromCalendar(idArea, strFecha);
             if (hours == null) resultado.setBlnValido(false);
             else resultado.setObjeto(hours);
         }catch (Exception e){

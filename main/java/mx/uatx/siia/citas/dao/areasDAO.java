@@ -135,7 +135,7 @@ public class areasDAO implements Serializable {
                     "(SIIUAT.IDEXCEPCION.nextval, ?, 'all', sysdate, ? ");
             query.setParameter(1, strFecha);
             query.setParameter(2, strUserAudit);
-            flag = (int) query.executeUpdate();
+            flag = query.executeUpdate();
 
             Query query1 = em.createNativeQuery("SELECT * FROM ( SELECT SIIUAT.SIEXCEPCIONES.IDEXCEPCION FROM SIEXCEPCIONES order by IDEXCEPCION DESC ) where ROWNUM <= 1");
             int idException = (int) query1.getSingleResult();
@@ -176,6 +176,16 @@ public class areasDAO implements Serializable {
         query.setParameter(1, longIdUser);
         query.setParameter(2, longIdCita);
         return (SIMSCITAS) query.getSingleResult();
+    }
+
+    @Transactional
+    public boolean guardarConfiguracion(long idArea, String[] params ){
+        Query query = em.createNativeQuery("UPDATE SIIUAT.SIAXCONFIGURACIONES SET HORAINICIO = ?, HORAFIN = ?, NOMBREJEFE = ? WHERE IDAREA = ?");
+        query.setParameter(1, params[0]);
+        query.setParameter(2, params[1]);
+        query.setParameter(3, params[2]);
+        query.setParameter(4, idArea);
+        return query.executeUpdate() != 0;
     }
 
     /*-------------------------  METODOS LOCALES PARA USO DE PHP Y MYSQL  -----------------------------*/

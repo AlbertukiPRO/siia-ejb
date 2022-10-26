@@ -128,46 +128,9 @@ public class MethodsGenerics {
         return formatter.format(date);
     }
 
-    public static String GetIndexMes(int mesString){
-        String mesCurrent = "";
-        switch (mesString){
-            case 0:
-                mesCurrent = "Enero";
-                break;
-            case 1:
-                mesCurrent = "Febrero";
-                break;
-            case 2:
-                mesCurrent = "Marzo";
-                break;
-            case 3:
-                mesCurrent = "Abril";
-                break;
-            case 4:
-                mesCurrent = "Mayo";
-                break;
-            case 5:
-                mesCurrent = "Junio";
-                break;
-            case 6:
-                mesCurrent = "Julio";
-                break;
-            case 7:
-                mesCurrent = "Agosto";
-                break;
-            case 8:
-                mesCurrent = "Septiembre";
-                break;
-            case 9:
-                mesCurrent = "Octubre";
-                break;
-            case 10:
-                mesCurrent = "Noviembre";
-                break;
-            case 11:
-                mesCurrent = "Diciembre";
-                break;
-        }
-        return mesCurrent;
+    public static String formtDateDB(String fecha){
+        Date date = new Date(fecha);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+        return formatter.format(date);
     }
 }

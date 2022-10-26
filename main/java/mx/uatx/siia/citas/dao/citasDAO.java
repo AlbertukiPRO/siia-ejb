@@ -129,17 +129,39 @@ public class citasDAO implements Serializable {
 
     @Transactional
     public List<MisCitas> obtenerCitasPorTramite(long idtramite, long idarea, String fechaA, String fechaB){
-        Query query = entityManager.createNativeQuery(" SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBREUSER, 'Ingeniería en computación' PROGRAMA, 20082306 MATRICULA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA, SIMSCITAS.IDCITA" +
+        Query query = entityManager.createNativeQuery("SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBREUSER, 'Ingeniería en computación' PROGRAMA, 20082306 MATRICULA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA, SIMSCITAS.IDCITA" +
                 " FROM SIIUAT.SIMSCITAS " +
                 "INNER JOIN SIIUAT.SICTTRAMITES T on T.IDTRAMITE = SIMSCITAS.IDTRAMITE " +
                 "where SIMSCITAS.IDTRAMITE = ? and SIMSCITAS.IDAREACAMPUS = ? and " +
-                "                      to_date(SIMSCITAS.FCAUDIT, 'dd-mm-yy') BETWEEN to_date(?, 'dd-mm-yy') and to_date(?, 'dd-mm-yy') ", MisCitas.class);
+                "                      to_date(SIMSCITAS.FCAUDIT, 'dd-mm-yyyy') BETWEEN to_date(?, 'dd-mm-yyyy') and to_date(?, 'dd-mm-yyyy') ", MisCitas.class);
         query.setParameter(1, idtramite);
         query.setParameter(2, idarea);
         query.setParameter(3, fechaA);
         query.setParameter(4, fechaB);
 
         return (List<MisCitas>) query.getResultList();
+    }
+    @Transactional
+    public List<MisCitas> obtenerCitasGlobales(long idArea, String fechaA, String fechaB){
+        Query query = entityManager.createNativeQuery("SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBREUSER, 'Ingeniería en computación' PROGRAMA, 20082306 MATRICULA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA, SIMSCITAS.IDCITA" +
+                        " FROM SIIUAT.SIMSCITAS " +
+                        "INNER JOIN SIIUAT.SICTTRAMITES T on T.IDTRAMITE = SIMSCITAS.IDTRAMITE " +
+                        "where SIMSCITAS.IDAREACAMPUS = ? and " +
+                        "                      to_date(SIMSCITAS.FCAUDIT, 'dd-mm-yyyy') BETWEEN to_date(?, 'dd-mm-yyyy') and to_date(?, 'dd-mm-yyyy') ", MisCitas.class);
+        query.setParameter(1, idArea);
+        query.setParameter(2, fechaA);
+        query.setParameter(3, fechaB);
+
+        return (List<MisCitas>) query.getResultList();
+    }
+    @Transactional
+    public List<String> obtenerHorasDesactivadasFromCalendar(long longidarea, String strfecha){
+        Query query = entityManager.createNativeQuery("SELECT SIEXCEPCIONES.HORAEXEPCION FROM SIIUAT.SIEXCEPCIONES\n" +
+                "INNER JOIN SIIUAT.SIAXFECHASHORARIOS S on SIEXCEPCIONES.IDEXCEPCION = S.IDEXCEPCIONES\n" +
+                "WHERE SIEXCEPCIONES.FECHAEXCEPCION = ? and S.IDAREACAMPUS  = ?");
+        query.setParameter(1, strfecha);
+        query.setParameter(2, longidarea);
+        return (List<String>) query.getResultList();
     }
 
     /*------------------------------------------------------------------------*/
