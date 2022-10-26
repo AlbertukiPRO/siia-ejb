@@ -103,6 +103,20 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO obtenerCitaToReport(Integer idcita){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final MisCitas cita = citasDAO.obtenerCita(idcita);
+            if (cita == null){
+                resultado.setBlnValido(false);
+            }else resultado.setObjeto(cita);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+
     public ResultadoTO reservarHorarios(String[] p1, String[] p2){
 
         ResultadoTO resultado = new ResultadoTO(true);
@@ -144,6 +158,31 @@ public class CitaBusiness implements Serializable {
             else resultado.setObjeto(list);
         }catch (Exception e) {
             logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+        return resultado;
+    }
+
+    public ResultadoTO guardarRetro(Integer idCita, String strRetro){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final boolean flag = citasDAO.guardarRetroalimentacion(idCita, strRetro);
+            if (!flag)
+                resultado.setBlnValido(false);
+            else resultado.setObjeto(flag);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+
+    public ResultadoTO cambiarEstatus(Integer idcita, String estatus){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final boolean flag = citasDAO.citaEstatus(idcita, estatus);
+        }catch (Exception e){
+            logger.info(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
         }
         return resultado;
     }

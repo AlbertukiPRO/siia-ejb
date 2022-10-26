@@ -164,10 +164,36 @@ public class citasDAO implements Serializable {
         return (List<String>) query.getResultList();
     }
 
+    @Transactional
+    public boolean guardarRetroalimentacion(Integer idcita, String strRetro){
+        Query query = entityManager.createNativeQuery("UPDATE SIIUAT.SIMSCITAS SET RETROALIMENTACIONCITA = ? WHERE IDCITA  = ?");
+        query.setParameter(1, strRetro);
+        query.setParameter(2, idcita);
+
+        return query.executeUpdate() != 0;
+    }
+    @Transactional
+    public boolean citaEstatus(Integer idCita, String estatus){
+        Query query = entityManager.createNativeQuery("UPDATE SIIUAT.SIMSCITAS SET ESTATUSCITAS = ? WHERE IDCITA = ?");
+        query.setParameter(1, estatus);
+        query.setParameter(2, idCita);
+        return query.executeUpdate() != 0;
+    }
+
+    public MisCitas obtenerCita(Integer idcita){
+        Query query  = entityManager.createNativeQuery("SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBREUSER, 'Ingeniería en computación' PROGRAMA, 20082306 MATRICULA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA, SIMSCITAS.IDCITA " +
+                "                        FROM SIIUAT.SIMSCITAS " +
+                "                        INNER JOIN SIIUAT.SICTTRAMITES T on T.IDTRAMITE = SIMSCITAS.IDTRAMITE " +
+                "                        where SIMSCITAS.IDCITA = ? ", MisCitas.class);
+        query.setParameter(1, idcita);
+        return (MisCitas) query.getSingleResult();
+    }
+
     /*------------------------------------------------------------------------*/
 
     /**
      * Metodo para obtener las citas agendadas por el usuario
+     * @deprecated no usar en la implementacion del servidor del SIIA
      * @param api URL string del servicio
      * @param user string con el la matricula del usuario
      * @return List<MisCitas>
