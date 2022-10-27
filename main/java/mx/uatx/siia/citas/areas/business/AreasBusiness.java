@@ -144,90 +144,24 @@ public class AreasBusiness implements Serializable {
         return  resultado;
     }
 
-    /*----------------------------------------------------------------------------------------*/
-
-    /*
-     * @deprecated metodo local para uso con php y msql
-     * @param url del api rest para los horarios reservados en la base de datos.
-     * @return List de Strings de Horarios que no se mostraran.
-     */
-//    public ResultadoTO obtenerFechasFromDB(String url, String idArea){
-//
-//        final ResultadoTO resultado = new ResultadoTO(true);
-//
-//        try {
-//            final List<String> horarios = areasDAO.getFechasDB(url, idArea);
-//            if (horarios == null){
-//                resultado.setBlnValido(false);
-//            }else{
-//                resultado.setObjeto(horarios);
-//            }
-//        }catch (Exception e){
-//            logger.error(e.getMessage());
-//            resultado.setBlnValido(false);
-//        }
-//        return resultado;
-//    }
-
-
-    public ResultadoTO obtenerEventosMariaDB(String idarea){
-        ResultadoTO resultado = new ResultadoTO(true);
-        try{
-            final List<MisCitas> listEventos = areasDAO.getEventos(idarea, URLs.Eventos.getValor());
-            logger.info("--- LISTA EVENTOS => "+listEventos);
-            if (listEventos == null) resultado.setBlnValido(false);
-            else resultado.setObjeto(listEventos);
-        }catch (Exception e){
-            logger.info(e.getMessage());
-            resultado.setBlnValido(false);
-        }
-        return resultado;
-    }
-
-    public ResultadoTO obtenerCita(int type, String url, String[] params){
-        ResultadoTO resultado = new ResultadoTO(true);
-        try {
-
-            switch (type){
-                case 1:
-                    List<MisCitas> list = null;
-                    list = areasDAO.getCitas(url);
-                    if (list.isEmpty()) resultado.setBlnValido(false);
-                    else resultado.setObjeto(list);
-                    break;
-                case 2:
-                    MisCitas cita = areasDAO.getCita(params[0].toString(), url+"?idarea="+params[0]+"&idcita="+params[2]+"&iduser="+params[1]);
-                    if (cita == null) resultado.setBlnValido(false);
-                    else resultado.setObjeto(cita);
-                    break;
-                default:
-                    List<MisCitas> list1 = new ArrayList<>();
-                    resultado.setBlnValido(false);
-                    resultado.setObjeto(list1);
-                    break;
-            }
-
-        }catch (Exception e){
-            logger.error(e.getMessage());
-        }
-        return resultado;
-    }
-
     public ResultadoTO desactivarDia(String[] params){
         ResultadoTO resultado = new ResultadoTO(true);
         try{
-            final int flag = areasDAO.desactivarDia(params[0], params[1], params[2]);
-            if (flag==0) {
+//            final int flag = areasDAO.desactivarDia(params[0], params[1], params[2]);
+            final boolean flagExcepcion = areasDAO.desactivarDiaToExcepciones(params[1], params[2]);
+            Integer getIDEX = areasDAO.getIdExcepcion();
+            final boolean flagFechas = areasDAO.insertFechas(params[0],params[2], getIDEX);
+            if (flagExcepcion && flagFechas) {
+                resultado.setObjeto(true);
+            } else {
                 resultado.setBlnValido(false);
                 resultado.setObjeto(false);
-                logger.info("Was day delete ? =>"+ false);
-            } else {
-                resultado.setObjeto(flag);
+                logger.info("Was day disable ? =>"+ false);
+
             }
         }catch (Exception e){
             logger.error(e.getMessage());
         }
         return resultado;
     }
-
 }

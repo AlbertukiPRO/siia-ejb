@@ -17,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.util.*;
 
 import static mx.uatx.siia.citas.citasBusiness.MethodsGenerics.readUrl;
@@ -128,31 +129,31 @@ public class areasDAO implements Serializable {
         return list;
     }
 
-    public int desactivarDia(String strIdArea, String strFecha, String strUserAudit){
-        int flag = 0;
-        try {
-            Query query  = em.createNativeQuery(" INSERT INTO SIIUAT.SIEXCEPCIONES (IDEXCEPCION, FECHAEXCEPCION, HORAEXEPCION, FCAUDIT, USERAUDIT) VALUES " +
-                    "(SIIUAT.IDEXCEPCION.nextval, ?, 'all', sysdate, ? ");
-            query.setParameter(1, strFecha);
-            query.setParameter(2, strUserAudit);
-            flag = query.executeUpdate();
-
-            Query query1 = em.createNativeQuery("SELECT * FROM ( SELECT SIIUAT.SIEXCEPCIONES.IDEXCEPCION FROM SIEXCEPCIONES order by IDEXCEPCION DESC ) where ROWNUM <= 1");
-            int idException = (int) query1.getSingleResult();
-
-            Query query2 = em.createNativeQuery("INSERT INTO SIIUAT.SIAXFECHASHORARIOS (IDFECHAHORA, IDAREACAMPUS, IDEXCEPCIONES, FCAUDIT, USERAUDIT) VALUES " +
-                    "(SIIUAT.IDFECHAHORA.nextval, ?, ?, sysdate, ?)  ");
-            query2.setParameter(1, strIdArea);
-            query2.setParameter(2, idException);
-            query.setParameter(3, strUserAudit);
-
-
-        }catch (Exception e){
-            logger.error(e.getMessage()+"\n"+e.getCause());
-        }
-        return flag;
+    @Transactional
+    public boolean desactivarDiaToExcepciones(String strFecha, String strUserAudit){
+        Query query  = em.createNativeQuery(" INSERT INTO SIIUAT.SIEXCEPCIONES (IDEXCEPCION, FECHAEXCEPCION, HORAEXEPCION, FCAUDIT, USERAUDIT) VALUES " +
+                "(SIIUAT.IDEXCEPCION.nextval, ?, 'all', sysdate, ?)");
+        query.setParameter(1, strFecha);
+        query.setParameter(2, strUserAudit);
+        return query.executeUpdate() != 0 ;
     }
 
+    @Transactional
+    public Integer getIdExcepcion(){
+        Query query1 = em.createNativeQuery("SELECT * FROM ( SELECT SIIUAT.SIEXCEPCIONES.IDEXCEPCION FROM SIIUAT.SIEXCEPCIONES order by IDEXCEPCION DESC ) where ROWNUM <= 1");
+        return Integer.parseInt(query1.getSingleResult().toString());
+    }
+
+    @Transactional
+    public boolean insertFechas(String strIdArea, String strUserAudit, Integer idException){
+        Query query2 = em.createNativeQuery("INSERT INTO SIIUAT.SIAXFECHASHORARIOS (IDFECHAHORA, IDAREACAMPUS, IDEXCEPCIONES, FCAUDIT, USERAUDIT) VALUES " +
+                "(SIIUAT.IDFECHAHORA.nextval, ?, ?, sysdate, ?) ");
+        query2.setParameter(1, strIdArea);
+        query2.setParameter(2, idException);
+        query2.setParameter(3, strUserAudit);
+
+        return query2.executeUpdate() != 0;
+    }
     @Transactional
     public List<SIMSCITAS> obtenerCitasToCalendar(String strIdArea){
         List<SIMSCITAS> list = null;
