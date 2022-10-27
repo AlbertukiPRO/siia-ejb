@@ -154,6 +154,23 @@ public class citasDAO implements Serializable {
 
         return (List<MisCitas>) query.getResultList();
     }
+
+    @Transactional
+    public List<MisCitas> obtenerCitasEstatus(long idArea, String strEstatus, String fechaA, String fechaB){
+        Query query = entityManager.createNativeQuery("SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBREUSER, 'Ingeniería en computación' PROGRAMA, 20082306 MATRICULA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA, SIMSCITAS.IDCITA" +
+                " FROM SIIUAT.SIMSCITAS " +
+                "INNER JOIN SIIUAT.SICTTRAMITES T on T.IDTRAMITE = SIMSCITAS.IDTRAMITE " +
+                "where SIMSCITAS.IDAREACAMPUS = ? and SIMSCITAS.ESTATUSCITAS = ? and " +
+                "                      to_date(SIMSCITAS.FCAUDIT, 'dd-mm-yyyy') BETWEEN to_date(?, 'dd-mm-yyyy') and to_date(?, 'dd-mm-yyyy') ", MisCitas.class);
+        query.setParameter(1, idArea);
+        query.setParameter(2, strEstatus);
+        query.setParameter(3, fechaA);
+        query.setParameter(4, fechaB);
+
+        return (List<MisCitas>) query.getResultList();
+    }
+
+
     @Transactional
     public List<String> obtenerHorasDesactivadasFromCalendar(long longidarea, String strfecha){
         Query query = entityManager.createNativeQuery("SELECT SIEXCEPCIONES.HORAEXEPCION FROM SIIUAT.SIEXCEPCIONES\n" +

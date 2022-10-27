@@ -162,6 +162,20 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO GenerarReportePorEstatus(long longidarea, String estatus, String f1, String f2){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try{
+            final List<MisCitas> list = citasDAO.obtenerCitasEstatus(longidarea,estatus,f1,f2);
+            if (list==null)
+                resultado.setBlnValido(false);
+            else resultado.setObjeto(list);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+
     public ResultadoTO guardarRetro(Integer idCita, String strRetro){
         ResultadoTO resultado = new ResultadoTO(true);
         try {
