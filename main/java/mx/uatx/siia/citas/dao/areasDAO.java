@@ -189,6 +189,16 @@ public class areasDAO implements Serializable {
         return query.executeUpdate() != 0;
     }
 
+    @Transactional
+    public boolean guardarTramite(long idarea, String strName, String strDescrip, String strReq){
+        Query query = em.createNativeQuery("");
+        query.setParameter(1, strName);
+        query.setParameter(2, strDescrip);
+        query.setParameter(3, strReq);
+        query.setParameter(4, idarea);
+        return query.executeUpdate() != 0;
+    }
+
     /*-------------------------  METODOS LOCALES PARA USO DE PHP Y MYSQL  -----------------------------*/
 
     public List<MisCitas> getEventos(String idCita, String url) {

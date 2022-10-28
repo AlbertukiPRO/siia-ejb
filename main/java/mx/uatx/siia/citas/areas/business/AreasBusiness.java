@@ -147,7 +147,6 @@ public class AreasBusiness implements Serializable {
     public ResultadoTO desactivarDia(String[] params){
         ResultadoTO resultado = new ResultadoTO(true);
         try{
-//            final int flag = areasDAO.desactivarDia(params[0], params[1], params[2]);
             final boolean flagExcepcion = areasDAO.desactivarDiaToExcepciones(params[1], params[2]);
             Integer getIDEX = areasDAO.getIdExcepcion();
             final boolean flagFechas = areasDAO.insertFechas(params[0],params[2], getIDEX);
@@ -162,6 +161,23 @@ public class AreasBusiness implements Serializable {
         }catch (Exception e){
             logger.error(e.getMessage());
         }
+        return resultado;
+    }
+
+    public ResultadoTO guardarTramite(long idArea, String strName, String strDescrip, String strRequi){
+        ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            final boolean flag = areasDAO.guardarTramite(idArea, strName, strDescrip, strRequi);
+            if (!flag)
+                resultado.setBlnValido(false);
+            else
+                resultado.setObjeto(true);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValidoExtra(false);
+        }
+
         return resultado;
     }
 }
