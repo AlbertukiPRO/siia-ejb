@@ -201,6 +201,19 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO liberarHorarios(String strfecha, String strHora){
+        ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            final boolean flag = citasDAO.liberarHorarios(strfecha, strHora);
+            resultado.setBlnValido( flag );
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
+
+        return resultado;
+    }
+
     /*----------------------------------------*/
 
 

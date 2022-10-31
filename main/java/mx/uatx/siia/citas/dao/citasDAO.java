@@ -1,5 +1,6 @@
 package mx.uatx.siia.citas.dao;
 
+import com.google.api.client.util.BackOff;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import mx.uatx.siia.citas.MisCitas;
@@ -63,24 +64,32 @@ public class citasDAO implements Serializable {
     @Transactional()
     public boolean validarTramite(Long longIdhistorical, int intIdTramite) {
         int flag = 0;
-        Query query = entityManager.createNativeQuery("SELECT COUNT(sm.IDTRAMITE) num FROM SIIUAT.SIMSCITAS sm WHERE IDHISTORIALACADEMICO = ? and IDTRAMITE = ?");
-        query.setParameter(1, longIdhistorical);
-        query.setParameter(2, intIdTramite);
-        logger.info("--> STEP 1 Results => "+query.getSingleResult());
-        flag = Integer.parseInt(query.getSingleResult().toString());
-        return flag == 0;
+        try {
+              Query query = entityManager.createNativeQuery("SELECT COUNT(sm.IDTRAMITE) num FROM SIIUAT.SIMSCITAS sm WHERE IDHISTORIALACADEMICO = ? and IDTRAMITE = ?");
+              query.setParameter(1, longIdhistorical);
+              query.setParameter(2, intIdTramite);
+              logger.info("--> STEP 1 Results => "+query.getSingleResult());
+              flag = Integer.parseInt(query.getSingleResult().toString());
+          }catch (Exception e){
+              logger.error(e.getMessage());
+          }
+          return flag == 0;
     }
 
     @Transactional()
     public boolean validarHorario(String strFecha, String strHora){
         int flag = 0;
-        Query query = entityManager.createNativeQuery("SELECT COUNT(HORAEXEPCION) FROM SIIUAT.SIEXCEPCIONES ex where FECHAEXCEPCION = ? and HORAEXEPCION = ?");
-        query.setParameter(1, strFecha);
-        query.setParameter(2, strHora);
+        try{
+            Query query = entityManager.createNativeQuery("SELECT COUNT(HORAEXEPCION) FROM SIIUAT.SIEXCEPCIONES ex where FECHAEXCEPCION = ? and HORAEXEPCION = ?");
+            query.setParameter(1, strFecha);
+            query.setParameter(2, strHora);
 
-        logger.info("--> STEP 2 Results => "+query.getSingleResult());
+            logger.info("--> STEP 2 Results => "+query.getSingleResult());
 
-        flag = Integer.parseInt(query.getSingleResult().toString());
+            flag = Integer.parseInt(query.getSingleResult().toString());
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
         return flag == 0;
     }
 
@@ -204,6 +213,18 @@ public class citasDAO implements Serializable {
                 "                        where SIMSCITAS.IDCITA = ? ", MisCitas.class);
         query.setParameter(1, idcita);
         return (MisCitas) query.getSingleResult();
+    }
+
+    @Transactional
+    public boolean liberarHorarios(String strFecha, String strHora){
+
+        Query query = entityManager.createNativeQuery("DELETE FROM SIIUAT.SIAXFECHASHORARIOS WHERE IDEXCEPCIONES = ( " +
+                "SELECT SIEXCEPCIONES.IDEXCEPCION FROM SIIUAT.SIEXCEPCIONES WHERE SIEXCEPCIONES.FECHAEXCEPCION = ? AND SIEXCEPCIONES.HORAEXEPCION = ? ) ");
+        query.setParameter(1, strFecha);
+        query.setParameter(2, strHora);
+
+        return query.executeUpdate() != 0;
+
     }
 
     /*------------------------------------------------------------------------*/

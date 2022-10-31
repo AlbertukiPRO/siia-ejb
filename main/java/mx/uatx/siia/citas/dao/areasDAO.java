@@ -191,11 +191,13 @@ public class areasDAO implements Serializable {
 
     @Transactional
     public boolean guardarTramite(long idarea, String strName, String strDescrip, String strReq){
-        Query query = em.createNativeQuery("");
-        query.setParameter(1, strName);
-        query.setParameter(2, strDescrip);
-        query.setParameter(3, strReq);
-        query.setParameter(4, idarea);
+        Query query = em.createNativeQuery("INSERT INTO SIIUAT.SICTTRAMITES (IDTRAMITE, IDAREACAMPUS, NOMBRETRAMITE, DESCRIPCIONTRAMITE, REQUISITOSTRAMITE, FCAUDIT, USERAUDIT)" +
+                " VALUES (SIIUAT.IDTRAMITE.nextval, ?, ?, ?,?,sysdate,?)");
+        query.setParameter(1, idarea);
+        query.setParameter(2, strName);
+        query.setParameter(3, strDescrip);
+        query.setParameter(4, strReq);
+        query.setParameter(5, "20181837");
         return query.executeUpdate() != 0;
     }
 

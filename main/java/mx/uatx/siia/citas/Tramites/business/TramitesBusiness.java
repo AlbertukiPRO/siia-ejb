@@ -36,7 +36,6 @@ public class TramitesBusiness implements Serializable {
      */
     public ResultadoTO obtenerTramites(int idArea){
         final ResultadoTO resultado = new ResultadoTO(true);
-        logger.info("--- Executing Query [select TRAMITES where idarea = "+idArea+"]");
         try {
             final List<SiPaTramites> tramites = tramitesDAO.getListTramites(idArea);
             List<SelectItem> selectOneMenu = new ArrayList<>();
@@ -44,7 +43,7 @@ public class TramitesBusiness implements Serializable {
                 resultado.setBlnValido(false);
             }else{
                 for (SiPaTramites item : tramites){
-                    selectOneMenu.add(new SelectItem(item.getIdTramites(), item.getStrNombreTramite()));
+                    selectOneMenu.add(new SelectItem(item.getIdTramites(), item.getStrNombreTramite(), item.getStrRequisitos()));
                 }
                 resultado.setObjeto(selectOneMenu);
             }

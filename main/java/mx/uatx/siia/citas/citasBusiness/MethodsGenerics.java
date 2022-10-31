@@ -105,7 +105,6 @@ public class MethodsGenerics {
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
-
     public static Date getDateToFullCalendar(String strdate){
         Date date = null;
         try{
