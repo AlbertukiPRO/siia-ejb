@@ -1,6 +1,5 @@
 package mx.uatx.siia.citas.dao;
 
-import com.google.api.client.util.BackOff;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import mx.uatx.siia.citas.MisCitas;
@@ -224,7 +223,13 @@ public class citasDAO implements Serializable {
         query.setParameter(2, strHora);
 
         return query.executeUpdate() != 0;
+    }
 
+    @Transactional
+    public Integer obtenerIdCita(long idhistorico){
+        Query query = entityManager.createNativeQuery("SELECT * FROM (SELECT SIMSCITAS.IDCITA FROM SIIUAT.SIMSCITAS WHERE IDHISTORIALACADEMICO = ? ORDER BY IDCITA DESC) WHERE ROWNUM <= 1");
+        query.setParameter(1, idhistorico);
+        return Integer.parseInt(query.getSingleResult().toString());
     }
 
     /*------------------------------------------------------------------------*/

@@ -46,7 +46,7 @@ public class CitaBusiness implements Serializable {
             boolean flag = citasDAO.nuevaCita(citas);
 
             if (flag){
-                resultado.setObjeto(flag);
+                resultado.setObjeto(true);
                 resultado.setBlnValido(true);
             }else
                 resultado.setBlnValido(false);
@@ -62,10 +62,9 @@ public class CitaBusiness implements Serializable {
         try {
             final boolean flag1 = citasDAO.validarTramite(longIdUser, intIdTramite);
             if (flag1) {
-                resultado.setObjeto(flag1);
+                resultado.setObjeto(true);
                 resultado.setBlnValido(true);
             }else resultado.setBlnValido(false);
-            logger.info("[main/java/mx/uatx/siia/citas/modelo/citasBusiness/CitaBusiness.java] => validarTramite -> ["+flag1+"]");
         }catch (Exception e){
             resultado.setBlnValido(false);
             logger.error(e.getMessage()+"\n"+e.getCause());
@@ -78,10 +77,9 @@ public class CitaBusiness implements Serializable {
         try {
             final boolean flag2 = citasDAO.validarHorario(strFecha, strHora);
             if (flag2) {
-                resultado.setObjeto(flag2);
+                resultado.setObjeto(true);
                 resultado.setBlnValido(true);
             }else resultado.setBlnValido(false);
-            logger.info("[main/java/mx/uatx/siia/citas/modelo/citasBusiness/CitaBusiness.java] => validarHorario -> ["+flag2+"]");
         }catch (Exception e){
             resultado.setBlnValido(false);
             logger.error(e.getMessage()+"\n"+e.getCause());
@@ -124,10 +122,10 @@ public class CitaBusiness implements Serializable {
             boolean flag = citasDAO.reservarHorario(p1);
             Integer index = citasDAO.getIdEx();
             citasDAO.insertFechas(p2, index);
-            resultado.setBlnValido(true);
             resultado.setObjeto(flag);
         }catch (Exception e) {
             logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
         }
         return resultado;
     }
@@ -211,6 +209,20 @@ public class CitaBusiness implements Serializable {
             logger.error(e.getMessage()+"\n"+e.getCause());
         }
 
+        return resultado;
+    }
+
+    public ResultadoTO obtenerIDfromCita(long idhistorial){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final Integer idcita = citasDAO.obtenerIdCita(idhistorial);
+            if (idcita!=null)
+                resultado.setObjeto(idcita);
+            else resultado.setBlnValido(false);
+        }catch (Exception e){
+            resultado.setBlnValido(false);
+            logger.error(e.getMessage()+"\n"+e.getCause());
+        }
         return resultado;
     }
 

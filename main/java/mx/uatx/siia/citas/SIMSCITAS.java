@@ -215,9 +215,9 @@ public class SIMSCITAS  {
 
     @Override
     public String toString() {
-        return "SiPaCitas{" +
+        return "SIMSCITAS{" +
                 "intIdCita=" + intIdCita +
-                ", intIdAlumno=" + intMatricula +
+                ", intMatricula=" + intMatricula +
                 ", intIdArea=" + intIdArea +
                 ", intTramite=" + intTramite +
                 ", strDescripcionCita='" + strDescripcionCita + '\'' +
@@ -226,8 +226,15 @@ public class SIMSCITAS  {
                 ", strRetroalimentacion='" + strRetroalimentacion + '\'' +
                 ", strHoraReservada='" + strHoraReservada + '\'' +
                 ", strUSERAUDIT='" + strUSERAUDIT + '\'' +
-                ", NBAREA='" +  + '\'' +
-                ", NOMBRETRAMITE='" + strUSERAUDIT + '\'' +
+                ", longHistorialAcademico=" + longHistorialAcademico +
+                ", strNombreUser='" + strNombreUser + '\'' +
+                ", strPrograma='" + strPrograma + '\'' +
+                ", strFacultad='" + strFacultad + '\'' +
+                ", strGrado=" + strGrado +
+                ", strGrupo='" + strGrupo + '\'' +
+                ", strCorreo='" + strCorreo + '\'' +
+                ", strNameArea='" + strNameArea + '\'' +
+                ", strNameTramite='" + strNameTramite + '\'' +
                 '}';
     }
 }

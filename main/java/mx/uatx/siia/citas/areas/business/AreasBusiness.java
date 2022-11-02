@@ -122,9 +122,7 @@ public class AreasBusiness implements Serializable {
         try {
             final SIMSCITAS cita = areasDAO.obtenerCita(longIdUser, longIdCita);
             logger.info(cita.toString());
-            if (cita==null) {
-                resultado.setBlnValido(false);
-            } else resultado.setObjeto(cita);
+            resultado.setObjeto(cita);
         }catch (Exception e){
             resultado.setBlnValido(false);
             logger.error(e.getMessage()+"\n"+e.getCause());
@@ -137,6 +135,7 @@ public class AreasBusiness implements Serializable {
         ResultadoTO resultado = new ResultadoTO(true);
         try {
             final boolean flag = areasDAO.guardarConfiguracion(longIdArea, params);
+            resultado.setBlnValido(flag);
         }catch (Exception e){
             logger.error(e.getMessage()+"\n"+e.getCause());
             resultado.setBlnValido(false);
@@ -155,11 +154,10 @@ public class AreasBusiness implements Serializable {
             } else {
                 resultado.setBlnValido(false);
                 resultado.setObjeto(false);
-                logger.info("Was day disable ? =>"+ false);
-
             }
         }catch (Exception e){
             logger.error(e.getMessage());
+            resultado.setObjeto(false);
         }
         return resultado;
     }
