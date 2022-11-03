@@ -38,8 +38,8 @@ public class areasDAO implements Serializable {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Transactional
-    public List<SiPaAreas> obtenerAreas(){// %Control% => parmatro de prueba;
-        String query = "SELECT * FROM SIIUAT.SICTAREAS where IDTIPOAREA = 10 and NBAREA LIKE '%Control%'";
+    public List<SiPaAreas> obtenerAreas(){
+        String query = "SELECT * FROM SIIUAT.SICTAREAS where IDTIPOAREA = 10";
         return em.createNativeQuery(query, SiPaAreas.class).getResultList();
     }
 
@@ -180,8 +180,11 @@ public class areasDAO implements Serializable {
     }
 
     @Transactional
-    public boolean guardarConfiguracion(long idArea, String[] params ){
-        Query query = em.createNativeQuery("UPDATE SIIUAT.SIAXCONFIGURACIONES SET HORAINICIO = ?, HORAFIN = ?, NOMBREJEFE = ? WHERE IDAREA = ?");
+    public boolean guardarConfiguracion(long idArea, String[] params, int type){
+        String sqlupdate = "UPDATE SIIUAT.SIAXCONFIGURACIONES SET HORAINICIO = ?, HORAFIN = ?, NOMBREJEFE = ? WHERE IDAREA = ?";
+        String sqlInsert = "INSERT INTO SIIUAT.SIAXCONFIGURACIONES (IDCONFIGURACIONES, HORAINICIO, HORAFIN, NOMBREJEFE, IDAREA) " +
+                "VALUES ( (SELECT * FROM (SELECT SIAXCONFIGURACIONES.IDCONFIGURACIONES + 1 FROM SIIUAT.SIAXCONFIGURACIONES ORDER BY IDCONFIGURACIONES DESC ) where ROWNUM <= 1 ), ?,?,?,?)";
+        Query query = em.createNativeQuery(type == 1  ? sqlupdate : sqlInsert);
         query.setParameter(1, params[0]);
         query.setParameter(2, params[1]);
         query.setParameter(3, params[2]);

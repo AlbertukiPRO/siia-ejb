@@ -1,10 +1,9 @@
 package mx.uatx.siia.citas.areas.business;
 
-import mx.uatx.siia.citas.MisCitas;
 import mx.uatx.siia.citas.SIMSCITAS;
 import mx.uatx.siia.citas.areas.SiPaAreas;
-import mx.uatx.siia.citas.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
+import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class AreasBusiness implements Serializable {
             for (SiPaAreas item : areasList){
                 selectItems.add(new SelectItem(item.getIdarea(), item.getStrNombreArea()));
             }
-
+            resultado.agregarMensaje(SeveridadMensajeEnum.INFO, "comun.msg.citas.areas.found");
             resultado.setObjeto(selectItems);
         }catch (Exception e){
             logger.error(e.getMessage());
@@ -93,8 +92,12 @@ public class AreasBusiness implements Serializable {
         ResultadoTO resultado = new ResultadoTO(true);
         try {
             final SiPaAreasConfiguraciones configuraciones = areasDAO.getConfig(Integer.parseInt(idArea));
-            if (configuraciones==null) resultado.setBlnValido(false);
-            else resultado.setObjeto(configuraciones);
+            if (configuraciones==null) {
+                resultado.setBlnValido(false);
+                resultado.agregarMensaje(SeveridadMensajeEnum.ALERTA, "comun.msg.citas.areas.config.none");
+            } else {
+                resultado.setObjeto(configuraciones);
+            }
         }catch (Exception e){
             logger.error(e.getMessage());
             resultado.setBlnValido(false);
@@ -130,11 +133,11 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
-    public ResultadoTO guardarConfiguracionesArea(long longIdArea, String[] params){
+    public ResultadoTO guardarConfiguracionesArea(long longIdArea, String[] params, int type){
 
         ResultadoTO resultado = new ResultadoTO(true);
         try {
-            final boolean flag = areasDAO.guardarConfiguracion(longIdArea, params);
+            final boolean flag = areasDAO.guardarConfiguracion(longIdArea, params, type);
             resultado.setBlnValido(flag);
         }catch (Exception e){
             logger.error(e.getMessage()+"\n"+e.getCause());
@@ -178,4 +181,5 @@ public class AreasBusiness implements Serializable {
 
         return resultado;
     }
+
 }

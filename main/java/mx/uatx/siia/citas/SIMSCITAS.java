@@ -20,7 +20,7 @@ public class SIMSCITAS  {
     @Column(name="IDTRAMITE")
     private Integer intTramite;
 
-    @Column(name = "DESCRIPCIONCITA")
+    @Column(name = "DESCRIPCIONCITA", length = 200)
     private String strDescripcionCita;
 
     @Column(name="ESTATUSCITAS")
