@@ -174,6 +174,20 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO GenerarReportePorMes(long longidarea, String mes){
+        ResultadoTO resultado = new ResultadoTO(true);
+        try {
+            final List<MisCitas> list = citasDAO.obtenerCitasMes(longidarea,mes);
+            if (list==null)
+                resultado.setBlnValido(false);
+            else resultado.setObjeto(list);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
+        }
+        return resultado;
+    }
+
     public ResultadoTO guardarRetro(Integer idCita, String strRetro){
         ResultadoTO resultado = new ResultadoTO(true);
         try {
@@ -201,12 +215,13 @@ public class CitaBusiness implements Serializable {
 
     public ResultadoTO liberarHorarios(String strfecha, String strHora){
         ResultadoTO resultado = new ResultadoTO(true);
-
         try {
-            final boolean flag = citasDAO.liberarHorarios(strfecha, strHora);
+            Integer idExecp = citasDAO.obtenerIdExecepcion(strfecha,strHora);
+            final boolean flag = citasDAO.liberarHorarios(idExecp);
             resultado.setBlnValido( flag );
         }catch (Exception e){
             logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
         }
 
         return resultado;

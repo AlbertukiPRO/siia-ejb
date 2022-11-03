@@ -2,15 +2,14 @@ package mx.uatx.siia.citas.citasBusiness;
 
 import com.ibm.icu.text.SimpleDateFormat;
 
+import javax.faces.model.SelectItem;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class MethodsGenerics {
 
@@ -131,5 +130,22 @@ public class MethodsGenerics {
         Date date = new Date(fecha);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
         return formatter.format(date);
+    }
+
+    public static List<SelectItem> Meses(){
+        List<SelectItem> list = new ArrayList<>();
+        list.add(0, new SelectItem("01/01,01/31","Enero"));
+        list.add(1, new SelectItem("02/01,02/29","Febrero"));
+        list.add(2, new SelectItem("03/01,03/31","Marzo"));
+        list.add(3, new SelectItem("04/01,04/30","Abril"));
+        list.add(4, new SelectItem("05/01,05/31","Mayo"));
+        list.add(5, new SelectItem("06/01,06/30","Junio"));
+        list.add(6, new SelectItem("07/01,07/31","Julio"));
+        list.add(7, new SelectItem("08/01,08/31","Agosto"));
+        list.add(8, new SelectItem("09/01,09/30","Septiembre"));
+        list.add(9, new SelectItem("10/01,10/31","Octubre"));
+        list.add(10, new SelectItem("11/01,11/30","Noviembre"));
+        list.add(11, new SelectItem("12/01,12/31","Diciembre"));
+        return list;
     }
 }

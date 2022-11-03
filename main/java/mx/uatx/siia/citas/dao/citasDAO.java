@@ -178,6 +178,20 @@ public class citasDAO implements Serializable {
         return (List<MisCitas>) query.getResultList();
     }
 
+    @Transactional
+    public List<MisCitas> obtenerCitasMes(long idArea, String mes){
+        Query query = entityManager.createNativeQuery("SELECT SIMSCITAS.IDHISTORIALACADEMICO, 'Yair Ivan Valencia Perez' NOMBREUSER, 'Ingeniería en computación' PROGRAMA, 20082306 MATRICULA, T.NOMBRETRAMITE, SIMSCITAS.FECHARESERVADACITA, SIMSCITAS.FECHARESERVADACITA_1, SIMSCITAS.DESCRIPCIONCITA, SIMSCITAS.IDCITA " +
+                "                 FROM SIIUAT.SIMSCITAS " +
+                "                INNER JOIN SIIUAT.SICTTRAMITES T on T.IDTRAMITE = SIMSCITAS.IDTRAMITE " +
+                "                where SIMSCITAS.IDAREACAMPUS = ? and  to_date(SIMSCITAS.FECHARESERVADACITA, 'mm-dd-yyyy') BETWEEN to_date(?, 'mm-dd-yyyy') and to_date(?, 'mm-dd-yyyy')", MisCitas.class);
+        query.setParameter(1, idArea);
+        query.setParameter(2, mes.split(",")[0]);
+        query.setParameter(3, mes.split(",")[1]);
+
+        return (List<MisCitas>) query.getResultList();
+    }
+
+
 
     @Transactional
     public List<String> obtenerHorasDesactivadasFromCalendar(long longidarea, String strfecha){
@@ -215,14 +229,23 @@ public class citasDAO implements Serializable {
     }
 
     @Transactional
-    public boolean liberarHorarios(String strFecha, String strHora){
+    public Integer obtenerIdExecepcion(String fecha, String hora){
+        Query query = entityManager.createNativeQuery("SELECT SIEXCEPCIONES.IDEXCEPCION FROM SIIUAT.SIEXCEPCIONES WHERE SIEXCEPCIONES.FECHAEXCEPCION = ? AND SIEXCEPCIONES.HORAEXEPCION = ?");
+        query.setParameter(1, fecha);
+        query.setParameter(2, hora);
+        return Integer.parseInt(query.getSingleResult().toString());
+    }
 
-        Query query = entityManager.createNativeQuery("DELETE FROM SIIUAT.SIAXFECHASHORARIOS WHERE IDEXCEPCIONES = ( " +
-                "SELECT SIEXCEPCIONES.IDEXCEPCION FROM SIIUAT.SIEXCEPCIONES WHERE SIEXCEPCIONES.FECHAEXCEPCION = ? AND SIEXCEPCIONES.HORAEXEPCION = ? ) ");
-        query.setParameter(1, strFecha);
-        query.setParameter(2, strHora);
+    @Transactional
+    public boolean liberarHorarios(Integer idexcepcion){
 
-        return query.executeUpdate() != 0;
+        Query deleteFecha = entityManager.createNativeQuery("DELETE FROM SIIUAT.SIAXFECHASHORARIOS WHERE IDEXCEPCIONES = ? ");
+        deleteFecha.setParameter(1, idexcepcion);
+
+        Query deleteExcep = entityManager.createNativeQuery("DELETE FROM SIIUAT.SIEXCEPCIONES WHERE IDEXCEPCION = ? ");
+        deleteExcep.setParameter(1, idexcepcion);
+
+        return deleteFecha.executeUpdate() != 0 && deleteExcep.executeUpdate() != 0;
     }
 
     @Transactional
