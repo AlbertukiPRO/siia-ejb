@@ -193,6 +193,14 @@ public class areasDAO implements Serializable {
     }
 
     @Transactional
+    public boolean borrarTramite(long idtramite){
+        Query query = em.createNativeQuery("DELETE FROM SIIUAT.SICTTRAMITES WHERE IDTRAMITE = ?");
+        query.setParameter(1, idtramite);
+
+        return query.executeUpdate() != 0;
+    }
+
+    @Transactional
     public boolean guardarTramite(long idarea, String strName, String strDescrip, String strReq){
         Query query = em.createNativeQuery("INSERT INTO SIIUAT.SICTTRAMITES (IDTRAMITE, IDAREACAMPUS, NOMBRETRAMITE, DESCRIPCIONTRAMITE, REQUISITOSTRAMITE, FCAUDIT, USERAUDIT)" +
                 " VALUES (SIIUAT.IDTRAMITE.nextval, ?, ?, ?,?,sysdate,?)");

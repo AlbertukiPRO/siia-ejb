@@ -182,4 +182,19 @@ public class AreasBusiness implements Serializable {
         return resultado;
     }
 
+    public ResultadoTO deleteTramite(long idTramite){
+        ResultadoTO resultado = new ResultadoTO(true);
+
+        try {
+            final boolean flag = areasDAO.borrarTramite(idTramite);
+            if (flag)
+                resultado.setObjeto(true);
+            else resultado.setBlnValido(false);
+        }catch (Exception e){
+            logger.error(e.getMessage()+"\n"+e.getCause());
+            resultado.setBlnValido(false);
+        }
+
+        return  resultado;
+    }
 }
