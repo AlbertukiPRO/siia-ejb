@@ -1,4 +1,4 @@
-package mx.uatx.siia.citas;
+package mx.uatx.siia.citas.entities;
 import javax.persistence.*;
 
 @Entity

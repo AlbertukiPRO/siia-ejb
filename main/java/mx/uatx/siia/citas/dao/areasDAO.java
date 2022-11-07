@@ -2,8 +2,8 @@ package mx.uatx.siia.citas.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import mx.uatx.siia.citas.MisCitas;
-import mx.uatx.siia.citas.SIMSCITAS;
+import mx.uatx.siia.citas.entities.MisCitas;
+import mx.uatx.siia.citas.entities.SIMSCITAS;
 import mx.uatx.siia.citas.areas.SiPaAreas;
 import mx.uatx.siia.citas.areas.business.SiPaAreasConfiguraciones;
 import mx.uatx.siia.serviciosUniversitarios.dto.AreasTO;
@@ -17,7 +17,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.math.BigInteger;
 import java.util.*;
 
 import static mx.uatx.siia.citas.citasBusiness.MethodsGenerics.readUrl;

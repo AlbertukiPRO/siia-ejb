@@ -2,8 +2,8 @@ package mx.uatx.siia.citas.dao;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import mx.uatx.siia.citas.MisCitas;
-import mx.uatx.siia.citas.SIMSCITAS;
+import mx.uatx.siia.citas.entities.MisCitas;
+import mx.uatx.siia.citas.entities.SIMSCITAS;
 import mx.uatx.siia.citas.citasBusiness.MethodsGenerics;
 import mx.uatx.siia.citas.enums.URLs;
 import org.slf4j.Logger;

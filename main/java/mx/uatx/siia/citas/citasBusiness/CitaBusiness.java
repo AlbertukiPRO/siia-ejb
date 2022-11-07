@@ -1,8 +1,8 @@
 package mx.uatx.siia.citas.citasBusiness;
 
 
-import mx.uatx.siia.citas.MisCitas;
-import mx.uatx.siia.citas.SIMSCITAS;
+import mx.uatx.siia.citas.entities.MisCitas;
+import mx.uatx.siia.citas.entities.SIMSCITAS;
 import mx.uatx.siia.citas.dao.citasDAO;
 import mx.uatx.siia.citas.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;

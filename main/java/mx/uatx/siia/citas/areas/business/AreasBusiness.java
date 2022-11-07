@@ -1,6 +1,6 @@
 package mx.uatx.siia.citas.areas.business;
 
-import mx.uatx.siia.citas.SIMSCITAS;
+import mx.uatx.siia.citas.entities.SIMSCITAS;
 import mx.uatx.siia.citas.areas.SiPaAreas;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
 import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
