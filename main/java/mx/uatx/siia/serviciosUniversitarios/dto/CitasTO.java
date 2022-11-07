@@ -187,6 +187,7 @@ public class CitasTO {
         return "CitasTO{" +
                 "intIdCita=" + intIdCita + " type of " + ((Object)intIdCita).getClass().getSimpleName() +
                 ", intIdAlumno=" + intMatricula +  " type of " +  ((Object)intMatricula).getClass().getSimpleName() +
+                ", strNombreUser=" + strNombreUser +  " type of " +  ((Object)strNombreUser).getClass().getSimpleName() +
                 ", longHistorialAcademico=" + longHistorialAcademico +  " type of " +  ((Object)longHistorialAcademico).getClass().getSimpleName() +
                 ", intIdTramite=" + intTramite +
                 ", programa=" + strPrograma +" type of " +  ((Object)strPrograma).getClass().getSimpleName() +
