@@ -63,7 +63,6 @@ public class CitaBusiness implements Serializable {
             final boolean flag1 = citasDAO.validarTramite(longIdUser, intIdTramite);
             if (flag1) {
                 resultado.setObjeto(true);
-                resultado.setBlnValido(true);
             }else resultado.setBlnValido(false);
         }catch (Exception e){
             resultado.setBlnValido(false);
@@ -78,7 +77,6 @@ public class CitaBusiness implements Serializable {
             final boolean flag2 = citasDAO.validarHorario(strFecha, strHora);
             if (flag2) {
                 resultado.setObjeto(true);
-                resultado.setBlnValido(true);
             }else resultado.setBlnValido(false);
         }catch (Exception e){
             resultado.setBlnValido(false);
