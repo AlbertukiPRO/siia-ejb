@@ -38,7 +38,7 @@ public class areasDAO implements Serializable {
 
     @Transactional
     public List<SiPaAreas> obtenerAreas(){
-        String query = "SELECT * FROM SIIUAT.SICTAREAS where IDTIPOAREA = 10";
+        String query = "SELECT * FROM SIIUAT.SICTAREAS where IDTIPOAREA = 10 ORDER BY NBAREA ASC ";
         return em.createNativeQuery(query, SiPaAreas.class).getResultList();
     }
 

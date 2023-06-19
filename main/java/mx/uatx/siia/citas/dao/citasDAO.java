@@ -255,6 +255,22 @@ public class citasDAO implements Serializable {
         return Integer.parseInt(query.getSingleResult().toString());
     }
 
+
+    /**
+     * @param strIdCita String value del IDCITA
+     * @param strMotivo String con el texto del movito de la cancelacion de la cita.
+     * @return nRows => String con el numero de filas afectadas segun la consulta TODO: Implementacion temporal
+     */
+    @Transactional
+    public boolean cancelarCita(Integer strIdCita, Integer idhistorical, String strMotivo){
+        Query query = entityManager.createNativeQuery("UPDATE SIIUAT.SIMSCITAS set ESTATUSCITAS = 'Cancelado', DESCRIPCIONCITA = ? WHERE IDHISTORIALACADEMICO = ? and IDCITA = ? ");
+        query.setParameter(1, strMotivo);
+        query.setParameter(2, idhistorical);
+        query.setParameter(3, strIdCita);
+
+        return query.executeUpdate() != 0;
+    }
+
     /*------------------------------------------------------------------------*/
 
     /**
@@ -330,20 +346,6 @@ public class citasDAO implements Serializable {
         return response;
     }
 
-    /**
-     * @param strIdCita String value del IDCITA
-     * @param strMotivo String con el texto del movito de la cancelacion de la cita.
-     * @return nRows => String con el numero de filas afectadas segun la consulta TODO: Implementacion temporal
-     */
-    public String cancelarCita(String strIdCita, String strMotivo){
-        String nRows;
-        try{
-            nRows = readUrl(URLs.CancelarMiCita.getValor()+"?idCita="+strIdCita+"&motivo="+strMotivo);
-        }catch (Exception e){
-            nRows = "0";
-        }
-        return nRows;
-    }
 
     /**
      * @param idArea String con él, id del área o departamento

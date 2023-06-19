@@ -6,6 +6,7 @@ import mx.uatx.siia.citas.entities.SIMSCITAS;
 import mx.uatx.siia.citas.dao.citasDAO;
 import mx.uatx.siia.citas.enums.URLs;
 import mx.uatx.siia.serviciosUniversitarios.dto.ResultadoTO;
+import mx.uatx.siia.serviciosUniversitarios.enums.SeveridadMensajeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -259,15 +260,17 @@ public class CitaBusiness implements Serializable {
         return resultado;
     }
 
-    public ResultadoTO cancelarCita(String strIdCita, String strMotivo){
+    public ResultadoTO cancelarCita(Map<String, Object> paramsToCancel){
         final ResultadoTO resultado = new ResultadoTO(true);
 
         try {
-            final int nRows = Integer.parseInt(citasDAO.cancelarCita(strIdCita, strMotivo));
-            if (nRows!=0)
-                resultado.setObjeto(nRows);
-            else
+            final boolean result = citasDAO.cancelarCita((Integer) paramsToCancel.get("idcita"), Integer.parseInt( paramsToCancel.get("idhistorical").toString()) , paramsToCancel.get("motivo").toString());
+            if (result)
+                resultado.setObjeto(true);
+            else {
                 resultado.setBlnValido(false);
+                resultado.agregarMensaje(SeveridadMensajeEnum.ERROR, "No se pudo cancelar la cita");
+            }
         }catch (Exception e){
             logger.info(e.getMessage());
             resultado.setBlnValido(false);
